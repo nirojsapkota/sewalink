@@ -5,8 +5,9 @@
 - [x] **Phase 1: Foundation & Identity** - SMS-based authentication and bilingual user profiles. (completed 2026-04-13)
 - [x] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle. (completed 2026-04-14)
 - [x] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts. (completed 2026-04-14)
-- [ ] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers.
+- [x] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers. (completed 2026-04-15)
 - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
+- [ ] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates.
 
 ## Phase Details
 
@@ -52,11 +53,11 @@
   3. Tasker can view their earned balance and request payouts.
   4. Poster and Tasker can agree on and record Cash-on-Completion payments.
 **Plans**: 5 plans
-- [ ] 03-01-PLAN.md — Establish financial infrastructure with DoubleEntry and Money-rails.
-- [ ] 03-02-PLAN.md — Integrate eSewa v2 Gateway for secure digital deposits.
-- [ ] 03-03-PLAN.md — Implement Digital Escrow lifecycle from deposit to automated release.
-- [ ] 03-04-PLAN.md — Implement Cash-on-Completion support with negative balance commission tracking.
-- [ ] 03-05-PLAN.md — Implement Tasker Wallet view and Payout request system.
+- [x] 03-01-PLAN.md — Establish financial infrastructure with DoubleEntry and Money-rails.
+- [x] 03-02-PLAN.md — Integrate eSewa v2 Gateway for secure digital deposits.
+- [x] 03-03-PLAN.md — Implement Digital Escrow lifecycle from deposit to automated release.
+- [x] 03-04-PLAN.md — Implement Cash-on-Completion support with negative balance commission tracking.
+- [x] 03-05-PLAN.md — Implement Tasker Wallet view and Payout request system.
 **UI hint**: yes
 
 ### Phase 4: AI Voice Assistant (Magic Box)
@@ -69,7 +70,7 @@
   3. User can review the AI-generated draft and publish the task.
 **Plans**: 2 plans
 - [x] 04-01-PLAN.md — Setup OpenAI integration and create TaskDraftGeneratorService.
-- [ ] 04-02-PLAN.md — Implement VoiceTasks API endpoint and Magic Box UI in task creation form.
+- [x] 04-02-PLAN.md — Implement VoiceTasks API endpoint and Magic Box UI in task creation form.
 **UI hint**: yes
 
 ### Phase 5: Trust, Safety & Support
@@ -84,6 +85,21 @@
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 6: Task Status & Real-time Updates
+**Goal**: Implement a granular task lifecycle and real-time UI synchronization to improve marketplace responsiveness.
+**Depends on**: Phase 5
+**Requirements**: TASK-07, TASK-08, TASK-09
+**Success Criteria** (what must be TRUE):
+  1. Poster can manage tasks through various statuses including draft and open.
+  2. New bids and status changes are reflected in real-time across the app using Turbo Streams.
+  3. Posters and Taskers have specific workflow actions (Request Payment, Release Payment).
+  4. Poster dashboard includes a tabbed interface for status-based filtering.
+**Plans**: 3 plans
+- [ ] 06-01-PLAN.md — Implement the extended task lifecycle by adding new statuses and controller actions.
+- [ ] 06-02-PLAN.md — Implement real-time UI updates and background notifications using Turbo Streams.
+- [ ] 06-03-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
+**UI hint**: yes
+
 ## Progress Table
 
 | Phase | Plans Complete | Status | Completed |
@@ -93,4 +109,4 @@
 | 3. Payments & Escrow | 5/5 | Complete    | 2026-04-14 |
 | 4. AI Voice Assistant (Magic Box) | 2/2 | Complete    | 2026-04-15 |
 | 5. Trust, Safety & Support | 0/0 | Not started | - |
-started | - |
+| 6. Task Status & Real-time Updates | 0/3 | In progress | - |

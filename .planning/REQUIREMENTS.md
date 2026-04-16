@@ -19,6 +19,9 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 - [x] **TASK-04**: Browsing & Filters: Taskers can browse tasks by category, budget, and location.
 - [x] **TASK-05**: Bidding: Taskers can place bids with custom amounts and messages.
 - [x] **TASK-06**: Assignment: Posters can review bids and assign a tasker.
+- [ ] **TASK-07**: **Lifecycle Statuses**: Granular task statuses (draft, open, in_progress, pending_payment, completed, dispute).
+- [ ] **TASK-08**: **Real-time Updates**: Instant UI synchronization via Hotwire Turbo Streams for bids and status changes.
+- [ ] **TASK-09**: **Poster Dashboard**: Centralized management of tasks with status-based filtering.
 
 ### Payments & Commission (PAY)
 - [ ] **PAY-01**: **eSewa Escrow**: Support for secure digital payment deposits.
@@ -62,6 +65,9 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | TASK-04 | Phase 2 | Complete |
 | TASK-05 | Phase 2 | Complete |
 | TASK-06 | Phase 2 | Complete |
+| TASK-07 | Phase 6 | Pending |
+| TASK-08 | Phase 6 | Pending |
+| TASK-09 | Phase 6 | Pending |
 | PAY-01 | Phase 3 | Pending |
 | PAY-02 | Phase 3 | Pending |
 | PAY-03 | Phase 3 | Pending |

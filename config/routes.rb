@@ -22,6 +22,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :payments, only: [:create] do
+    collection do
+      get :success
+      get :failure
+    end
+  end
+
   resources :bids, only: [:update, :destroy]
 
   root "home#index"

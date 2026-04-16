@@ -61,6 +61,13 @@ Plan: 0
 - eSewa production compliance and merchant onboarding.
 - Scalability of ledger locks under high transaction volume.
 
+### Pending Todos
+
+- Fix Resend Code link on login screen (auth)
+- Implement two-way AI communication for task posting (ai)
+- Implement voice-interactive home screen for global task management (ui)
+- Add ability to mark task as open/draft with Hotwire Stream updates (tooling)
+
 ## Session Continuity
 
 ### Current Session Goals

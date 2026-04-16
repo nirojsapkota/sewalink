@@ -1,0 +1,58 @@
+class TasksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @tasks = policy_scope(Task).where(user: current_user).order(created_at: :desc)
+    authorize @tasks
+  end
+
+  def show
+    authorize @task
+  end
+
+  def new
+    @task = Task.new(status: :open)
+    authorize @task
+  end
+
+  def create
+    @task = current_user.tasks.build(task_params)
+    authorize @task
+
+    if @task.save
+      redirect_to @task, notice: t('.success', default: 'Task was successfully created.')
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    authorize @task
+  end
+
+  def update
+    authorize @task
+    if @task.update(task_params)
+      redirect_to @task, notice: t('.success', default: 'Task was successfully updated.')
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    authorize @task
+    @task.destroy
+    redirect_to tasks_url, notice: t('.success', default: 'Task was successfully destroyed.')
+  end
+
+  private
+
+  def set_task
+    @task = Task.find(params[:id])
+  end
+
+  def task_params
+    params.require(:task).permit(:title, :description, :budget, :location, :category_id, photos: [])
+  end
+end

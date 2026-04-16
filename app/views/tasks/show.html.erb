@@ -1,0 +1,23 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <div class="mx-auto">
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+
+    <%= render @task %>
+
+    <div class="mt-8 flex gap-2">
+      <% if policy(@task).edit? %>
+        <%= link_to t('.edit', default: 'Edit this task'), edit_task_path(@task), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <% end %>
+      
+      <%= link_to t('.back', default: 'Back to tasks'), tasks_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+      <% if policy(@task).destroy? %>
+        <div class="inline-block">
+          <%= button_to t('.destroy', default: 'Destroy this task'), @task, method: :delete, form: { data: { turbo_confirm: t('.confirm_destroy', default: 'Are you sure?') } }, class: "rounded-lg py-3 px-5 bg-red-600 text-white font-medium cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<%= form_with(model: task, class: "contents", data: { controller: "image-preview" }) do |form| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+      <ul>
+        <% task.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :category_id, t('.category', default: 'Category') %>
+    <%= form.collection_select :category_id, Category.all, :id, ->(c) { I18n.locale == :ne ? c.name_ne : c.name_en }, { prompt: t('.select_category', default: 'Select Category') }, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :title, t('.title', default: 'Title') %>
+    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.title_placeholder', default: "e.g., Fix leaking kitchen sink") %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description, t('.description', default: 'Description') %>
+    <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.description_placeholder', default: "Describe the job in detail...") %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :budget, t('.budget', default: 'Budget (Rs.)') %>
+    <%= form.number_field :budget, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :location, t('.location', default: 'Location (Address)') %>
+    <%= form.text_field :location, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.location_placeholder', default: "e.g., Koteshwor, Kathmandu") %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :photos, t('.photos', default: 'Photos') %>
+    <%= form.file_field :photos, multiple: true, accept: 'image/*', 
+        data: { 
+          image_preview_target: "input", 
+          action: "change->image-preview#preview" 
+        }, 
+        class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <div data-image-preview-target="preview" class="flex flex-wrap mt-3"></div>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

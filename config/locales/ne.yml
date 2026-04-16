@@ -1,0 +1,9 @@
+ne:
+  hello: "नमस्ते"
+  login: "लगइन"
+  register: "दर्ता गर्नुहोस्"
+  logout: "लगआउट"
+  language:
+    english: "English"
+    nepali: "नेपाली"
+  welcome: "sewaLink मा स्वागत छ"

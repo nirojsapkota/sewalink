@@ -14,7 +14,11 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <main class="container mx-auto mt-28 px-5">
+      <div class="mb-10 flex space-x-4">
+        <%= link_to t('language.english'), url_for(locale: :en), class: "text-blue-600 underline" %>
+        <%= link_to t('language.nepali'), url_for(locale: :ne), class: "text-blue-600 underline" %>
+      </div>
       <%= yield %>
     </main>
   </body>

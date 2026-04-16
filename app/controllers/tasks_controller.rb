@@ -4,7 +4,27 @@ class TasksController < ApplicationController
 
   def index
     if current_user.tasker?
-      @tasks = policy_scope(Task).open.with_attached_photos.includes(:category).order(created_at: :desc).page(params[:page]).per(10)
+      @tasks = policy_scope(Task).open.with_attached_photos.includes(:category).order(created_at: :desc)
+
+      # Apply Filters
+      if params[:category_id].present?
+        @tasks = @tasks.where(category_id: params[:category_id])
+      end
+
+      if params[:min_budget].present?
+        @tasks = @tasks.where("budget >= ?", params[:min_budget])
+      end
+
+      if params[:max_budget].present?
+        @tasks = @tasks.where("budget <= ?", params[:max_budget])
+      end
+
+      if params[:location].present?
+        distance = params[:distance].presence || 10
+        @tasks = @tasks.near(params[:location], distance)
+      end
+
+      @tasks = @tasks.page(params[:page]).per(10)
     else
       @tasks = policy_scope(Task).where(user: current_user).order(created_at: :desc).page(params[:page]).per(10)
     end

@@ -68,7 +68,7 @@
   2. System automatically extracts task details (title, description, budget) and creates a draft.
   3. User can review the AI-generated draft and publish the task.
 **Plans**: 2 plans
-- [ ] 04-01-PLAN.md — Setup OpenAI integration and create TaskDraftGeneratorService.
+- [x] 04-01-PLAN.md — Setup OpenAI integration and create TaskDraftGeneratorService.
 - [ ] 04-02-PLAN.md — Implement VoiceTasks API endpoint and Magic Box UI in task creation form.
 **UI hint**: yes
 

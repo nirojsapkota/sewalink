@@ -14,7 +14,7 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 
 ### Task Management (TASK)
 - [x] **TASK-01**: Poster can create a task with title, description, budget, and location.
-- [ ] **TASK-02**: **AI Magic Box**: Poster can record a voice note to auto-generate a task.
+- [x] **TASK-02**: **AI Magic Box**: Poster can record a voice note to auto-generate a task.
 - [x] **TASK-03**: Rich Listings: Support for adding photos to task descriptions.
 - [x] **TASK-04**: Browsing & Filters: Taskers can browse tasks by category, budget, and location.
 - [x] **TASK-05**: Bidding: Taskers can place bids with custom amounts and messages.
@@ -57,7 +57,7 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | AUTH-04 | Phase 1 | Complete |
 | AUTH-05 | Phase 1 | Complete |
 | TASK-01 | Phase 2 | Complete |
-| TASK-02 | Phase 4 | Pending |
+| TASK-02 | Phase 4 | Complete |
 | TASK-03 | Phase 2 | Complete |
 | TASK-04 | Phase 2 | Complete |
 | TASK-05 | Phase 2 | Complete |

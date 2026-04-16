@@ -81,3 +81,8 @@ gem "image_processing", "~> 1.14"
 gem "geocoder", "~> 1.8"
 gem "pundit", "~> 2.3"
 gem "kaminari", "~> 1.2"
+
+gem "double_entry", "~> 1.0"
+gem "money-rails", "~> 1.15"
+gem "httparty", "~> 0.21"
+gem "aasm", "~> 5.5"

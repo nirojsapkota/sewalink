@@ -21,13 +21,14 @@ progress:
 
 ## Current Position
 
-Phase: 5
-Plan: 0
-**Phase**: 05-trust-safety-support
-**Plan**: TBD
-**Status**: NOT_STARTED
+Phase: 6
+Plan: 2
+**Phase**: 06-add-ability-to-set-the-tasks-statuses-add-hotwire-turbo-stre
+**Plan**: 06-02-PLAN.md
+**Status**: IN_PROGRESS
 **Progress**: 
 [████████████████████] 100% (Phase 4)
+[██████████░░░░░░░░░░] 50% (Phase 6)
 
 ## Performance Metrics
 

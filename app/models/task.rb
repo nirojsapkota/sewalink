@@ -74,12 +74,38 @@ class Task < ApplicationRecord
   after_commit :release_escrow_if_completed, on: :update
 
   broadcasts_refreshes
+  after_update_commit :broadcast_status_change, if: :saved_change_to_status?
 
   def paid?
     payment_transactions.completed.exists?
   end
 
   private
+
+  def broadcast_status_change
+    broadcast_replace_to self, target: "task_#{id}", partial: 'tasks/task', locals: { task: self }
+    notify_status_change
+  end
+
+  def notify_status_change
+    # Notify the "other" user
+    recipient = (status_changed_by_poster? ? tasker : user)
+    return unless recipient
+
+    broadcast_prepend_to [recipient, :notifications],
+                         target: "notifications",
+                         partial: "notifications/toast",
+                         locals: { 
+                           message: "Task Status Updated", 
+                           description: "The task '#{title}' is now #{status.humanize}.",
+                           link: self
+                         }
+  end
+
+  def status_changed_by_poster?
+    # Logic to determine who likely changed the status based on the new status
+    [:draft, :open, :assigned, :payment_completed, :completed].include?(status.to_sym)
+  end
 
   def release_escrow_if_completed
     return unless saved_change_to_status? && completed?

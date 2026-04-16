@@ -92,6 +92,8 @@ GEM
     bootsnap (1.23.0)
       msgpack (~> 1.2)
     builder (3.3.0)
+    byebug (13.0.0)
+      reline (>= 0.6.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -437,6 +439,7 @@ PLATFORMS
 DEPENDENCIES
   aasm (~> 5.5)
   bootsnap
+  byebug
   capybara
   debug
   devise (~> 4.9)

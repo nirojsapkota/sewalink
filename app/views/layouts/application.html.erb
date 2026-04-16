@@ -17,6 +17,14 @@
   <body class="bg-[#FAF5FF] font-['Mukta'] text-[#4C1D95]">
     <%= render "shared/navbar" %>
 
+    <% if user_signed_in? %>
+      <%= turbo_stream_from current_user, :notifications %>
+    <% end %>
+
+    <div id="notifications" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none">
+      <%# Real-time toast notifications will be prepended here %>
+    </div>
+
     <main class="container mx-auto mt-8 md:mt-12 px-5">
       <%= yield %>
     </main>

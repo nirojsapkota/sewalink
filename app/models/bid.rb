@@ -15,8 +15,20 @@ class Bid < ApplicationRecord
   validates :user_id, uniqueness: { scope: :task_id, message: "You have already submitted a bid for this task." }
 
   broadcasts_refreshes
+  after_create_commit :notify_poster
 
   private
+
+  def notify_poster
+    broadcast_prepend_to [task.user, :notifications],
+                         target: "notifications",
+                         partial: "notifications/toast",
+                         locals: { 
+                           message: "New bid received!", 
+                           description: "A tasker has placed a bid of Rs. #{amount} on '#{task.title}'",
+                           link: task
+                         }
+  end
 
   def user_can_bid
     return if user&.can_bid?

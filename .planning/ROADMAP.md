@@ -51,7 +51,12 @@
   2. Platform automatically calculates and tracks commission fees for every digital transaction.
   3. Tasker can view their earned balance and request payouts.
   4. Poster and Tasker can agree on and record Cash-on-Completion payments.
-**Plans**: TBD
+**Plans**: 5 plans
+- [ ] 03-01-PLAN.md — Establish financial infrastructure with DoubleEntry and Money-rails.
+- [ ] 03-02-PLAN.md — Integrate eSewa v2 Gateway for secure digital deposits.
+- [ ] 03-03-PLAN.md — Implement Digital Escrow lifecycle from deposit to automated release.
+- [ ] 03-04-PLAN.md — Implement Cash-on-Completion support with negative balance commission tracking.
+- [ ] 03-05-PLAN.md — Implement Tasker Wallet view and Payout request system.
 **UI hint**: yes
 
 ### Phase 4: AI Voice Assistant (Magic Box)
@@ -83,6 +88,6 @@
 |-------|----------------|--------|-----------|
 | 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
 | 2. Task Marketplace Core | 5/5 | Complete   | 2026-04-14 |
-| 3. Payments & Escrow | 0/0 | Not started | - |
+| 3. Payments & Escrow | 0/5 | In progress | - |
 | 4. AI Voice Assistant (Magic Box) | 0/0 | Not started | - |
 | 5. Trust, Safety & Support | 0/0 | Not started | - |

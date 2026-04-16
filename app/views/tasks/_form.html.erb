@@ -12,22 +12,22 @@
 
   <div class="my-5">
     <%= form.label :category_id, t('.category', default: 'Category') %>
-    <%= form.collection_select :category_id, Category.all, :id, ->(c) { I18n.locale == :ne ? c.name_ne : c.name_en }, { prompt: t('.select_category', default: 'Select Category') }, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.collection_select :category_id, Category.all, :id, ->(c) { I18n.locale == :ne ? c.name_ne : c.name_en }, { prompt: t('.select_category', default: 'Select Category') }, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", data: { voice_recorder_target: "categoryId" } %>
   </div>
 
   <div class="my-5">
     <%= form.label :title, t('.title', default: 'Title') %>
-    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.title_placeholder', default: "e.g., Fix leaking kitchen sink") %>
+    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.title_placeholder', default: "e.g., Fix leaking kitchen sink"), data: { voice_recorder_target: "title" } %>
   </div>
 
   <div class="my-5">
     <%= form.label :description, t('.description', default: 'Description') %>
-    <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.description_placeholder', default: "Describe the job in detail...") %>
+    <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.description_placeholder', default: "Describe the job in detail..."), data: { voice_recorder_target: "description" } %>
   </div>
 
   <div class="my-5">
     <%= form.label :budget, t('.budget', default: 'Budget (Rs.)') %>
-    <%= form.number_field :budget, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.number_field :budget, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", data: { voice_recorder_target: "budget" } %>
   </div>
 
   <div class="my-5">

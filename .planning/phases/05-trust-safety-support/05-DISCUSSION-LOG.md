@@ -20,3 +20,7 @@
 
 ## Roadmap Updates
 **Notes:** Phase 4 "Magic Box" and Phase 5 "AI Support" are now consolidated into Phase 8 "Gemini Live Chat" for a unified AI experience.
+
+## Communication & Privacy
+**User's choice:** Bid-Linked Messaging + Contact Masking.
+**Notes:** Phone numbers and emails are hidden until assignment to prevent off-platform deals. Private chat starts with the bid.

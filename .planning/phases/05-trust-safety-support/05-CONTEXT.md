@@ -6,7 +6,7 @@
 <domain>
 ## Phase Boundary
 
-This phase delivers the physical and social integrity layer of sewaLink. It ensures Taskers are physically present at jobs, provides a verified reputation system, and establishes a mechanism for evidence-based dispute resolution.
+This phase delivers the physical, social, and communication integrity layer of sewaLink. It ensures Taskers are physically present, establishes community reputation, and provides a secure, monitored channel for coordination without exposing private contact info prematurely.
 
 </domain>
 
@@ -25,6 +25,11 @@ This phase delivers the physical and social integrity layer of sewaLink. It ensu
 - **D-07: Blind Logic:** Neither party can see the other's feedback until both have submitted OR the 14-day window has expired.
 - **D-08: Window:** A **14-day window** is established for leaving reviews post-completion.
 
+### Communication & Privacy
+- **D-12: Bid-Linked Messaging:** A private 1-to-1 chat thread is automatically initialized when a `Bid` is created. The bid's initial message becomes the first message in the chat.
+- **D-13: Contact Masking:** User phone numbers and email addresses are **strictly hidden** in the UI (profiles, task views, and chat) until the task status is `assigned`. 
+- **D-14: Messaging Scope:** Chat remains active from the moment a bid is placed until 14 days after the task is `completed` (matching the review window).
+
 ### Evidence & Disputes
 - **D-09: Mandatory Completion Photo:** Taskers **must** take/upload a photo while on-site to verify completion before the `completed` status can be saved.
 - **D-10: Post-Payment Evidence:** Posters retain the ability to upload evidence (photos/videos) even after payment is released to support late-discovery disputes.
@@ -41,11 +46,12 @@ This phase delivers the physical and social integrity layer of sewaLink. It ensu
 
 ### Core Specs
 - `.planning/ROADMAP.md` — Updated phase definitions.
-- `.planning/REQUIREMENTS.md` — Updated SAFE-01 through SAFE-04.
+- `.planning/REQUIREMENTS.md` — Updated SAFE-01 through SAFE-06.
 
 ### Technical Context
-- `Gemfile` — Geocoder gem (v1.8) is available for location logic.
-- `app/models/task.rb` — Current task lifecycle and location storage.
+- `Gemfile` — Geocoder gem (v1.8) is available.
+- `app/models/task.rb` — Current task lifecycle.
+- `app/models/bid.rb` — Initial message source.
 
 </canonical_refs>
 
@@ -53,15 +59,19 @@ This phase delivers the physical and social integrity layer of sewaLink. It ensu
 ## Existing Code Insights
 
 ### Reusable Assets
-- **Geocoder:** Already used in Phase 2 for task creation; use for distance calculation between `current_user` and `task.location`.
+- **Geocoder:** Already used for distance calculation.
 - **Active Storage:** Use for Mandatory Completion Photos and Dispute Evidence.
-- **Turbo Streams:** Use to trigger UI updates (like activating the "Mark as Done" button) when geofence entry is detected.
+- **Turbo Streams:** Use for live messaging updates and geofence state changes.
+
+### Integration Points
+- **Bids#create:** Hook here to initialize the `Conversation` or `Message` thread.
+- **Profiles/Tasks UI:** Apply conditional visibility logic for phone/email based on `task.assigned_to?(user)`.
 
 </code_context>
 
 <deferred>
 ## Deferred Ideas
-- **AI Support Assistant:** Moved to Phase 8 for tech alignment.
+- **AI Support Assistant:** Moved to Phase 8.
 - **Live Location Sharing:** Deferred (v2/Post-MVP).
 
 </deferred>

@@ -32,8 +32,9 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 ### Trust & Safety (SAFE)
 - [ ] **SAFE-01**: **Geofencing**: Taskers must be within a set perimeter of the job to mark it as 'Done'.
 - [ ] **SAFE-02**: **Social Trust**: Mutual ratings and reviews after task completion.
-- [ ] **SAFE-03**: **Support Center**: AI-assisted chat for initial resolution and escalation to human support.
 - [ ] **SAFE-04**: Evidence Submission: Ability to upload photos/videos for dispute resolution.
+- [ ] **SAFE-05**: **In-App Messaging**: Private 1-to-1 chat between Poster and Bidders.
+- [ ] **SAFE-06**: **Contact Masking**: Hide phone numbers and emails until task assignment.
 
 ---
 
@@ -42,7 +43,7 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 - [ ] **AUTH-07**: Government ID (Nagarpalika/National ID) vetting.
 - [ ] **PAY-05**: Multi-wallet support (Khalti, IME Pay).
 - [ ] **PAY-06**: Subscription model for power taskers.
-- [ ] **SAFE-05**: Live location sharing during active tasks.
+- [ ] **SAFE-03**: **AI Support Center** (Deferred to Phase 8) during active tasks.
 
 ## Out of Scope
 - **International Payments**: No support for Stripe, PayPal, etc.
@@ -74,5 +75,6 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | PAY-04 | Phase 3 | Pending |
 | SAFE-01 | Phase 5 | Pending |
 | SAFE-02 | Phase 5 | Pending |
-| SAFE-03 | Phase 5 | Pending |
 | SAFE-04 | Phase 5 | Pending |
+| SAFE-05 | Phase 5 | Pending |
+| SAFE-06 | Phase 5 | Pending |

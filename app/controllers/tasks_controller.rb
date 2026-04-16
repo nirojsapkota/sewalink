@@ -3,7 +3,11 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = policy_scope(Task).where(user: current_user).order(created_at: :desc)
+    if current_user.tasker?
+      @tasks = policy_scope(Task).open.with_attached_photos.includes(:category).order(created_at: :desc).page(params[:page]).per(10)
+    else
+      @tasks = policy_scope(Task).where(user: current_user).order(created_at: :desc).page(params[:page]).per(10)
+    end
     authorize @tasks
   end
 

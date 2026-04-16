@@ -94,10 +94,11 @@
   2. New bids and status changes are reflected in real-time across the app using Turbo Streams.
   3. Posters and Taskers have specific workflow actions (Request Payment, Release Payment).
   4. Poster dashboard includes a tabbed interface for status-based filtering.
-**Plans**: 3 plans
-- [ ] 06-01-PLAN.md — Implement the extended task lifecycle by adding new statuses and controller actions.
-- [ ] 06-02-PLAN.md — Implement real-time UI updates and background notifications using Turbo Streams.
-- [ ] 06-03-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
+**Plans**: 4 plans
+- [ ] 06-01-PLAN.md — Setup testing infrastructure and extended task status lifecycle in the model.
+- [ ] 06-02-PLAN.md — Implement controller actions and UI buttons for task status transitions.
+- [ ] 06-03-PLAN.md — Implement real-time UI synchronization and background notifications using Turbo Streams.
+- [ ] 06-04-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
 **UI hint**: yes
 
 ## Progress Table
@@ -109,4 +110,4 @@
 | 3. Payments & Escrow | 5/5 | Complete    | 2026-04-14 |
 | 4. AI Voice Assistant (Magic Box) | 2/2 | Complete    | 2026-04-15 |
 | 5. Trust, Safety & Support | 0/0 | Not started | - |
-| 6. Task Status & Real-time Updates | 0/3 | In progress | - |
+| 6. Task Status & Real-time Updates | 0/4 | In progress | - |

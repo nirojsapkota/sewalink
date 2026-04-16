@@ -7,10 +7,13 @@ class Task < ApplicationRecord
   has_one :tasker, through: :accepted_bid, source: :user
   has_many :payment_transactions, dependent: :destroy
   has_many_attached :photos
+  has_one_attached :completion_photo
 
   include AASM
 
   monetize :budget_cents
+
+  attr_accessor :current_lat, :current_lng
 
   enum status: { draft: 0, open: 1, assigned: 2, in_progress: 3, pending_payment: 4, payment_completed: 5, completed: 6, dispute: 7, cancelled: 8 }
   enum payment_type: { esewa: 0, cash: 1 }
@@ -36,7 +39,7 @@ class Task < ApplicationRecord
     end
 
     event :start_work do
-      transitions from: :assigned, to: :in_progress
+      transitions from: :assigned, to: :in_progress, guard: :within_geofence?
     end
 
     event :request_payment do
@@ -48,7 +51,8 @@ class Task < ApplicationRecord
     end
 
     event :complete do
-      transitions from: [:in_progress, :payment_completed], to: :completed
+      transitions from: [:in_progress, :payment_completed], to: :completed,
+                  guard: [:within_geofence?, :completion_photo_attached?]
     end
 
     event :raise_dispute do
@@ -78,6 +82,25 @@ class Task < ApplicationRecord
 
   def paid?
     payment_transactions.completed.exists?
+  end
+
+  def within_geofence?
+    return true unless on_site?
+    return false if current_lat.blank? || current_lng.blank?
+
+    distance = distance_from([current_lat, current_lng], :km)
+    # D-04: Default radius is set to 200m (0.2km)
+    distance.present? && distance <= 0.2
+  end
+
+  def completion_photo_attached?
+    completion_photo.attached?
+  end
+
+  def check_in!(lat, lng)
+    self.current_lat = lat
+    self.current_lng = lng
+    start_work! if within_geofence?
   end
 
   private

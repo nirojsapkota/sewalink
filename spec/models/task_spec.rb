@@ -62,4 +62,68 @@ RSpec.describe Task, type: :model do
       end
     end
   end
+
+  describe 'geofencing' do
+    let(:task) { create(:task, location: "Kathmandu", latitude: 27.7172, longitude: 85.3240, on_site: true) }
+
+    describe '#within_geofence?' do
+      it 'returns true if within 200m' do
+        task.current_lat = 27.7173
+        task.current_lng = 85.3241
+        expect(task.within_geofence?).to be true
+      end
+
+      it 'returns false if outside 200m' do
+        task.current_lat = 27.8
+        task.current_lng = 85.4
+        expect(task.within_geofence?).to be false
+      end
+
+      it 'returns true if not on_site' do
+        task.update!(on_site: false)
+        task.current_lat = 27.8
+        task.current_lng = 85.4
+        expect(task.within_geofence?).to be true
+      end
+    end
+
+    describe '#check_in!' do
+      before { task.update!(status: :assigned) }
+
+      it 'transitions to in_progress if within geofence' do
+        task.check_in!(27.7172, 85.3240)
+        expect(task.status).to eq('in_progress')
+      end
+
+      it 'does not transition if outside geofence' do
+        task.check_in!(27.8, 85.4)
+        expect(task.status).to eq('assigned')
+      end
+    end
+
+    describe 'completion requirements' do
+      let(:task) { create(:task, status: :in_progress, latitude: 27.7172, longitude: 85.3240, on_site: true) }
+
+      it 'blocks completion if photo is missing' do
+        task.current_lat = 27.7172
+        task.current_lng = 85.3240
+        expect { task.complete! }.to raise_error(AASM::InvalidTransition)
+      end
+
+      it 'blocks completion if outside geofence' do
+        task.completion_photo.attach(io: File.open(Rails.root.join('public/apple-touch-icon.png')), filename: 'test.png', content_type: 'image/png')
+        task.current_lat = 27.8
+        task.current_lng = 85.4
+        expect { task.complete! }.to raise_error(AASM::InvalidTransition)
+      end
+
+      it 'allows completion if within geofence and photo attached' do
+        task.completion_photo.attach(io: File.open(Rails.root.join('public/apple-touch-icon.png')), filename: 'test.png', content_type: 'image/png')
+        task.current_lat = 27.7172
+        task.current_lng = 85.3240
+        expect { task.complete! }.not_to raise_error
+        expect(task.status).to eq('completed')
+      end
+    end
+  end
 end

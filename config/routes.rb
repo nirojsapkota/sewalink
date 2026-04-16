@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   resources :tasks do
+    resource :completion, only: [:create], module: :tasks
+    resource :start, only: [:create], module: :tasks
     resources :bids, only: [:create] do
       member do
         patch :accept
@@ -30,6 +32,24 @@ Rails.application.routes.draw do
   end
 
   resources :bids, only: [:update, :destroy]
+
+  namespace :tasker do
+    resource :wallet, only: [:show]
+    resources :payout_requests, only: [:create]
+  end
+
+  namespace :admin do
+    resources :payouts, only: [:index] do
+      member do
+        patch :process_payout
+        patch :reject_payout
+      end
+    end
+  end
+
+  namespace :api do
+    resources :voice_tasks, only: [:create]
+  end
 
   root "home#index"
   get "home/index"

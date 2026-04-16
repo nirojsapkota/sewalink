@@ -20,6 +20,11 @@ class Rack::Attack
     req.params['phone'] if req.path == '/users/send_otp' && req.post?
   end
 
+  # Throttle Voice Tasks API to prevent abuse and high OpenAI costs (T-04-03)
+  throttle('api/voice_tasks/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path == '/api/voice_tasks' && req.post?
+  end
+
   # Custom response for throttled requests
   self.throttled_responder = lambda do |request|
     [ 429,  # HTTP Status Code

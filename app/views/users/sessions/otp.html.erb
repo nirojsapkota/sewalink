@@ -1,0 +1,26 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-6 text-center"><%= t('auth.verify_otp') %></h2>
+  
+  <p class="text-center text-gray-600 mb-6">
+    <%= t('auth.otp_sent') %>
+    <br>
+    <span class="font-bold text-blue-600"><%= @phone %></span>
+  </p>
+
+  <%= form_tag verify_otp_path, method: :post do %>
+    <div class="mb-6">
+      <%= label_tag :otp, t('auth.otp'), class: "block text-sm font-medium text-gray-700" %>
+      <%= text_field_tag :otp, nil, autofocus: true, placeholder: "000000", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-center text-2xl tracking-widest focus:ring-blue-500 focus:border-blue-500", maxlength: 6 %>
+    </div>
+
+    <div class="mt-6">
+      <%= submit_tag t('auth.verify_otp'), class: "w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700" %>
+    </div>
+  <% end %>
+
+  <div class="mt-6 text-center">
+    <%= link_to t('auth.resend_otp'), "#", class: "text-sm text-blue-600 hover:text-blue-500" %>
+    <br>
+    <%= link_to t('login'), new_user_session_path, class: "text-sm text-gray-600 hover:text-gray-500 mt-2 inline-block" %>
+  </div>
+</div>

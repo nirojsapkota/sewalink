@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+
+  devise_scope :user do
+    get 'users/otp', to: 'users/sessions#otp', as: :users_otp
+    post 'users/verify_otp', to: 'users/sessions#verify_otp', as: :verify_otp
+  end
+
   root "home#index"
   get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

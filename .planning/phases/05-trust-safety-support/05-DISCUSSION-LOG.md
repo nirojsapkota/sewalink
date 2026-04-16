@@ -24,3 +24,7 @@
 ## Communication & Privacy
 **User's choice:** Bid-Linked Messaging + Contact Masking.
 **Notes:** Phone numbers and emails are hidden until assignment to prevent off-platform deals. Private chat starts with the bid.
+
+## Message Filtering
+**User's choice:** Content masking for phone/email.
+**Notes:** Regex-based filtering will mask contact details in messages until assignment to reinforce platform usage.

@@ -32,7 +32,8 @@ This phase delivers the physical, social, and communication integrity layer of s
     2. **Assignment:** Non-assigned bidder chats are archived/hidden.
     3. **Active Stage:** Coordination continues for the assigned tasker.
     4. **Completion:** Chat remains open for 14 days post-completion (matching review window), then becomes **Read-Only**.
-- **D-13: Contact Masking:** User phone numbers and email addresses are **strictly hidden** in the UI (profiles, task views, and chat) until the task status is `assigned`. 
+- **D-13: Contact Masking:** User phone numbers and email addresses are **strictly hidden** in the UI (profiles, task views) until the task status is `assigned`. 
+- **D-16: Message Content Filtering:** Implement regex-based masking for phone numbers and email addresses within chat messages. This filter is active for all parties until the task is `assigned`, after which it is lifted only for the Poster and the Assigned Tasker.
 - **D-14: Messaging Scope:** Chat remains active from the moment a bid is placed until 14 days after the task is `completed`.
 
 ### Evidence & Disputes
@@ -71,6 +72,7 @@ This phase delivers the physical, social, and communication integrity layer of s
 ### Integration Points
 - **Bids#create:** Hook here to initialize the `Conversation` or `Message` thread.
 - **Profiles/Tasks UI:** Apply conditional visibility logic for phone/email based on `task.assigned_to?(user)`.
+- **Message#content:** Add a helper or callback to apply regex masking before rendering/saving.
 
 </code_context>
 

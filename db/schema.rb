@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_14_021141) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_14_043244) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -128,10 +128,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_021141) do
     t.index ["scope", "account", "id"], name: "lines_scope_account_id_idx"
   end
 
+  create_table "payment_transactions", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.integer "amount_cents"
+    t.string "transaction_uuid"
+    t.string "status", default: "pending", null: false
+    t.string "external_ref"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_payment_transactions_on_task_id"
+    t.index ["transaction_uuid"], name: "index_payment_transactions_on_transaction_uuid", unique: true
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
-    t.decimal "budget", precision: 12, scale: 2, null: false
     t.string "location", null: false
     t.float "latitude"
     t.float "longitude"
@@ -140,6 +151,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_021141) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "budget_cents", default: 0, null: false
     t.index ["category_id"], name: "index_tasks_on_category_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
@@ -170,6 +182,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_021141) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bids", "tasks"
   add_foreign_key "bids", "users"
+  add_foreign_key "payment_transactions", "tasks"
   add_foreign_key "tasks", "categories"
   add_foreign_key "tasks", "users"
 end

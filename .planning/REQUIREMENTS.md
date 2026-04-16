@@ -6,19 +6,19 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 ## v1 Requirements
 
 ### Authentication & Profiles (AUTH)
-- [ ] **AUTH-01**: User can log in/sign up using Phone Number (SMS OTP). (Default)
-- [ ] **AUTH-02**: User can toggle to Email/Password login from the UI.
-- [ ] **AUTH-03**: Dual-profile system: Users can switch between 'Poster' and 'Tasker' roles.
-- [ ] **AUTH-04**: Bilingual UI toggle: Support for both Nepali and English languages.
-- [ ] **AUTH-05**: Profile management: Name, profile picture, and bio.
+- [x] **AUTH-01**: User can log in/sign up using Phone Number (SMS OTP). (Default)
+- [x] **AUTH-02**: User can toggle to Email/Password login from the UI.
+- [x] **AUTH-03**: Dual-profile system: Users can switch between 'Poster' and 'Tasker' roles.
+- [x] **AUTH-04**: Bilingual UI toggle: Support for both Nepali and English languages.
+- [x] **AUTH-05**: Profile management: Name, profile picture, and bio.
 
 ### Task Management (TASK)
-- [ ] **TASK-01**: Poster can create a task with title, description, budget, and location.
+- [x] **TASK-01**: Poster can create a task with title, description, budget, and location.
 - [ ] **TASK-02**: **AI Magic Box**: Poster can record a voice note to auto-generate a task.
-- [ ] **TASK-03**: Rich Listings: Support for adding photos to task descriptions.
-- [ ] **TASK-04**: Browsing & Filters: Taskers can browse tasks by category, budget, and location.
-- [ ] **TASK-05**: Bidding: Taskers can place bids with custom amounts and messages.
-- [ ] **TASK-06**: Assignment: Posters can review bids and assign a tasker.
+- [x] **TASK-03**: Rich Listings: Support for adding photos to task descriptions.
+- [x] **TASK-04**: Browsing & Filters: Taskers can browse tasks by category, budget, and location.
+- [x] **TASK-05**: Bidding: Taskers can place bids with custom amounts and messages.
+- [x] **TASK-06**: Assignment: Posters can review bids and assign a tasker.
 
 ### Payments & Commission (PAY)
 - [ ] **PAY-01**: **eSewa Escrow**: Support for secure digital payment deposits.
@@ -51,17 +51,17 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 2 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| AUTH-05 | Phase 1 | Pending |
-| TASK-01 | Phase 2 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 2 | Complete |
+| AUTH-04 | Phase 1 | Complete |
+| AUTH-05 | Phase 1 | Complete |
+| TASK-01 | Phase 2 | Complete |
 | TASK-02 | Phase 4 | Pending |
-| TASK-03 | Phase 2 | Pending |
-| TASK-04 | Phase 2 | Pending |
-| TASK-05 | Phase 2 | Pending |
-| TASK-06 | Phase 2 | Pending |
+| TASK-03 | Phase 2 | Complete |
+| TASK-04 | Phase 2 | Complete |
+| TASK-05 | Phase 2 | Complete |
+| TASK-06 | Phase 2 | Complete |
 | PAY-01 | Phase 3 | Pending |
 | PAY-02 | Phase 3 | Pending |
 | PAY-03 | Phase 3 | Pending |

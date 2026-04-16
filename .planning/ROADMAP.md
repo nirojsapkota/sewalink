@@ -3,7 +3,7 @@
 ## Phases
 
 - [x] **Phase 1: Foundation & Identity** - SMS-based authentication and bilingual user profiles. (completed 2026-04-13)
-- [ ] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle.
+- [x] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle. (completed 2026-04-14)
 - [ ] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts.
 - [ ] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers.
 - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
@@ -35,11 +35,11 @@
   3. Tasker can browse and filter tasks by category, budget, and proximity.
   4. Tasker can place a bid on a task, and Poster can assign the task to a chosen bidder.
 **Plans**: 5 plans
-- [ ] 02-01-PLAN.md — Setup infrastructure (Geocoder, Pundit) and Implement Role Switcher UI.
-- [ ] 02-02-PLAN.md — Implement Task Posting flow with photo attachments and geocoding.
-- [ ] 02-03-PLAN.md — Implement Tasker browsing experience with proximity and category filters.
-- [ ] 02-04-PLAN.md — Implement Bidding system with blind-bidding privacy logic.
-- [ ] 02-05-PLAN.md — Implement Task Assignment logic and real-time status updates.
+- [x] 02-01-PLAN.md — Setup infrastructure (Geocoder, Pundit) and Implement Role Switcher UI.
+- [x] 02-02-PLAN.md — Implement Task Posting flow with photo attachments and geocoding.
+- [x] 02-03-PLAN.md — Implement Tasker browsing experience with proximity and category filters.
+- [x] 02-04-PLAN.md — Implement Bidding system with blind-bidding privacy logic.
+- [x] 02-05-PLAN.md — Implement Task Assignment logic and real-time status updates.
 **UI hint**: yes
 
 ### Phase 3: Payments & Escrow
@@ -82,7 +82,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
-| 2. Task Marketplace Core | 0/5 | Not started | - |
+| 2. Task Marketplace Core | 5/5 | Complete   | 2026-04-14 |
 | 3. Payments & Escrow | 0/0 | Not started | - |
 | 4. AI Voice Assistant (Magic Box) | 0/0 | Not started | - |
 | 5. Trust, Safety & Support | 0/0 | Not started | - |

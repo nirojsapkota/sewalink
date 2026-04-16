@@ -2,7 +2,7 @@
   <h2 class="text-2xl font-bold mb-6 text-center"><%= t('login') %></h2>
 
   <div class="mb-6 flex justify-center space-x-4">
-    <button id="toggle-phone" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button id="toggle-phone" class="px-4 py-2 bg-[#7C3AED] text-white rounded hover:bg-[#6D28D9] focus:outline-none focus:ring-2 focus:ring-[#7C3AED]">
       <%= t('auth.login_phone') %>
     </button>
     <button id="toggle-email" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
@@ -16,11 +16,11 @@
       
       <div class="mb-4">
         <%= f.label :phone, t('auth.phone'), class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :phone, autofocus: true, placeholder: "98XXXXXXXX", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.text_field :phone, autofocus: true, placeholder: "98XXXXXXXX", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
       </div>
 
       <div class="mt-6">
-        <%= f.submit t('auth.submit'), class: "w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700" %>
+        <%= f.submit t('auth.submit'), class: "w-full bg-[#7C3AED] text-white p-2 rounded-md hover:bg-[#6D28D9]" %>
       </div>
     <% end %>
   </div>
@@ -31,23 +31,23 @@
 
       <div class="mb-4">
         <%= f.label :email, t('auth.email'), class: "block text-sm font-medium text-gray-700" %>
-        <%= f.email_field :email, autocomplete: "email", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.email_field :email, autocomplete: "email", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
       </div>
 
       <div class="mb-4">
         <%= f.label :password, t('auth.password'), class: "block text-sm font-medium text-gray-700" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
         <div class="flex items-center mb-4">
-          <%= f.check_box :remember_me, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+          <%= f.check_box :remember_me, class: "h-4 w-4 text-[#7C3AED] focus:ring-[#7C3AED] border-gray-300 rounded" %>
           <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-900" %>
         </div>
       <% end %>
 
       <div class="mt-6">
-        <%= f.submit t('auth.submit'), class: "w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700" %>
+        <%= f.submit t('auth.submit'), class: "w-full bg-[#7C3AED] text-white p-2 rounded-md hover:bg-[#6D28D9]" %>
       </div>
     <% end %>
   </div>
@@ -68,18 +68,18 @@
       togglePhoneBtn.addEventListener('click', function() {
         phoneForm.classList.remove('hidden');
         emailForm.classList.add('hidden');
-        togglePhoneBtn.classList.replace('bg-gray-200', 'bg-blue-500');
+        togglePhoneBtn.classList.replace('bg-gray-200', 'bg-[#7C3AED]');
         togglePhoneBtn.classList.replace('text-gray-700', 'text-white');
-        toggleEmailBtn.classList.replace('bg-blue-500', 'bg-gray-200');
+        toggleEmailBtn.classList.replace('bg-[#7C3AED]', 'bg-gray-200');
         toggleEmailBtn.classList.replace('text-white', 'text-gray-700');
       });
 
       toggleEmailBtn.addEventListener('click', function() {
         emailForm.classList.remove('hidden');
         phoneForm.classList.add('hidden');
-        toggleEmailBtn.classList.replace('bg-gray-200', 'bg-blue-500');
+        toggleEmailBtn.classList.replace('bg-gray-200', 'bg-[#7C3AED]');
         toggleEmailBtn.classList.replace('text-gray-700', 'text-white');
-        togglePhoneBtn.classList.replace('bg-blue-500', 'bg-gray-200');
+        togglePhoneBtn.classList.replace('bg-[#7C3AED]', 'bg-gray-200');
         togglePhoneBtn.classList.replace('text-white', 'text-gray-700');
       });
     }

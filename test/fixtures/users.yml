@@ -1,0 +1,9 @@
+one:
+  phone: "9812345678"
+  active_role: 0
+  onboarded: true
+
+two:
+  phone: "9876543210"
+  active_role: 1
+  onboarded: true

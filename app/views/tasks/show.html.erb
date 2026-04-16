@@ -9,7 +9,7 @@
     <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">
       <% if current_user.poster? && @task.user == current_user %>
         <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#7C3AED]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           Received Bids (<%= @bids.count %>)
@@ -32,13 +32,13 @@
             Submit Your Offer
           </h3>
           <% if @user_bid&.persisted? %>
-            <div class="bg-blue-50 border border-blue-100 rounded-lg p-5">
+            <div class="bg-[#F3E8FF] border border-[#F3E8FF] rounded-lg p-5">
               <div class="flex justify-between items-start mb-2">
-                <span class="text-blue-700 font-semibold">Your Bid: NPR <%= number_with_delimiter(@user_bid.amount) %></span>
-                <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full uppercase"><%= @user_bid.status.titleize %></span>
+                <span class="text-[#4C1D95] font-semibold">Your Bid: NPR <%= number_with_delimiter(@user_bid.amount) %></span>
+                <span class="px-2 py-0.5 bg-[#F3E8FF] text-[#4C1D95] text-xs font-bold rounded-full uppercase"><%= @user_bid.status.titleize %></span>
               </div>
-              <p class="text-blue-600 text-sm italic mb-3">"<%= @user_bid.message %>"</p>
-              <p class="text-xs text-blue-500 italic">You've already submitted a bid for this task. The Poster will review it soon.</p>
+              <p class="text-[#7C3AED] text-sm italic mb-3">"<%= @user_bid.message %>"</p>
+              <p class="text-xs text-[#7C3AED] italic">You've already submitted a bid for this task. The Poster will review it soon.</p>
             </div>
           <% else %>
             <%= render 'bids/form', task: @task, bid: @bid %>

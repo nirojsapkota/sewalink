@@ -3,7 +3,7 @@
      <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full <%= task.open? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
       <%= t("tasks.statuses.#{task.status}") %>
     </span>
-    <p class="font-bold text-blue-600">Rs. <%= number_with_delimiter(task.budget) %></p>
+    <p class="font-bold text-[#7C3AED]">Rs. <%= number_with_delimiter(task.budget) %></p>
   </div>
   
   <h2 class="text-xl font-bold mb-1 truncate"><%= task.title %></h2>

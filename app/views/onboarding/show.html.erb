@@ -4,15 +4,15 @@
   <!-- Progress Bar -->
   <div class="mb-8">
     <div class="flex justify-between mb-2">
-      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#7C3AED] bg-[#E9D5FF]">
         Step <%= @step %> of 3
       </span>
-      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#7C3AED] bg-[#E9D5FF]">
         <%= (@step * 100 / 3).to_i %>%
       </span>
     </div>
-    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-      <div style="width:<%= (@step * 100 / 3).to_i %>%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"></div>
+    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#E9D5FF]">
+      <div style="width:<%= (@step * 100 / 3).to_i %>%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7C3AED] transition-all duration-500"></div>
     </div>
   </div>
 
@@ -37,11 +37,11 @@
         <span class="block text-gray-700 text-sm font-bold mb-2"><%= t('onboarding.step_2') %></span>
         <div class="flex flex-col space-y-2">
           <label class="inline-flex items-center">
-            <%= f.radio_button :locale, 'en', class: "form-radio h-5 w-5 text-blue-600", checked: I18n.locale == :en %>
+            <%= f.radio_button :locale, 'en', class: "form-radio h-5 w-5 text-[#7C3AED]", checked: I18n.locale == :en %>
             <span class="ml-2 text-gray-700"><%= t('language.english') %></span>
           </label>
           <label class="inline-flex items-center">
-            <%= f.radio_button :locale, 'ne', class: "form-radio h-5 w-5 text-blue-600", checked: I18n.locale == :ne %>
+            <%= f.radio_button :locale, 'ne', class: "form-radio h-5 w-5 text-[#7C3AED]", checked: I18n.locale == :ne %>
             <span class="ml-2 text-gray-700"><%= t('language.nepali') %></span>
           </label>
         </div>
@@ -52,14 +52,14 @@
         <div class="grid grid-cols-1 gap-4">
           <label class="cursor-pointer">
             <%= f.radio_button :active_role, 'poster', class: "peer sr-only" %>
-            <div class="p-4 border-2 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:bg-gray-50 transition-colors">
+            <div class="p-4 border-2 rounded-lg peer-checked:border-[#7C3AED] peer-checked:bg-[#F3E8FF] hover:bg-gray-50 transition-colors">
               <span class="block font-bold"><%= t('profiles.roles.poster') %></span>
               <span class="text-sm text-gray-500"><%= t('onboarding.roles.poster') %></span>
             </div>
           </label>
           <label class="cursor-pointer">
             <%= f.radio_button :active_role, 'tasker', class: "peer sr-only" %>
-            <div class="p-4 border-2 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:bg-gray-50 transition-colors">
+            <div class="p-4 border-2 rounded-lg peer-checked:border-[#7C3AED] peer-checked:bg-[#F3E8FF] hover:bg-gray-50 transition-colors">
               <span class="block font-bold"><%= t('profiles.roles.tasker') %></span>
               <span class="text-sm text-gray-500"><%= t('onboarding.roles.tasker') %></span>
             </div>
@@ -69,7 +69,7 @@
     <% end %>
 
     <div class="flex items-center justify-center">
-      <%= f.submit @step < 3 ? t('onboarding.next') : t('onboarding.finish'), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full focus:outline-none focus:shadow-outline transition-colors w-full" %>
+      <%= f.submit @step < 3 ? t('onboarding.next') : t('onboarding.finish'), class: "bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-bold py-2 px-8 rounded-full focus:outline-none focus:shadow-outline transition-colors w-full" %>
     </div>
   <% end %>
 </div>

@@ -33,6 +33,12 @@ class TasksController < ApplicationController
 
   def show
     authorize @task
+    if current_user.poster? && @task.user == current_user
+      @bids = @task.bids.includes(:user).order(created_at: :desc)
+    elsif current_user.tasker?
+      @user_bid = @task.bids.find_by(user: current_user)
+      @bid = @user_bid || @task.bids.build(user: current_user)
+    end
   end
 
   def new

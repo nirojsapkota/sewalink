@@ -21,7 +21,7 @@ class Rack::Attack
   end
 
   # Custom response for throttled requests
-  self.throttled_response = lambda do |env|
+  self.throttled_responder = lambda do |request|
     [ 429,  # HTTP Status Code
       { 'Content-Type' => 'application/json' },
       [{ error: "Too many requests. Please try again later." }.to_json]

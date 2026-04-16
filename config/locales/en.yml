@@ -7,6 +7,43 @@ en:
     english: "English"
     nepali: "नेपाली"
   welcome: "Welcome to sewaLink"
+  landing:
+    hero:
+      title: "Get Tasks Done in Nepal with Confidence"
+      subtitle: "Connect with trusted local taskers for any job. From cleaning to deliveries, we've got you covered."
+      cta_post: "Post a Task"
+      cta_find: "Earn Money as a Tasker"
+      magic_box_hint: "Try saying 'I need a plumber tomorrow at 10 AM'"
+    how_it_works:
+      title: "How it Works"
+      poster:
+        title: "Post a Task"
+        step_1: "Describe what you need help with."
+        step_2: "Choose the best bid from verified taskers."
+        step_3: "Pay securely via eSewa escrow."
+      tasker:
+        title: "Earn as a Tasker"
+        step_1: "Browse tasks in your local area."
+        step_2: "Submit a bid for the job."
+        step_3: "Complete the task and get paid instantly."
+    features:
+      title: "Why choose sewaLink?"
+      bilingual:
+        title: "Nepali & English"
+        desc: "A platform that speaks your language. Switch between Nepali and English anytime."
+      voice:
+        title: "AI Voice Assistant"
+        desc: "Can't type? Just use our 'Magic Box' voice assistant to create tasks."
+      payments:
+        title: "Secure eSewa Escrow"
+        desc: "Your money is safe. We only release payment when you're 100% satisfied."
+      trust:
+        title: "Trusted & Verified"
+        desc: "Geofencing and phone verification ensure every job is real and reliable."
+    cta_footer:
+      title: "Ready to simplify your life?"
+      subtitle: "Join thousands of Nepalis getting things done on sewaLink."
+      button: "Get Started Now"
   auth:
     login_phone: "Log in with Phone"
     login_email: "Log in with Email"
@@ -50,3 +87,13 @@ en:
       poster: "Poster"
       tasker: "Tasker"
       toggle: "Switch to %{role}"
+  dashboards:
+    tasker:
+      title: "My Bids & Jobs"
+    poster:
+      title: "My Tasks"
+  tasks:
+    new:
+      title: "Post a Task"
+    index:
+      find_tasks: "Find Tasks"

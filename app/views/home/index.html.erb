@@ -1,6 +1,239 @@
-<h1 class="text-3xl font-bold">
-  <%= t('welcome') %>
-</h1>
-<p class="mt-4">
-  <%= t('hello') %>
-</p>
+<div class="bg-[#FAF5FF]">
+  <%# Hero Section %>
+  <section class="max-w-7xl mx-auto px-5 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between">
+    <div class="md:w-1/2 text-left space-y-8">
+      <h1 class="text-4xl md:text-6xl font-bold text-[#4C1D95] leading-tight">
+        <%= t('landing.hero.title') %>
+      </h1>
+      <p class="text-xl text-[#4C1D95]/80 max-w-lg">
+        <%= t('landing.hero.subtitle') %>
+      </p>
+      
+      <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+        <%= link_to new_task_path, class: "bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-8 py-4 rounded-xl text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1" do %>
+          <%= t('landing.hero.cta_post') %>
+        <% end %>
+        <%= link_to tasks_path, class: "bg-white border-2 border-[#7C3AED] text-[#7C3AED] hover:bg-[#F3E8FF] px-8 py-4 rounded-xl text-lg font-bold text-center transition-all" do %>
+          <%= t('landing.hero.cta_find') %>
+        <% end %>
+      </div>
+
+      <%# Magic Box / AI Voice Hint %>
+      <div class="bg-white/60 backdrop-blur-sm border border-[#7C3AED]/20 p-4 rounded-2xl flex items-center space-x-4 max-w-md shadow-sm">
+        <div class="bg-[#7C3AED] p-3 rounded-full animate-pulse shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+          </svg>
+        </div>
+        <div class="text-sm">
+          <p class="text-[#4C1D95] font-semibold italic">"<%= t('landing.hero.magic_box_hint') %>"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:w-1/2 mt-12 md:mt-0 relative">
+      <div class="absolute -top-10 -left-10 w-64 h-64 bg-[#A78BFA] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+      <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-[#22C55E] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      
+      <div class="relative bg-white p-8 rounded-3xl shadow-2xl border border-[#7C3AED]/10 transform md:rotate-2">
+        <div class="space-y-6">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-full bg-gray-200"></div>
+            <div class="space-y-2">
+              <div class="h-4 w-32 bg-gray-100 rounded"></div>
+              <div class="h-3 w-20 bg-gray-50 rounded"></div>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-4 w-full bg-[#FAF5FF] rounded"></div>
+            <div class="h-4 w-5/6 bg-[#FAF5FF] rounded"></div>
+            <div class="h-4 w-4/6 bg-[#FAF5FF] rounded"></div>
+          </div>
+          <div class="pt-4 flex justify-between items-center">
+            <div class="text-[#22C55E] font-bold text-lg">Rs. 1,500</div>
+            <div class="bg-[#7C3AED] text-white px-4 py-2 rounded-lg text-sm font-bold">Offer Made</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# How it Works Section %>
+  <section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-5">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-bold text-[#4C1D95]"><%= t('landing.how_it_works.title') %></h2>
+        <div class="h-1.5 w-24 bg-[#7C3AED] mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <%# Poster Path %>
+        <div class="bg-[#FAF5FF] p-10 rounded-3xl border border-[#7C3AED]/10 space-y-8">
+          <h3 class="text-2xl font-bold text-[#7C3AED] flex items-center">
+            <span class="bg-[#7C3AED] text-white w-8 h-8 rounded-full inline-flex items-center justify-center text-sm mr-3">1</span>
+            <%= t('landing.how_it_works.poster.title') %>
+          </h3>
+          <ul class="space-y-6">
+            <li class="flex items-start space-x-4">
+              <div class="mt-1 text-[#22C55E]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p class="text-[#4C1D95]/80"><%= t('landing.how_it_works.poster.step_1') %></p>
+            </li>
+            <li class="flex items-start space-x-4">
+              <div class="mt-1 text-[#22C55E]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p class="text-[#4C1D95]/80"><%= t('landing.how_it_works.poster.step_2') %></p>
+            </li>
+            <li class="flex items-start space-x-4">
+              <div class="mt-1 text-[#22C55E]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p class="text-[#4C1D95]/80"><%= t('landing.how_it_works.poster.step_3') %></p>
+            </li>
+          </ul>
+        </div>
+
+        <%# Tasker Path %>
+        <div class="bg-[#F0FDF4] p-10 rounded-3xl border border-[#22C55E]/10 space-y-8">
+          <h3 class="text-2xl font-bold text-[#22C55E] flex items-center">
+            <span class="bg-[#22C55E] text-white w-8 h-8 rounded-full inline-flex items-center justify-center text-sm mr-3">2</span>
+            <%= t('landing.how_it_works.tasker.title') %>
+          </h3>
+          <ul class="space-y-6">
+            <li class="flex items-start space-x-4">
+              <div class="mt-1 text-[#22C55E]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p class="text-[#4C1D95]/80"><%= t('landing.how_it_works.tasker.step_1') %></p>
+            </li>
+            <li class="flex items-start space-x-4">
+              <div class="mt-1 text-[#22C55E]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p class="text-[#4C1D95]/80"><%= t('landing.how_it_works.tasker.step_2') %></p>
+            </li>
+            <li class="flex items-start space-x-4">
+              <div class="mt-1 text-[#22C55E]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p class="text-[#4C1D95]/80"><%= t('landing.how_it_works.tasker.step_3') %></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Features Grid %>
+  <section class="py-20 bg-[#FAF5FF]">
+    <div class="max-w-7xl mx-auto px-5">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-bold text-[#4C1D95]"><%= t('landing.features.title') %></h2>
+        <div class="h-1.5 w-24 bg-[#7C3AED] mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <%# Feature 1: Bilingual %>
+        <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-[#7C3AED]/5 text-center group">
+          <div class="bg-[#F3E8FF] text-[#7C3AED] w-16 h-16 rounded-2xl inline-flex items-center justify-center mb-6 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.802M10.835 12a15.933 15.933 0 01-2.022 4.048M6 19a16.036 16.036 0 01-2.048-4M16 11l5 5m0 0l-5 5m5-5H10" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-[#4C1D95] mb-3"><%= t('landing.features.bilingual.title') %></h4>
+          <p class="text-[#4C1D95]/70 text-sm leading-relaxed"><%= t('landing.features.bilingual.desc') %></p>
+        </div>
+
+        <%# Feature 2: Voice %>
+        <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-[#7C3AED]/5 text-center group">
+          <div class="bg-[#F3E8FF] text-[#7C3AED] w-16 h-16 rounded-2xl inline-flex items-center justify-center mb-6 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-[#4C1D95] mb-3"><%= t('landing.features.voice.title') %></h4>
+          <p class="text-[#4C1D95]/70 text-sm leading-relaxed"><%= t('landing.features.voice.desc') %></p>
+        </div>
+
+        <%# Feature 3: eSewa %>
+        <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-[#7C3AED]/5 text-center group">
+          <div class="bg-[#F3E8FF] text-[#7C3AED] w-16 h-16 rounded-2xl inline-flex items-center justify-center mb-6 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-[#4C1D95] mb-3"><%= t('landing.features.payments.title') %></h4>
+          <p class="text-[#4C1D95]/70 text-sm leading-relaxed"><%= t('landing.features.payments.desc') %></p>
+        </div>
+
+        <%# Feature 4: Trust %>
+        <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-[#7C3AED]/5 text-center group">
+          <div class="bg-[#F3E8FF] text-[#7C3AED] w-16 h-16 rounded-2xl inline-flex items-center justify-center mb-6 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-[#4C1D95] mb-3"><%= t('landing.features.trust.title') %></h4>
+          <p class="text-[#4C1D95]/70 text-sm leading-relaxed"><%= t('landing.features.trust.desc') %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Footer CTA %>
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-5 text-center">
+      <div class="bg-[#7C3AED] p-12 md:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+        
+        <div class="relative z-10 space-y-8">
+          <h2 class="text-3xl md:text-5xl font-bold text-white"><%= t('landing.cta_footer.title') %></h2>
+          <p class="text-xl text-white/80"><%= t('landing.cta_footer.subtitle') %></p>
+          <div class="pt-6">
+            <%= link_to new_user_registration_path, class: "bg-white text-[#7C3AED] hover:bg-[#F3E8FF] px-12 py-5 rounded-2xl text-xl font-bold inline-block transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1" do %>
+              <%= t('landing.cta_footer.button') %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+</style>

@@ -21,27 +21,27 @@
           <span class="text-xs text-gray-500">Change your picture</span>
         </div>
       <% end %>
-      <%= f.file_field :avatar, class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+      <%= f.file_field :avatar, class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#F3E8FF] file:text-[#7C3AED] hover:file:bg-[#E9D5FF]" %>
     </div>
 
     <div class="space-y-1">
       <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :name, class: "block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      <%= f.text_field :name, class: "block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#7C3AED] focus:border-[#7C3AED] sm:text-sm" %>
     </div>
 
     <div class="space-y-1">
       <%= f.label :bio, class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_area :bio, rows: 4, class: "block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      <%= f.text_area :bio, rows: 4, class: "block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#7C3AED] focus:border-[#7C3AED] sm:text-sm" %>
     </div>
 
     <div class="space-y-1">
       <%= f.label :locale, t('onboarding.step_2'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.select :locale, [[t('language.english'), 'en'], [t('language.nepali'), 'ne']], {}, class: "block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      <%= f.select :locale, [[t('language.english'), 'en'], [t('language.nepali'), 'ne']], {}, class: "block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#7C3AED] focus:border-[#7C3AED] sm:text-sm" %>
     </div>
 
     <div class="flex items-center justify-between pt-4">
       <%= link_to t('common.cancel', default: 'Cancel'), profile_path, class: "text-gray-600 hover:text-gray-900 font-medium" %>
-      <%= f.submit t('profiles.edit.save'), class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors cursor-pointer" %>
+      <%= f.submit t('profiles.edit.save'), class: "bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors cursor-pointer" %>
     </div>
   <% end %>
 </div>

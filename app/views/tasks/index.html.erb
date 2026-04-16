@@ -8,7 +8,7 @@
       <%= current_user.tasker? ? t('.discovery_title', default: 'Find Work') : t('.dashboard_title', default: 'My Tasks') %>
     </h1>
     <% if current_user.poster? %>
-      <%= link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+      <%= link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white block font-medium" %>
     <% end %>
   </div>
 
@@ -40,7 +40,7 @@
             <%= current_user.tasker? ? t('.try_adjusting_filters', default: 'Try adjusting your filters to see more results.') : t('.start_posting', default: 'Post your first task and get bids from local experts!') %>
           </p>
           <% if current_user.poster? %>
-            <%= link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+            <%= link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white inline-block font-medium" %>
           <% end %>
         </div>
       <% end %>

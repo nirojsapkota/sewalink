@@ -11,7 +11,7 @@
         <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full <%= task.open? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
           <%= t("tasks.statuses.#{task.status}") %>
         </span>
-        <p class="text-xl font-bold text-blue-600 mt-1">Rs. <%= number_with_delimiter(task.budget) %></p>
+        <p class="text-xl font-bold text-[#7C3AED] mt-1">Rs. <%= number_with_delimiter(task.budget) %></p>
       </div>
     </div>
   </div>

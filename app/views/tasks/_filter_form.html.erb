@@ -4,25 +4,25 @@
                 class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4") do |f| %>
     <div>
       <%= f.label :category_id, t('.category', default: 'Category'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.collection_select :category_id, Category.all, :id, :name_en, { include_blank: t('.all_categories', default: 'All Categories') }, { class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" } %>
+      <%= f.collection_select :category_id, Category.all, :id, :name_en, { include_blank: t('.all_categories', default: 'All Categories') }, { class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]" } %>
     </div>
 
     <div>
       <%= f.label :location, t('.location', default: 'Near Location'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.text_field :location, value: params[:location], placeholder: t('.location_placeholder', default: 'e.g., Kathmandu'), class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+      <%= f.text_field :location, value: params[:location], placeholder: t('.location_placeholder', default: 'e.g., Kathmandu'), class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]" %>
     </div>
 
     <div>
       <%= f.label :distance, t('.distance', default: 'Distance (km)'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.number_field :distance, value: params[:distance] || 10, step: 1, min: 1, max: 100, class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+      <%= f.number_field :distance, value: params[:distance] || 10, step: 1, min: 1, max: 100, class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]" %>
     </div>
 
     <div>
       <%= f.label :budget_range, t('.budget_range', default: 'Min Budget'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
       <div class="flex items-center gap-2">
-        <%= f.number_field :min_budget, value: params[:min_budget], placeholder: "Min", class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+        <%= f.number_field :min_budget, value: params[:min_budget], placeholder: "Min", class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]" %>
         <span class="text-gray-400">-</span>
-        <%= f.number_field :max_budget, value: params[:max_budget], placeholder: "Max", class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+        <%= f.number_field :max_budget, value: params[:max_budget], placeholder: "Max", class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]" %>
       </div>
     </div>
   <% end %>

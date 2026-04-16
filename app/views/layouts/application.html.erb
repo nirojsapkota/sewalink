@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SewaLink</title>
+    <title>SewaLink | Marketplace for Nepal</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
+  <body class="bg-[#FAF5FF] font-['Mukta'] text-[#4C1D95]">
     <%= render "shared/navbar" %>
 
-    <main class="container mx-auto mt-10 px-5">
+    <main class="container mx-auto mt-8 md:mt-12 px-5">
       <%= yield %>
     </main>
+
+    <footer class="bg-white/50 py-10 border-t border-[#7C3AED]/5 mt-20">
+      <div class="max-w-7xl mx-auto px-5 text-center">
+        <div class="text-xl font-bold text-[#7C3AED] mb-4">sewaLink</div>
+        <p class="text-sm text-[#4C1D95]/40">&copy; 2026 sewaLink Nepal. All rights reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>

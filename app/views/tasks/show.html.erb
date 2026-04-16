@@ -6,6 +6,8 @@
 
     <%= render @task %>
 
+    <%= render 'task_actions', task: @task %>
+
     <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">
       <% if current_user.poster? && @task.user == current_user %>
         <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">

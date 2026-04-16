@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   end
 
   resources :tasks do
+    member do
+      post :request_payment
+      post :release_payment
+      post :raise_dispute
+      patch :toggle_draft
+    end
     resource :completion, only: [:create], module: :tasks
     resource :start, only: [:create], module: :tasks
     resources :bids, only: [:create] do

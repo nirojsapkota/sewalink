@@ -4,5 +4,6 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { "Password123!" }
     active_role { :poster }
+    onboarded { true }
   end
 end

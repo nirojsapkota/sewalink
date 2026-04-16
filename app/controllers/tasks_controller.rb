@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :request_payment, :release_payment, :raise_dispute, :toggle_draft]
 
   def index
     if current_user.tasker?
@@ -74,6 +74,47 @@ class TasksController < ApplicationController
     authorize @task
     @task.destroy
     redirect_to tasks_url, notice: t('.success', default: 'Task was successfully destroyed.')
+  end
+
+  def request_payment
+    authorize @task
+    if @task.request_payment!
+      redirect_to @task, notice: t('.success', default: 'Payment requested successfully.')
+    else
+      redirect_to @task, alert: t('.failure', default: 'Could not request payment.')
+    end
+  end
+
+  def release_payment
+    authorize @task
+    ActiveRecord::Base.transaction do
+      if @task.release_payment!
+        redirect_to @task, notice: t('.success', default: 'Payment released and task completed.')
+      else
+        redirect_to @task, alert: t('.failure', default: 'Could not release payment.')
+        raise ActiveRecord::Rollback
+      end
+    end
+  rescue AASM::InvalidTransition
+    redirect_to @task, alert: t('.invalid_transition', default: 'Invalid status transition.')
+  end
+
+  def raise_dispute
+    authorize @task
+    if @task.raise_dispute!
+      redirect_to @task, notice: t('.success', default: 'Dispute raised successfully.')
+    else
+      redirect_to @task, alert: t('.failure', default: 'Could not raise dispute.')
+    end
+  end
+
+  def toggle_draft
+    authorize @task
+    if @task.toggle_draft!
+      redirect_to @task, notice: t('.success', default: "Task is now #{@task.status}.")
+    else
+      redirect_to @task, alert: t('.failure', default: 'Could not toggle draft status.')
+    end
   end
 
   private

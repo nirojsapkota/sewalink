@@ -17,10 +17,9 @@
   </div>
 
   <div class="ml-4 flex flex-col gap-2">
-    <% if bid.pending? && policy(bid.task).assign? %>
-      <%= button_to "Assign Tasker", task_assignments_path(bid.task), 
-          params: { assignment: { tasker_id: bid.user_id, bid_id: bid.id } },
-          method: :post,
+    <% if bid.pending? && policy(bid).accept? %>
+      <%= button_to "Assign Tasker", accept_task_bid_path(bid.task, bid), 
+          method: :patch,
           class: "rounded-lg py-2 px-4 bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors shadow-sm" %>
     <% elsif bid.accepted? %>
       <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider rounded">Assigned</span>

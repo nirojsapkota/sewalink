@@ -13,7 +13,15 @@ Rails.application.routes.draw do
     patch :toggle_role
   end
 
-  resources :tasks
+  resources :tasks do
+    resources :bids, only: [:create] do
+      member do
+        patch :accept
+      end
+    end
+  end
+
+  resources :bids, only: [:update, :destroy]
 
   root "home#index"
   get "home/index"

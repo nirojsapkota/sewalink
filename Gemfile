@@ -75,3 +75,9 @@ gem "devise", "~> 4.9"
 gem "devise-two-factor", "~> 6.0"
 gem "rack-attack", "~> 6.8"
 gem "rotp", "~> 6.3"
+
+gem "image_processing", "~> 1.14"
+
+gem "geocoder", "~> 1.8"
+gem "pundit", "~> 2.3"
+gem "kaminari", "~> 1.2"

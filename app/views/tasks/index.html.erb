@@ -1,0 +1,45 @@
+<div class="mx-auto w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 text-green-500 font-medium rounded-lg inline-block mb-5" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-10">
+    <h1 class="font-bold text-4xl"><%= t('.title', default: 'My Tasks') %></h1>
+    <%= link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div id="tasks" class="min-w-full">
+    <% if @tasks.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @tasks.each do |task| %>
+          <div class="border rounded-xl p-5 hover:shadow-lg transition-shadow bg-white relative">
+            <div class="flex justify-between items-start mb-3">
+               <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full <%= task.open? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+                <%= t("tasks.statuses.#{task.status}") %>
+              </span>
+              <p class="font-bold text-blue-600">Rs. <%= number_with_delimiter(task.budget) %></p>
+            </div>
+            
+            <h2 class="text-xl font-bold mb-1 truncate"><%= task.title %></h2>
+            <p class="text-sm text-gray-500 mb-3"><%= I18n.locale == :ne ? task.category.name_ne : task.category.name_en %></p>
+            
+            <p class="text-gray-600 text-sm line-clamp-2 mb-4"><%= task.description %></p>
+            
+            <div class="flex items-center text-xs text-gray-400 mb-4">
+               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+               <%= task.location %>
+            </div>
+
+            <%= link_to t('.view', default: 'View Details'), task, class: "block text-center rounded-lg py-2 px-4 bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-20 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+        <h3 class="text-xl font-medium text-gray-600 mb-2"><%= t('.no_tasks', default: 'You haven\'t posted any tasks yet.') %></h3>
+        <p class="text-gray-400 mb-6"><%= t('.start_posting', default: 'Post your first task and get bids from local experts!') %></p>
+        <%= link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+      </div>
+    <% end %>
+  </div>
+</div>

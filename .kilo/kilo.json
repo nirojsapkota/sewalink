@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "read": {
+      "/Users/niroj/projects/project_ideas/sewaLink/.kilo/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "/Users/niroj/projects/project_ideas/sewaLink/.kilo/get-shit-done/*": "allow"
+    }
+  }
+}

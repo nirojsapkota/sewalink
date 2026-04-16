@@ -1,0 +1,2 @@
+description = "GSD command suite for project management and development workflows"
+prompt = "List available GSD commands."

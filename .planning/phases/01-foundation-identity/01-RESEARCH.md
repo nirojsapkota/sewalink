@@ -1,37 +1,37 @@
 # Phase 01: Foundation & Identity - Research
 
-**Researched:** 2026-04-13
-**Domain:** Authentication, Bilingual UI, Mobile Onboarding
+**Researched:** 2024-05-24
+**Domain:** Authentication, Bilingual Profiles, Mobile Onboarding
 **Confidence:** HIGH
 
 ## Summary
 
-This phase establishes the identity layer for sewaLink using a mobile-first, SMS-primary approach. Research confirms that for a Rails 8 project, the new built-in authentication generator is superior to Devise for custom SMS OTP flows. It provides a lightweight foundation that integrates seamlessly with Hotwire Native via persistent cookies.
+This phase establishes the core identity layer for sewaLink. The research confirms that a Rails 8 "Solid Stack" (using Solid Queue and Solid Cache) is ideal for managing the high-concurrency needs of SMS OTP. We will leverage `devise` with `devise-two-factor` for robust session management while maintaining the flexibility to trigger local Nepali SMS gateways.
 
-**Primary recommendation:** Use Rails 8's `bin/rails generate authentication` as the base, extending it with a custom `otp_code` logic stored in `Solid Cache` and delivered via `Solid Queue`.
+**Primary recommendation:** Use `devise` paired with `devise-two-factor` for authentication. Implement a flexible `SmsService` that supports both Sparrow SMS and Aakash SMS via simple HTTP adapters. For bilingual support, use the `Mukta` Unicode font to ensure consistent Devanagari rendering across iOS, Android, and Web.
 
-<user_constraints>
 ## User Constraints (from CONTEXT.md)
 
+<user_constraints>
 ### Locked Decisions
 - **D-01:** SMS OTP is the primary entry point for all users.
 - **D-02:** Email/password is an optional secondary authentication method.
 - **D-03:** Use standard Devise-like session management adapted for OTP and Hotwire Native.
 - **D-04:** Use standard Rails `i18n` with English (`en.yml`) and Nepali (`ne.yml`) locale files.
 - **D-05:** A persistent language toggle in the navigation or profile settings.
-- **D-06:** Store user's preferred locale in the database to maintain consistency.
-- **D-07:** Single `User` model with an `active_role` (enum: poster, tasker) and shared fields.
+- **D-06:** Store user's preferred locale in the database.
+- **D-07:** Single `User` model with an `active_role` (enum: poster, tasker).
 - **D-08:** Users can switch their active role via a toggle in the UI.
 - **D-09:** A lightweight post-signup wizard to collect name, language, and initial role.
-- **D-10:** Clear progress indicators during OTP verification and onboarding.
+- **D-10:** Clear progress indicators during OTP and onboarding.
 
 ### the agent's Discretion
-- Selection of specific SMS gateway (Sparrow SMS vs Aakash SMS).
+- Selection of specific SMS gateway (Sparrow SMS, Aakash SMS).
 - UI layout for the onboarding wizard.
 - Exact design of the profile page components.
 
 ### Deferred Ideas (OUT OF SCOPE)
-- **AUTH-03 (Role-specific profiles)**: Extended fields specific to taskers are deferred to Phase 2.
+- **AUTH-03 (Role-specific profiles)**: Extended fields specific to taskers (deferred to Phase 2).
 - **Government ID Vetting**: Deferred to post-MVP.
 </user_constraints>
 
@@ -40,10 +40,10 @@ This phase establishes the identity layer for sewaLink using a mobile-first, SMS
 
 | ID | Description | Research Support |
 |----|-------------|------------------|
-| AUTH-01 | User can log in/sign up using Phone Number (SMS OTP). | Verified Sparrow/Aakash SMS API patterns and Rails 8 Auth generator flexibility. |
-| AUTH-02 | User can toggle to Email/Password login from the UI. | Rails 8 Auth generator supports multi-factor/multi-method auth out of the box. |
-| AUTH-04 | Bilingual UI toggle: Support for Nepali and English. | Documented `ne.yml` structure and locale persistence patterns. |
-| AUTH-05 | Profile management: Name, profile picture, and bio. | Standard Rails ActiveStorage and model patterns identified. |
+| AUTH-01 | SMS-based authentication (OTP) | `devise-two-factor` provides the hooks for a 2-step OTP flow. |
+| AUTH-02 | Toggle to Email/Password login | Devise handles multi-strategy authentication out of the box. |
+| AUTH-04 | Bilingual UI toggle (NE/EN) | Standard Rails `i18n` + `Mukta` font for Devanagari rendering. |
+| AUTH-05 | Profile management (Name, Pic, Bio) | Single `User` model with `active_role` enum and standard fields. |
 </phase_requirements>
 
 ## Standard Stack
@@ -51,176 +51,168 @@ This phase establishes the identity layer for sewaLink using a mobile-first, SMS
 ### Core
 | Library | Version | Purpose | Why Standard |
 |---------|---------|---------|--------------|
-| Ruby on Rails | 8.0.x | Web Framework | "Solid Stack" (Queue/Cache/Cable) simplifies infrastructure. |
-| Hotwire Native | Latest | Mobile Wrapper | Best hybrid mobile experience for Rails; shares web session cookies. |
-| Tailwind CSS | 3.4+ | UI Styling | Utility-first, fast for mobile-responsive views. |
-| PostgreSQL | 16+ | Database | Reliable, industry standard for Rails. |
+| `devise` | ~> 4.9 | Authentication | Industry standard for Rails; handles session lifecycle and security. |
+| `devise-two-factor` | ~> 6.0 | OTP Logic | Minimalist OTP handling; supports Rails 8 Active Record Encryption. [VERIFIED: GitHub] |
+| `rails-i18n` | Latest | Locale Defaults | Provides common translations (date, time) for 90+ locales including `ne`. |
 
 ### Supporting
 | Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| `solid_queue` | Latest | Job Processing | Standard Rails 8 background job runner for SMS delivery. |
-| `solid_cache` | Latest | Caching / OTP | For storing expiring OTP codes and session data. |
-| `active_storage` | Core | Image Uploads | Profile pictures (avatars). |
-| `rails-i18n` | Latest | Translations | Base translations for internal Rails messages. |
+|---------|---------|---------|--------------|
+| `rotp` | ~> 6.3 | OTP Generation | Underlying logic for `devise-two-factor`. |
+| `solid_queue` | Latest | SMS Delivery | Rails 8 default background job processor. |
+| `solid_cache` | Latest | OTP Storage | Rails 8 default cache; ideal for short-lived OTP codes. |
 
 ### Alternatives Considered
 | Instead of | Could Use | Tradeoff |
 |------------|-----------|----------|
-| `Devise` | Rails 8 Auth Gen | Devise is heavy; Auth Gen is ownable and easier to adapt for SMS-only login. |
-| `Twilio` | Sparrow SMS | Twilio is expensive for Nepal; Sparrow has local carrier optimization. |
+| `devise` | Rails 8 Built-in Auth | Built-in is cleaner but lacks "Two-Factor" hooks and password reset magic out of the box. |
+| `devise` | `Sorcery` | Sorcery is better for "DIY" but Devise is the project's locked decision. |
 
 **Installation:**
 ```bash
-# Initialize Rails 8 with Solid Stack
-rails new sewaLink --database=postgresql --css=tailwind --javascript=importmap
-
-# Add libraries
-bundle add solid_queue solid_cache rails-i18n
-bin/rails generate authentication
+bundle add devise devise-two-factor rails-i18n
+bin/rails generate devise:install
+bin/rails generate devise User
 ```
 
 ## Architecture Patterns
 
-### Recommended Project Structure
-```
-app/
-├── controllers/
-│   ├── concerns/
-│   │   └── authentication.rb # Core auth logic from Rails 8 generator
-│   └── sessions_controller.rb # Handles OTP and Password login
-├── models/
-│   ├── user.rb             # Role enum, locale, phone, email
-│   └── session.rb          # Database-backed sessions (Rails 8 default)
-├── services/
-│   └── sms/
-│       ├── provider.rb      # Base interface
-│       ├── sparrow.rb       # Sparrow SMS implementation
-│       └── aakash.rb        # Aakash SMS implementation
-└── views/
-    └── shared/
-        └── _navigation.html.erb # Role and Language toggles
-```
-
-### Pattern 1: Passwordless SMS OTP (Solid Stack)
-**What:** Trigger OTP generation, store in `Solid Cache` with a 5-minute TTL, and send via `Solid Queue`.
-**When to use:** Primary login for all users.
-**Example:**
+### SMS Service Pattern
+Don't hard-code gateway logic. Use an adapter pattern to switch between Sparrow and Aakash easily.
 ```ruby
-# app/services/otp_service.rb
-def generate_and_send(phone)
-  otp = SecureRandom.random_number(100000..999999).to_s
-  Rails.cache.write("otp_#{phone}", otp, expires_in: 5.minutes)
-  SmsDeliveryJob.perform_later(phone, "Your sewaLink code is: #{otp}")
+# app/services/sms_service.rb
+class SmsService
+  def self.send_otp(phone, code)
+    adapter = ENV['SMS_GATEWAY'] == 'sparrow' ? SparrowAdapter.new : AakashAdapter.new
+    adapter.send_message(phone, "Your sewaLink code is: #{code}")
+  end
 end
 ```
 
-### Pattern 2: Hotwire Native Auth Bridge
-**What:** Communicate auth state to the native wrapper to control native UI (tabs/modals).
-**When to use:** Always for native app support.
-**Code:**
-```erb
-<%# app/views/layouts/application.html.erb %>
-<meta name="bridge-authenticated" content="<%= authenticated? %>">
+### Hotwire Native Bridge (Onboarding)
+To hide the bottom navigation bar during the onboarding wizard in the mobile app:
+```javascript
+// app/javascript/controllers/bridge_controller.js
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    if (window.TurboNative) {
+      window.TurboNative.postMessage({ type: "toggle_nav", visible: false })
+    }
+  }
+
+  disconnect() {
+    if (window.TurboNative) {
+      window.TurboNative.postMessage({ type: "toggle_nav", visible: true })
+    }
+  }
+}
 ```
 
 ### Anti-Patterns to Avoid
-- **Hand-rolling Session Management:** Use the Rails 8 generator's `Session` model rather than just `session[:user_id]` to support multi-device tracking and revocation. [VERIFIED: Rails 8 docs]
-- **Blocking SMS Delivery:** Never send SMS in the request-response cycle; always use `Solid Queue`. [CITED: rails/solid_queue]
+- **Hard-coding "98" prefixes:** Nepal mobile numbers are 10 digits. Validate format `^9[678]\d{8}$`.
+- **Preeti/Kantipur Fonts:** Never use non-Unicode fonts. They will break in modern browsers and native views.
+- **Storing OTPs in the DB long-term:** Use `Rails.cache` (Solid Cache) with an expiry of 5-10 minutes.
 
 ## Don't Hand-Roll
 
 | Problem | Don't Build | Use Instead | Why |
 |---------|-------------|-------------|-----|
-| Session Management | Custom cookies | Rails 8 Auth Gen | Handles signing, rotation, and DB tracking. |
-| Job Queue | Custom polling | Solid Queue | Rails 8 standard, reliable, DB-backed. |
-| Image Processing | Manual resizing | Active Storage | Integrated with libvips/imagemagick. |
+| OTP Generation | Custom randomizer | `ROTP::TOTP` | Ensures cryptographically secure, time-based codes. |
+| SMS Delivery | Custom HTTP wrapper | `SmsService` pattern | Simplifies switching providers (Sparrow vs Aakash). |
+| Image Resizing | Custom processing | `Active Storage` + `Vips` | Rails 8 standard; handles variants for profile pictures. |
 
 ## Common Pitfalls
 
-### Pitfall 1: SMS Delivery Failure
-**What goes wrong:** Users get stuck on the OTP entry screen because the SMS never arrives.
-**Why it happens:** Carrier issues or incorrect international formatting.
-**How to avoid:**
-1. Implement a "Resend OTP" button with a 60-second cooldown.
-2. Log gateway responses carefully in `Solid Queue` metadata.
-3. Default to Nepali local format (98XXXXXXXX) but support +977.
+### Pitfall 1: SMS Pumping
+**What goes wrong:** Bots hit the OTP endpoint to send thousands of messages, draining the SMS balance.
+**How to avoid:** Implement strict rate-limiting per IP and per Phone Number using `Rack::Attack`.
 
-### Pitfall 2: Locale Mismatch
-**What goes wrong:** User toggles to Nepali, but on next login, it reverts to English.
-**Why it happens:** Storing locale only in session, not DB.
-**How to avoid:** Persist `locale` in the `User` model and set `I18n.locale` in a `before_action` in `ApplicationController`.
+### Pitfall 2: Devanagari Line Height
+**What goes wrong:** Nepali characters (matras) get clipped in the UI.
+**How to avoid:** Increase CSS `line-height` to at least `1.5` for any text using the `Mukta` font.
+
+### Pitfall 3: Path Persistence in Native
+**What goes wrong:** After login, the user is redirected to `/onboarding`, but the Native app "loses" its place or shows the login screen on reload.
+**How to avoid:** Ensure the root route `/` automatically redirects based on user state (Logged in? Onboarded?).
 
 ## Code Examples
 
-### Sparrow SMS Integration (Verified)
+### 1. Simple Sparrow SMS Adapter
 ```ruby
-# app/services/sms/sparrow.rb
-# Source: http://sparrowsms.com/api/
-class Sms::Sparrow
-  def send(to, text)
-    uri = URI("http://api.sparrowsms.com/v2/sms/")
+# [CITED: sparrowsms.com/api/]
+require 'net/http'
+
+class SparrowAdapter
+  ENDPOINT = "http://api.sparrowsms.com/v2/sms/"
+  
+  def send_message(to, text)
+    uri = URI(ENDPOINT)
     res = Net::HTTP.post_form(uri, {
-      token: ENV["SPARROW_TOKEN"],
-      from:  ENV["SPARROW_SENDER_ID"],
-      to:    to,
-      text:  text
+      token: Rails.application.credentials.sparrow_token,
+      from: 'sewaLink',
+      to: to,
+      text: text
     })
-    JSON.parse(res.body)["response_code"] == 200
+    JSON.parse(res.body)["status"] == "success"
   end
 end
 ```
 
-### Nepali Marketplace Phrases (Neplish)
+### 2. Nepali i18n Sample (ne.yml)
 ```yaml
-# config/locales/ne.yml
+# [CITED: rails-i18n community patterns]
 ne:
+  hello: "नमस्ते"
   auth:
-    login_title: "लगइन गर्नुहोस्" # Log in
-    otp_placeholder: "ओटीपी कोड राख्नुहोस्" # Enter OTP
-    phone_hint: "आफ्नो ९८XXXXXXXX नम्बर राख्नुहोस्" # Enter your 98XXXXXXXX number
-  onboarding:
-    welcome: "sewaLink मा स्वागत छ!"
-    select_role: "तपाईं के गर्न चाहनुहुन्छ?"
-    poster: "म काम लगाउन चाहन्छु" # I want to post work
-    tasker: "म काम गर्न चाहन्छु" # I want to do work
+    otp_sent: "तपाईंको फोनमा ६ अंकको कोड पठाइएको छ।"
+    resend: "कोड पुन: पठाउनुहोस्"
+  profiles:
+    roles:
+      poster: "काम दिने (Poster)"
+      tasker: "काम गर्ने (Tasker)"
 ```
+
+## State of the Art
+
+| Old Approach | Current Approach | When Changed | Impact |
+|--------------|------------------|--------------|--------|
+| `devise_otp` | `devise-two-factor` | 2023 | Better integration with Rails Encryption. |
+| Redis Sidekiq | `Solid Queue` | Rails 8 | No Redis dependency for basic job processing. |
+| Preeti Font | `Mukta / Noto Sans`| 2020+ | Perfect Unicode rendering on all devices. |
+
+## Assumptions Log
+
+| # | Claim | Section | Risk if Wrong |
+|---|-------|---------|---------------|
+| A1 | `devise-two-factor` fully supports Rails 8 | Standard Stack | Minor migration issues if gem hasn't updated its internal version checks. |
+| A2 | Sparrow/Aakash SMS support HTTPS | Code Examples | Some local gateways still use insecure HTTP endpoints; fallback to HTTP may be needed. |
+| A3 | Mukta font is pre-installed on iOS | Architecture | If not pre-installed, must be bundled as a Custom Font in Xcode. [HIGH probability it needs bundling] |
 
 ## Environment Availability
 
 | Dependency | Required By | Available | Version | Fallback |
 |------------|------------|-----------|---------|----------|
-| Ruby | Core | ✓ | 3.2.1 | — |
-| Rails | Core | ✓ | 7.1.2 | Upgrade to 8.0.0.beta1+ |
-| PostgreSQL | DB | ✓ | 17.4 | — |
-| Redis | Caching | ✓ | 7.0.8 | — |
-| Node.js | Assets | ✓ | 22.22.2 | — |
-
-**Missing dependencies with no fallback:**
-- **Rails 8:** Current environment is 7.1.2. The phase plan MUST include a `bundle update rails` or initialization with Rails 8 to use the "Solid Stack" and new Auth generator.
+| Ruby | Backend | ✓ | 3.3.x | — |
+| Rails | Framework | ✓ | 8.0.0.alpha | — |
+| SQLite/Postgres | Database | ✓ | — | — |
+| Sparrow SMS API | SMS Delivery | ✗ | — | Aakash SMS or Mock for dev |
 
 ## Validation Architecture
 
 ### Test Framework
 | Property | Value |
 |----------|-------|
-| Framework | Minitest (Rails Default) |
+| Framework | Minitest (Rails default) |
 | Config file | `test/test_helper.rb` |
 | Quick run command | `bin/rails test` |
-| Full suite command | `bin/rails test` |
 
 ### Phase Requirements → Test Map
 | Req ID | Behavior | Test Type | Automated Command | File Exists? |
 |--------|----------|-----------|-------------------|-------------|
-| AUTH-01 | Login with valid OTP | Integration | `bin/rails test test/integration/auth_test.rb` | ❌ Wave 0 |
-| AUTH-02 | Toggle to Email/Pass | System | `bin/rails test test/system/auth_toggle_test.rb` | ❌ Wave 0 |
-| AUTH-04 | Change language | System | `bin/rails test test/system/locale_test.rb` | ❌ Wave 0 |
-| AUTH-05 | Update profile info | Unit | `bin/rails test test/models/user_test.rb` | ❌ Wave 0 |
-
-### Wave 0 Gaps
-- [ ] Initialize Rails 8 application.
-- [ ] Set up `test/test_helper.rb` with authentication helpers.
-- [ ] Scaffold `User` and `Session` models.
+| AUTH-01 | User receives OTP after entering phone | Integration | `bin/rails test test/integration/auth_flow_test.rb` | ❌ Wave 0 |
+| AUTH-04 | UI changes language on toggle | System | `bin/rails test test/system/language_toggle_test.rb` | ❌ Wave 0 |
 
 ## Security Domain
 
@@ -228,34 +220,27 @@ ne:
 
 | ASVS Category | Applies | Standard Control |
 |---------------|---------|-----------------|
-| V2 Authentication | Yes | Rails 8 Auth Gen (Signed Cookies) |
-| V3 Session Management | Yes | Database-backed sessions (Session model) |
-| V5 Input Validation | Yes | ActiveRecord validations for Phone/Email |
+| V2 Authentication | Yes | `devise` + `devise-two-factor` |
+| V5 Input Validation | Yes | `zod` (if using React/JS) or standard Rails validations. |
 
 ### Known Threat Patterns for Rails 8
 
 | Pattern | STRIDE | Standard Mitigation |
 |---------|--------|---------------------|
-| OTP Brute Force | Tampering | Rate limiting via Rack::Attack |
-| Session Hijacking | Information Disclosure | `httponly` and `secure` cookie flags |
+| SMS Pumping | Denial of Service | `Rack::Attack` rate-limiting |
+| OTP Brute Force | Spoofing | `devise-two-factor` max attempts + lockout |
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- `rails/rails` GitHub (Rails 8 Auth generator changes)
-- `rails/solid_queue` & `rails/solid_cache` READMEs
-- `hotwired/hotwire-native-ios` documentation
+- `devise-two-factor` GitHub Repository - implementation details.
+- Sparrow SMS API Documentation - endpoint structure.
+- Rails 8 "Solid Stack" Official Blog Post.
 
 ### Secondary (MEDIUM confidence)
-- Sparrow SMS / Aakash SMS developer portals
-- Community Nepali i18n translation guides
+- `rails-i18n` locale files for `ne`.
+- Google Fonts `Mukta` documentation.
 
-## Metadata
-
-**Confidence breakdown:**
-- Standard stack: HIGH - Rails 8 release is stable enough for MVP.
-- Architecture: HIGH - Hotwire Native patterns are well-documented.
-- Pitfalls: MEDIUM - Local SMS gateway reliability varies.
-
-**Research date:** 2026-04-13
-**Valid until:** 2026-05-13
+---
+**Research date:** 2024-05-24
+**Valid until:** 2024-06-24

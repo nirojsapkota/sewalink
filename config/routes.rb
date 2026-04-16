@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'users/otp', to: 'users/sessions#otp', as: :users_otp
     post 'users/verify_otp', to: 'users/sessions#verify_otp', as: :verify_otp
+    post 'users/resend_otp', to: 'users/sessions#resend_otp', as: :resend_otp
   end
 
   resource :onboarding, only: [:show, :update], controller: 'onboarding'

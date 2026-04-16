@@ -25,7 +25,7 @@
   <% end %>
 
   <div class="mt-6 text-center">
-    <%= link_to t('auth.resend_otp'), "#", class: "text-sm text-[#7C3AED] hover:text-[#6D28D9]" %>
+    <%= button_to t('auth.resend_otp'), resend_otp_path, class: "text-sm text-[#7C3AED] hover:text-[#6D28D9] bg-transparent border-0 cursor-pointer p-0" %>
     <br>
     <%= link_to t('login'), new_user_session_path, class: "text-sm text-gray-600 hover:text-gray-500 mt-2 inline-block" %>
   </div>

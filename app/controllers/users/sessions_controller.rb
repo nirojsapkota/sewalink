@@ -49,4 +49,17 @@ class Users::SessionsController < Devise::SessionsController
       render :otp
     end
   end
+
+  def resend_otp
+    @phone = session[:otp_phone]
+    @user = User.find_by(phone: @phone)
+
+    if @user
+      code = @user.current_otp
+      @user.send_two_factor_authentication_code(code)
+      redirect_to users_otp_path, notice: t('auth.otp_sent')
+    else
+      redirect_to new_user_session_path, alert: t('errors.messages.not_found')
+    end
+  end
 end

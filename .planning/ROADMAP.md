@@ -4,7 +4,7 @@
 
 - [x] **Phase 1: Foundation & Identity** - SMS-based authentication and bilingual user profiles. (completed 2026-04-13)
 - [x] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle. (completed 2026-04-14)
-- [ ] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts.
+- [x] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts. (completed 2026-04-14)
 - [ ] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers.
 - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
 
@@ -67,7 +67,9 @@
   1. User can record a voice note in the app to describe a task.
   2. System automatically extracts task details (title, description, budget) and creates a draft.
   3. User can review the AI-generated draft and publish the task.
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 04-01-PLAN.md — Setup OpenAI integration and create TaskDraftGeneratorService.
+- [ ] 04-02-PLAN.md — Implement VoiceTasks API endpoint and Magic Box UI in task creation form.
 **UI hint**: yes
 
 ### Phase 5: Trust, Safety & Support
@@ -88,6 +90,6 @@
 |-------|----------------|--------|-----------|
 | 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
 | 2. Task Marketplace Core | 5/5 | Complete   | 2026-04-14 |
-| 3. Payments & Escrow | 0/5 | In progress | - |
+| 3. Payments & Escrow | 5/5 | Complete    | 2026-04-14 |
 | 4. AI Voice Assistant (Magic Box) | 0/0 | Not started | - |
 | 5. Trust, Safety & Support | 0/0 | Not started | - |

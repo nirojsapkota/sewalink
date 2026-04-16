@@ -9,6 +9,7 @@
 - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
 - [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
 - [ ] **Phase 7: Admin Panel and Analytics** - Admin dashboard for platform oversight and growth analytics.
+- [ ] **Phase 8: Real-time AI Chat (Gemini Live)** - Replace magic box with true streaming bidirectional AI chat for task creation.
 
 ## Phase Details
 
@@ -81,12 +82,10 @@
 **Success Criteria** (what must be TRUE):
   1. Tasker can only mark a task as 'Done' when they are within the geofenced perimeter of the task location.
   2. Both parties can leave ratings and text reviews for each other after a task is completed.
-  - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
-  - [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
+**Plans**: TBD
+**UI hint**: yes
 
-  ## Phase Details
-  ...
-  ### Phase 6: Task Status & Real-time Updates
+### Phase 6: Task Status & Real-time Updates
   **Goal**: Implement a granular task lifecycle and real-time UI synchronization to improve marketplace responsiveness.
   **Depends on**: Phase 5
   **Requirements**: TASK-07, TASK-08, TASK-09
@@ -112,6 +111,18 @@
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 8: Real-time AI Chat (Gemini Live)
+**Goal**: Implement a production-ready, real-time bidirectional AI chat for task creation using Gemini Live API patterns.
+**Depends on**: Phase 4, Phase 6
+**Requirements**: TASK-10
+**Success Criteria** (what must be TRUE):
+  1. Users can interact with the AI via real-time streaming chat (ActionCable).
+  2. AI asks for all required task inputs (title, description, budget, category) in natural language.
+  3. AI successfully creates a task in the database after gathering all details.
+  4. Supports multi-turn context and mid-stream interruption.
+**Plans**: TBD
+**UI hint**: yes
+
   ## Progress Table
 
   | Phase | Plans Complete | Status | Completed |
@@ -123,3 +134,4 @@
   | 5. Trust, Safety & Support | 0/0 | Not started | - |
   | 6. Task Status & Real-time Updates | 4/4 | Complete    | 2026-04-15 |
 | 7. Admin Panel and Analytics | 0/0 | Not started | - |
+| 8. Real-time AI Chat (Gemini Live) | 0/0 | Not started | - |

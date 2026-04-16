@@ -7,7 +7,8 @@
 - [x] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts. (completed 2026-04-14)
 - [x] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers. (completed 2026-04-15)
 - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
-- [ ] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates.
+- [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
+- [ ] **Phase 7: Admin Panel and Analytics** - Admin dashboard for platform oversight and growth analytics.
 
 ## Phase Details
 
@@ -101,6 +102,16 @@
   - [x] 06-04-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
   **UI hint**: yes
 
+### Phase 7: Admin Panel and Analytics
+**Goal**: Provide platform administrators with tools to oversee the marketplace and analyze growth.
+**Depends on**: Phase 6
+**Requirements**: ADMIN-01, ADMIN-02
+**Success Criteria** (what must be TRUE):
+  1. Admins can view and manage all users, tasks, and transactions.
+  2. A dashboard displays key growth metrics (GMV, user retention, category distribution).
+**Plans**: TBD
+**UI hint**: yes
+
   ## Progress Table
 
   | Phase | Plans Complete | Status | Completed |
@@ -111,3 +122,4 @@
   | 4. AI Voice Assistant (Magic Box) | 2/2 | Complete    | 2026-04-15 |
   | 5. Trust, Safety & Support | 0/0 | Not started | - |
   | 6. Task Status & Real-time Updates | 4/4 | Complete    | 2026-04-15 |
+| 7. Admin Panel and Analytics | 0/0 | Not started | - |

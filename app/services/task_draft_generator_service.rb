@@ -4,6 +4,12 @@ class TaskDraftGeneratorService
   end
 
   def call
+    return { success: false, error: "File not found" } unless File.exist?(@audio_file_path)
+    return { success: false, error: "File too large (max 10MB)" } if File.size(@audio_file_path) > 10.megabytes
+    
+    allowed_extensions = %w[.mp3 .mp4 .mpeg .mpga .m4a .wav .webm]
+    return { success: false, error: "Invalid file type" } unless allowed_extensions.include?(File.extname(@audio_file_path).downcase)
+
     client = OpenAI::Client.new
 
     # Step 1: Transcribe the audio

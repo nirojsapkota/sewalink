@@ -18,6 +18,32 @@ RSpec.describe TaskDraftGeneratorService, type: :service do
   end
 
   describe '#call' do
+    context 'when file validation fails' do
+      it 'returns error if file does not exist' do
+        service = described_class.new("nonexistent.mp3")
+        result = service.call
+        expect(result[:success]).to eq(false)
+        expect(result[:error]).to eq("File not found")
+      end
+
+      it 'returns error if file is too large' do
+        allow(File).to receive(:size).and_return(11.megabytes)
+        result = service.call
+        expect(result[:success]).to eq(false)
+        expect(result[:error]).to eq("File too large (max 10MB)")
+      end
+
+      it 'returns error if file type is invalid' do
+        invalid_file = Rails.root.join("spec", "fixtures", "files", "sample.txt").to_s
+        File.write(invalid_file, "dummy")
+        service = described_class.new(invalid_file)
+        result = service.call
+        expect(result[:success]).to eq(false)
+        expect(result[:error]).to eq("Invalid file type")
+        File.delete(invalid_file)
+      end
+    end
+
     context 'when OpenAI APIs succeed' do
       let(:transcription_response) { { "text" => "I need a plumber to fix a pipe for 500 rupees" } }
       let(:chat_response_content) do

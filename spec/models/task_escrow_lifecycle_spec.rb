@@ -1,10 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe "Task Escrow Lifecycle", type: :model do
-  # Use non-transactional tests because LedgerManager uses DoubleEntry which might need real DB commits
-  # or careful handling with transactions. Actually, RSpec uses transactions by default.
-  # Let's see if it works with default first.
+RSpec.describe "Task Escrow Lifecycle", type: :model, use_transactional_fixtures: false do
+  # Use non-transactional tests because LedgerManager uses DoubleEntry which requires
+  # being the outermost transaction for locking.
   
+  before(:each) do
+    # Manual cleanup for non-transactional tests
+    PaymentTransaction.destroy_all
+    Bid.destroy_all
+    Task.destroy_all
+    User.destroy_all
+    Category.destroy_all
+    # Clean DoubleEntry tables if possible, or just let it grow during tests
+  end
+
   let(:poster) { create(:user) }
   let(:tasker) { create(:user) }
   let(:category) { create(:category) }
@@ -16,8 +25,9 @@ RSpec.describe "Task Escrow Lifecycle", type: :model do
   end
 
   it "automatically deposits to escrow when payment is completed" do
+    payment = create(:payment_transaction, task: task, amount: task.budget, status: :pending)
     expect {
-      create(:payment_transaction, task: task, amount: task.budget, status: :completed)
+      payment.update!(status: :completed)
     }.to change { DoubleEntry.account(:escrow, scope: task).balance.cents }.from(0).to(1000_00)
   end
 
@@ -30,7 +40,8 @@ RSpec.describe "Task Escrow Lifecycle", type: :model do
   end
 
   it "allows moving to in_progress after payment" do
-    create(:payment_transaction, task: task, amount: task.budget, status: :completed)
+    payment = create(:payment_transaction, task: task, amount: task.budget, status: :pending)
+    payment.update!(status: :completed)
     
     expect {
       task.update!(status: :in_progress)
@@ -38,7 +49,8 @@ RSpec.describe "Task Escrow Lifecycle", type: :model do
   end
 
   it "automatically releases escrow when task is completed" do
-    create(:payment_transaction, task: task, amount: task.budget, status: :completed)
+    payment = create(:payment_transaction, task: task, amount: task.budget, status: :pending)
+    payment.update!(status: :completed)
     task.update!(status: :in_progress)
     
     commission_data = Payments::CommissionCalculator.call(task.budget)

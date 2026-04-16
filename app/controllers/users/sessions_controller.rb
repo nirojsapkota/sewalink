@@ -26,7 +26,14 @@ class Users::SessionsController < Devise::SessionsController
 
   def otp
     @phone = session[:otp_phone]
-    redirect_to new_user_session_path if @phone.blank?
+    if @phone.blank?
+      redirect_to new_user_session_path
+    else
+      if Rails.env.development? || Rails.env.test?
+        @user = User.find_by(phone: @phone)
+        @dev_otp = @user&.current_otp
+      end
+    end
   end
 
   def verify_otp

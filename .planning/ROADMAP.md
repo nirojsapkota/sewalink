@@ -80,34 +80,34 @@
 **Success Criteria** (what must be TRUE):
   1. Tasker can only mark a task as 'Done' when they are within the geofenced perimeter of the task location.
   2. Both parties can leave ratings and text reviews for each other after a task is completed.
-  3. User can access an AI-assisted support chat for immediate help.
-  4. User can upload photos or videos as evidence during a dispute resolution process.
-**Plans**: TBD
-**UI hint**: yes
+  - [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
+  - [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
 
-### Phase 6: Task Status & Real-time Updates
-**Goal**: Implement a granular task lifecycle and real-time UI synchronization to improve marketplace responsiveness.
-**Depends on**: Phase 5
-**Requirements**: TASK-07, TASK-08, TASK-09
-**Success Criteria** (what must be TRUE):
-  1. Poster can manage tasks through various statuses including draft and open.
-  2. New bids and status changes are reflected in real-time across the app using Turbo Streams.
-  3. Posters and Taskers have specific workflow actions (Request Payment, Release Payment).
-  4. Poster dashboard includes a tabbed interface for status-based filtering.
-**Plans**: 4 plans
-- [ ] 06-01-PLAN.md — Setup testing infrastructure and extended task status lifecycle in the model.
-- [ ] 06-02-PLAN.md — Implement controller actions and UI buttons for task status transitions.
-- [ ] 06-03-PLAN.md — Implement real-time UI synchronization and background notifications using Turbo Streams.
-- [ ] 06-04-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
-**UI hint**: yes
+  ## Phase Details
+  ...
+  ### Phase 6: Task Status & Real-time Updates
+  **Goal**: Implement a granular task lifecycle and real-time UI synchronization to improve marketplace responsiveness.
+  **Depends on**: Phase 5
+  **Requirements**: TASK-07, TASK-08, TASK-09
+  **Success Criteria** (what must be TRUE):
+    1. Poster can manage tasks through various statuses including draft and open.
+    2. New bids and status changes are reflected in real-time across the app using Turbo Streams.
+    3. Posters and Taskers have specific workflow actions (Request Payment, Release Payment).
+    4. Poster dashboard includes a tabbed interface for status-based filtering.
+  **Plans**: 4 plans
+  - [x] 06-01-PLAN.md — Setup testing infrastructure and extended task status lifecycle in the model.
+  - [x] 06-02-PLAN.md — Implement controller actions and UI buttons for task status transitions.
+  - [x] 06-03-PLAN.md — Implement real-time UI synchronization and background notifications using Turbo Streams.
+  - [x] 06-04-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
+  **UI hint**: yes
 
-## Progress Table
+  ## Progress Table
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
-| 2. Task Marketplace Core | 5/5 | Complete   | 2026-04-14 |
-| 3. Payments & Escrow | 5/5 | Complete    | 2026-04-14 |
-| 4. AI Voice Assistant (Magic Box) | 2/2 | Complete    | 2026-04-15 |
-| 5. Trust, Safety & Support | 0/0 | Not started | - |
-| 6. Task Status & Real-time Updates | 0/4 | In progress | - |
+  | Phase | Plans Complete | Status | Completed |
+  |-------|----------------|--------|-----------|
+  | 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
+  | 2. Task Marketplace Core | 5/5 | Complete   | 2026-04-14 |
+  | 3. Payments & Escrow | 5/5 | Complete    | 2026-04-14 |
+  | 4. AI Voice Assistant (Magic Box) | 2/2 | Complete    | 2026-04-15 |
+  | 5. Trust, Safety & Support | 0/0 | Not started | - |
+  | 6. Task Status & Real-time Updates | 4/4 | Complete    | 2026-04-15 |

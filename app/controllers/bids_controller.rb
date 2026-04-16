@@ -25,7 +25,7 @@ class BidsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @bid.update!(status: :accepted)
-      @task.update!(status: :assigned)
+      @task.update!(status: :assigned, payment_type: @bid.payment_method)
       @task.bids.where.not(id: @bid.id).update_all(status: :rejected)
     end
 
@@ -68,6 +68,6 @@ class BidsController < ApplicationController
   end
 
   def bid_params
-    params.require(:bid).permit(:amount, :message)
+    params.require(:bid).permit(:amount, :message, :payment_method)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_14_043244) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_14_044814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_043244) do
     t.bigint "task_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "payment_method"
     t.index ["status"], name: "index_bids_on_status"
     t.index ["task_id"], name: "index_bids_on_task_id"
     t.index ["user_id"], name: "index_bids_on_user_id"
@@ -152,6 +153,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_043244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "budget_cents", default: 0, null: false
+    t.integer "payment_type"
     t.index ["category_id"], name: "index_tasks_on_category_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end

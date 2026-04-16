@@ -32,6 +32,9 @@ en:
       tasker: "I want to do tasks"
   common:
     cancel: "Cancel"
+  errors:
+    messages:
+      not_authorized: "You are not authorized to perform this action."
   profiles:
     show:
       title: "My Profile"

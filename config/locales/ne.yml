@@ -30,6 +30,9 @@ ne:
     roles:
       poster: "म काम दिन चाहन्छु"
       tasker: "म काम गर्न चाहन्छु"
+  errors:
+    messages:
+      not_authorized: "तपाईं यो कार्य गर्नको लागि अधिकृत हुनुहुन्न।"
   profiles:
     show:
       title: "मेरो प्रोफाइल"
@@ -37,6 +40,8 @@ ne:
     edit:
       title: "प्रोफाइल सम्पादन गर्नुहोस्"
       save: "प्रोफाइल सुरक्षित गर्नुहोस्"
+      success: "प्रोफाइल सफलतापूर्वक सम्पादन गरियो।"
+      failure: "प्रोफाइल सम्पादन गर्न सकिएन।"
     roles:
       poster: "काम दिने (Poster)"
       tasker: "काम गर्ने (Tasker)"

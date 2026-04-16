@@ -1,0 +1,43 @@
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-5 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-6">
+      <%= link_to root_path, class: "text-2xl font-bold text-blue-600" do %>
+        sewaLink
+      <% end %>
+
+      <div class="hidden md:flex space-x-4">
+        <%= link_to t('language.english'), url_for(locale: :en), class: "text-sm text-gray-600 hover:text-blue-600" %>
+        <%= link_to t('language.nepali'), url_for(locale: :ne), class: "text-sm text-gray-600 hover:text-blue-600" %>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <% if user_signed_in? %>
+        <% target_role = current_user.poster? ? 'tasker' : 'poster' %>
+        <%= button_to toggle_role_profile_path, method: :patch, class: "flex items-center space-x-2 bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-100" do %>
+          <span class="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          <span><%= t("profiles.roles.#{current_user.active_role}") %></span>
+          <span class="text-gray-400">|</span>
+          <span class="text-xs text-blue-500"><%= t("profiles.roles.toggle", role: t("profiles.roles.#{target_role}")) %></span>
+        <% end %>
+
+        <div class="flex items-center space-x-3">
+          <%= link_to profile_path, class: "text-sm text-gray-700 hover:text-blue-600" do %>
+            <%= t("profiles.show.title") %>
+          <% end %>
+          <%= button_to destroy_user_session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-700" do %>
+            <%= t("logout") %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= link_to t("login"), new_user_session_path, class: "text-sm font-medium text-blue-600 hover:text-blue-700" %>
+        <%= link_to t("register"), new_user_registration_path, class: "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="md:hidden bg-gray-50 px-5 py-2 flex justify-center space-x-6 border-t border-gray-100">
+    <%= link_to t('language.english'), url_for(locale: :en), class: "text-xs text-gray-500" %>
+    <%= link_to t('language.nepali'), url_for(locale: :ne), class: "text-xs text-gray-500" %>
+  </div>
+</nav>

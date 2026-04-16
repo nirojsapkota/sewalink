@@ -70,3 +70,8 @@ group :test do
 end
 
 gem "rails-i18n", "~> 7.0"
+
+gem "devise", "~> 4.9"
+gem "devise-two-factor", "~> 6.0"
+gem "rack-attack", "~> 6.8"
+gem "rotp", "~> 6.3"

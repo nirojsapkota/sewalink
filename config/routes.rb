@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'tasker_dashboard', to: 'tasker_dashboard#index', as: :tasker_dashboard
+  resource :poster_dashboard, only: [:show], module: :posters, controller: :dashboards
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }

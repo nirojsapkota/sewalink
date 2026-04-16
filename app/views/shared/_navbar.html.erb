@@ -8,7 +8,7 @@
       <div class="hidden md:flex space-x-4 items-center">
         <% if user_signed_in? %>
           <% if current_user.poster? %>
-            <%= link_to t("dashboards.poster.title"), tasks_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]" %>
+            <%= link_to t("dashboards.poster.title"), poster_dashboard_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]" %>
             <%= link_to t("tasks.new.title"), new_task_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]" %>
           <% else %>
             <%= link_to t("tasks.index.find_tasks"), tasks_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]" %>

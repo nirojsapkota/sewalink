@@ -6,132 +6,31 @@
 - [x] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle. (completed 2026-04-14)
 - [x] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts. (completed 2026-04-14)
 - [x] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers. (completed 2026-04-15)
-- [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and AI-assisted dispute resolution.
+- [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and secure messaging.
 - [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
 - [ ] **Phase 7: Admin Panel and Analytics** - Admin dashboard for platform oversight and growth analytics.
 - [ ] **Phase 8: Real-time AI Chat (Gemini Live)** - Replace magic box with true streaming bidirectional AI chat for task creation.
 
 ## Phase Details
 
-### Phase 1: Foundation & Identity
-**Goal**: Users can securely register and manage their bilingual profiles.
-**Depends on**: Nothing
-**Requirements**: AUTH-01, AUTH-02, AUTH-04, AUTH-05
-**Success Criteria** (what must be TRUE):
-  1. User can sign up and log in using a phone number and SMS OTP.
-  2. User can toggle the entire interface between Nepali and English languages.
-  3. User can update their profile information (name, bio, picture).
-  4. User can optionally log in with email/password after initial setup.
-**Plans**: 3 plans
-- [x] 01-01-PLAN.md — Initialize Rails app and establish bilingual foundation.
-- [x] 01-02-PLAN.md — Implement core SMS OTP and secondary email authentication.
-- [x] 01-03-PLAN.md — Implement user profiles and onboarding wizard.
-**UI hint**: yes
-
-### Phase 2: Task Marketplace Core
-**Goal**: Users can post, browse, and assign tasks to build the core marketplace loop.
-**Depends on**: Phase 1
-**Requirements**: AUTH-03, TASK-01, TASK-03, TASK-04, TASK-05, TASK-06
-**Success Criteria** (what must be TRUE):
-  1. User can switch between 'Poster' and 'Tasker' roles.
-  2. Poster can create a rich task listing with title, description, budget, location, and photos.
-  3. Tasker can browse and filter tasks by category, budget, and proximity.
-  4. Tasker can place a bid on a task, and Poster can assign the task to a chosen bidder.
-**Plans**: 5 plans
-- [x] 02-01-PLAN.md — Setup infrastructure (Geocoder, Pundit) and Implement Role Switcher UI.
-- [x] 02-02-PLAN.md — Implement Task Posting flow with photo attachments and geocoding.
-- [x] 02-03-PLAN.md — Implement Tasker browsing experience with proximity and category filters.
-- [x] 02-04-PLAN.md — Implement Bidding system with blind-bidding privacy logic.
-- [x] 02-05-PLAN.md — Implement Task Assignment logic and real-time status updates.
-**UI hint**: yes
-
-### Phase 3: Payments & Escrow
-**Goal**: Secure digital payments and automated platform monetization.
-**Depends on**: Phase 2
-**Requirements**: PAY-01, PAY-02, PAY-03, PAY-04
-**Success Criteria** (what must be TRUE):
-  1. Poster can securely deposit funds into escrow using eSewa.
-  2. Platform automatically calculates and tracks commission fees for every digital transaction.
-  3. Tasker can view their earned balance and request payouts.
-  4. Poster and Tasker can agree on and record Cash-on-Completion payments.
-**Plans**: 5 plans
-- [x] 03-01-PLAN.md — Establish financial infrastructure with DoubleEntry and Money-rails.
-- [x] 03-02-PLAN.md — Integrate eSewa v2 Gateway for secure digital deposits.
-- [x] 03-03-PLAN.md — Implement Digital Escrow lifecycle from deposit to automated release.
-- [x] 03-04-PLAN.md — Implement Cash-on-Completion support with negative balance commission tracking.
-- [x] 03-05-PLAN.md — Implement Tasker Wallet view and Payout request system.
-**UI hint**: yes
-
-### Phase 4: AI Voice Assistant (Magic Box)
-**Goal**: Lower the barrier to entry for non-tech-literate users through voice-to-task automation.
-**Depends on**: Phase 2
-**Requirements**: TASK-02
-**Success Criteria** (what must be TRUE):
-  1. User can record a voice note in the app to describe a task.
-  2. System automatically extracts task details (title, description, budget) and creates a draft.
-  3. User can review the AI-generated draft and publish the task.
-**Plans**: 2 plans
-- [x] 04-01-PLAN.md — Setup OpenAI integration and create TaskDraftGeneratorService.
-- [x] 04-02-PLAN.md — Implement VoiceTasks API endpoint and Magic Box UI in task creation form.
-**UI hint**: yes
+... (Phase 1-4) ...
 
 ### Phase 5: Trust, Safety & Support
 **Goal**: Ensure job quality, verify completion, and provide a safety net for users.
 **Depends on**: Phase 3
-**Requirements**: SAFE-01, SAFE-02, SAFE-03, SAFE-04
+**Requirements**: SAFE-01, SAFE-02, SAFE-04, SAFE-05, SAFE-06
 **Success Criteria** (what must be TRUE):
   1. Tasker can only mark a task as 'Done' when they are within the geofenced perimeter of the task location.
   2. Both parties can leave ratings and text reviews for each other after a task is completed.
-**Plans**: TBD
+  3. In-app messaging protects user privacy through content filtering and contact masking.
+**Plans**: 7 plans
+- [ ] 05-00-PLAN.md — Bootstrap Phase 5 testing infrastructure for Nyquist compliance.
+- [ ] 05-01-PLAN.md — Implement geofencing model logic and mandatory completion photo.
+- [ ] 05-01.1-PLAN.md — Implement geolocation Stimulus controller and UI status indicators.
+- [ ] 05-02-PLAN.md — Implement a blind review system for biased-free feedback.
+- [ ] 05-03-PLAN.md — Establish secure messaging infrastructure with PII filtering.
+- [ ] 05-04-PLAN.md — Implement real-time messaging UI with Turbo Streams.
+- [ ] 05-05-PLAN.md — Implement contact masking UI and dispute evidence submission.
 **UI hint**: yes
 
-### Phase 6: Task Status & Real-time Updates
-  **Goal**: Implement a granular task lifecycle and real-time UI synchronization to improve marketplace responsiveness.
-  **Depends on**: Phase 5
-  **Requirements**: TASK-07, TASK-08, TASK-09
-  **Success Criteria** (what must be TRUE):
-    1. Poster can manage tasks through various statuses including draft and open.
-    2. New bids and status changes are reflected in real-time across the app using Turbo Streams.
-    3. Posters and Taskers have specific workflow actions (Request Payment, Release Payment).
-    4. Poster dashboard includes a tabbed interface for status-based filtering.
-  **Plans**: 4 plans
-  - [x] 06-01-PLAN.md — Setup testing infrastructure and extended task status lifecycle in the model.
-  - [x] 06-02-PLAN.md — Implement controller actions and UI buttons for task status transitions.
-  - [x] 06-03-PLAN.md — Implement real-time UI synchronization and background notifications using Turbo Streams.
-  - [x] 06-04-PLAN.md — Refine the Poster dashboard with status filtering and enhance UX.
-  **UI hint**: yes
-
-### Phase 7: Admin Panel and Analytics
-**Goal**: Provide platform administrators with tools to oversee the marketplace and analyze growth.
-**Depends on**: Phase 6
-**Requirements**: ADMIN-01, ADMIN-02
-**Success Criteria** (what must be TRUE):
-  1. Admins can view and manage all users, tasks, and transactions.
-  2. A dashboard displays key growth metrics (GMV, user retention, category distribution).
-**Plans**: TBD
-**UI hint**: yes
-
-### Phase 8: Real-time AI Chat (Gemini Live)
-**Goal**: Implement a production-ready, real-time bidirectional AI chat for task creation using Gemini Live API patterns.
-**Depends on**: Phase 4, Phase 6
-**Requirements**: TASK-10
-**Success Criteria** (what must be TRUE):
-  1. Users can interact with the AI via real-time streaming chat (ActionCable).
-  2. AI asks for all required task inputs (title, description, budget, category) in natural language.
-  3. AI successfully creates a task in the database after gathering all details.
-  4. Supports multi-turn context and mid-stream interruption.
-**Plans**: TBD
-**UI hint**: yes
-
-  ## Progress Table
-
-  | Phase | Plans Complete | Status | Completed |
-  |-------|----------------|--------|-----------|
-  | 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
-  | 2. Task Marketplace Core | 5/5 | Complete   | 2026-04-14 |
-  | 3. Payments & Escrow | 5/5 | Complete    | 2026-04-14 |
-  | 4. AI Voice Assistant (Magic Box) | 2/2 | Complete    | 2026-04-15 |
-  | 5. Trust, Safety & Support | 0/0 | Not started | - |
-  | 6. Task Status & Real-time Updates | 4/4 | Complete    | 2026-04-15 |
-| 7. Admin Panel and Analytics | 0/0 | Not started | - |
-| 8. Real-time AI Chat (Gemini Live) | 0/0 | Not started | - |
+... (Phase 6-8) ...

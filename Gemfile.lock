@@ -121,6 +121,7 @@ GEM
       devise (>= 4.0, < 5.0)
       railties (>= 7.0, < 8.2)
       rotp (~> 6.0)
+    diff-lcs (1.6.2)
     double_entry (1.0.1)
       activerecord (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -311,6 +312,23 @@ GEM
       railties (>= 7.0)
     rexml (3.4.4)
     rotp (6.3.0)
+    rspec-core (3.13.6)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.8)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-rails (7.1.1)
+      actionpack (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      rspec-core (~> 3.13)
+      rspec-expectations (~> 3.13)
+      rspec-mocks (~> 3.13)
+      rspec-support (~> 3.13)
+    rspec-support (3.13.7)
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
@@ -401,6 +419,7 @@ DEPENDENCIES
   rails (~> 7.1.2)
   rails-i18n (~> 7.0)
   rotp (~> 6.3)
+  rspec-rails
   selenium-webdriver
   sprockets-rails
   stimulus-rails

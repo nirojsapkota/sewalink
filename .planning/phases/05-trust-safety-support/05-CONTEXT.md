@@ -26,9 +26,14 @@ This phase delivers the physical, social, and communication integrity layer of s
 - **D-08: Window:** A **14-day window** is established for leaving reviews post-completion.
 
 ### Communication & Privacy
-- **D-12: Bid-Linked Messaging:** A private 1-to-1 chat thread is automatically initialized when a `Bid` is created. The bid's initial message becomes the first message in the chat.
+- **D-12: Bid-Linked Messaging:** A private 1-to-1 chat thread is automatically initialized when a `Bid` is created.
+- **D-15: Chat Lifecycle:** 
+    1. **Bidding Stage:** Poster can chat privately with each bidder.
+    2. **Assignment:** Non-assigned bidder chats are archived/hidden.
+    3. **Active Stage:** Coordination continues for the assigned tasker.
+    4. **Completion:** Chat remains open for 14 days post-completion (matching review window), then becomes **Read-Only**.
 - **D-13: Contact Masking:** User phone numbers and email addresses are **strictly hidden** in the UI (profiles, task views, and chat) until the task status is `assigned`. 
-- **D-14: Messaging Scope:** Chat remains active from the moment a bid is placed until 14 days after the task is `completed` (matching the review window).
+- **D-14: Messaging Scope:** Chat remains active from the moment a bid is placed until 14 days after the task is `completed`.
 
 ### Evidence & Disputes
 - **D-09: Mandatory Completion Photo:** Taskers **must** take/upload a photo while on-site to verify completion before the `completed` status can be saved.

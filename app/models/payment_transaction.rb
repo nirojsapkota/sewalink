@@ -22,9 +22,17 @@ class PaymentTransaction < ApplicationRecord
     end
   end
 
+  after_commit :deposit_to_escrow_if_completed, on: :update
+
   before_validation :generate_transaction_uuid, on: :create
 
   private
+
+  def deposit_to_escrow_if_completed
+    return unless saved_change_to_status? && completed?
+
+    Payments::LedgerManager.deposit_to_escrow(task)
+  end
 
   def generate_transaction_uuid
     self.transaction_uuid ||= SecureRandom.uuid

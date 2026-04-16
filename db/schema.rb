@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_14_044814) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_14_050111) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -141,6 +141,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_044814) do
     t.index ["transaction_uuid"], name: "index_payment_transactions_on_transaction_uuid", unique: true
   end
 
+  create_table "payout_requests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "amount_cents"
+    t.string "status"
+    t.text "payment_details"
+    t.text "rejection_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_payout_requests_on_user_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
@@ -175,6 +186,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_044814) do
     t.text "bio"
     t.string "locale"
     t.boolean "onboarded", default: false, null: false
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -185,6 +197,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_14_044814) do
   add_foreign_key "bids", "tasks"
   add_foreign_key "bids", "users"
   add_foreign_key "payment_transactions", "tasks"
+  add_foreign_key "payout_requests", "users"
   add_foreign_key "tasks", "categories"
   add_foreign_key "tasks", "users"
 end

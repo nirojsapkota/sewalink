@@ -1,29 +1,39 @@
-<h2>Sign up</h2>
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-6 text-center"><%= t('register') %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "users/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <div class="mb-4">
+      <%= f.label :phone, t('auth.phone'), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :phone, autofocus: true, placeholder: "98XXXXXXXX", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
+      <p class="mt-1 text-xs text-gray-500 italic">Example: 9812345678</p>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :email, t('auth.email'), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, autocomplete: "email", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :password, t('auth.password'), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
+      <% if @minimum_password_length %>
+        <p class="mt-1 text-xs text-gray-500 italic">(<%= @minimum_password_length %> <%= t('auth.characters_minimum', default: 'characters minimum') %>)</p>
+      <% end %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :password_confirmation, t('auth.password_confirmation', default: 'Confirm Password'), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-[#7C3AED] focus:border-[#7C3AED]" %>
+    </div>
+
+    <div class="mt-6">
+      <%= f.submit t('register'), class: "w-full bg-[#7C3AED] text-white p-2 rounded-md hover:bg-[#6D28D9]" %>
+    </div>
+  <% end %>
+
+  <div class="mt-6 text-center">
+    <%= render "users/shared/links" %>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

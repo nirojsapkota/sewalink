@@ -35,9 +35,13 @@ class Task < ApplicationRecord
   private
 
   def release_escrow_if_completed
-    return unless saved_change_to_status? && completed? && esewa?
+    return unless saved_change_to_status? && completed?
 
-    Payments::LedgerManager.release_from_escrow(self)
+    if esewa?
+      Payments::LedgerManager.release_from_escrow(self)
+    elsif cash?
+      Payments::LedgerManager.record_cash_commission(self)
+    end
   end
 
   def must_have_payment_for_digital_task

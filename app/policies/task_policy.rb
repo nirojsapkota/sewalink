@@ -19,6 +19,10 @@ class TaskPolicy < ApplicationPolicy
     record.user == user
   end
 
+  def start?
+    record.tasker == user && record.assigned?
+  end
+
   def edit?
     update?
   end

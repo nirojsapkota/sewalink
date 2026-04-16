@@ -38,4 +38,14 @@ class User < ApplicationRecord
   def will_save_change_to_email?
     false
   end
+
+  def balance
+    DoubleEntry.account(:tasker_balance, scope: self).balance
+  rescue DoubleEntry::UnknownAccount
+    Money.new(0, 'NPR')
+  end
+
+  def can_bid?
+    balance >= Money.new(-500_00, 'NPR') # -500 NPR threshold
+  end
 end

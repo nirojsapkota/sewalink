@@ -2,7 +2,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundation & Identity** - SMS-based authentication and bilingual user profiles.
+- [x] **Phase 1: Foundation & Identity** - SMS-based authentication and bilingual user profiles. (completed 2026-04-13)
 - [ ] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle.
 - [ ] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts.
 - [ ] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers.
@@ -20,9 +20,9 @@
   3. User can update their profile information (name, bio, picture).
   4. User can optionally log in with email/password after initial setup.
 **Plans**: 3 plans
-- [ ] 01-01-PLAN.md — Initialize Rails app and establish bilingual foundation.
-- [ ] 01-02-PLAN.md — Implement core SMS OTP and secondary email authentication.
-- [ ] 01-03-PLAN.md — Implement user profiles and onboarding wizard.
+- [x] 01-01-PLAN.md — Initialize Rails app and establish bilingual foundation.
+- [x] 01-02-PLAN.md — Implement core SMS OTP and secondary email authentication.
+- [x] 01-03-PLAN.md — Implement user profiles and onboarding wizard.
 **UI hint**: yes
 
 ### Phase 2: Task Marketplace Core
@@ -76,7 +76,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Identity | 0/3 | Not started | - |
+| 1. Foundation & Identity | 3/3 | Complete    | 2026-04-13 |
 | 2. Task Marketplace Core | 0/0 | Not started | - |
 | 3. Payments & Escrow | 0/0 | Not started | - |
 | 4. AI Voice Assistant (Magic Box) | 0/0 | Not started | - |

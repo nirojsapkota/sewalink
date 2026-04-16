@@ -25,5 +25,10 @@ module SewaLink
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.available_locales = [:en, :ne]
     config.i18n.default_locale = :en
+
+    # ActiveRecord Encryption fallbacks for development
+    config.active_record.encryption.primary_key = "test_primary_key_must_be_32_chars_!!!"
+    config.active_record.encryption.deterministic_key = "test_deterministic_key_must_be_32"
+    config.active_record.encryption.key_derivation_salt = "test_salt_must_be_32_chars_!!!"
   end
 end

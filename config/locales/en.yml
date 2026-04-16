@@ -30,6 +30,8 @@ en:
     roles:
       poster: "I need help with tasks"
       tasker: "I want to do tasks"
+  common:
+    cancel: "Cancel"
   profiles:
     show:
       title: "My Profile"
@@ -37,6 +39,10 @@ en:
     edit:
       title: "Edit Profile"
       save: "Save Profile"
+    update:
+      success: "Profile updated successfully."
+    toggle_role:
+      failure: "Could not switch roles."
     roles:
       poster: "Poster"
       tasker: "Tasker"

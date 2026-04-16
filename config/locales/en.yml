@@ -18,3 +18,26 @@ en:
     resend_otp: "Resend Code"
     otp: "OTP Code"
     submit: "Log in"
+  onboarding:
+    title: "Complete your profile"
+    step_1: "What's your name?"
+    step_2: "Preferred language"
+    step_3: "Your role"
+    next: "Next"
+    finish: "Finish"
+    show:
+      success: "Your profile is ready!"
+    roles:
+      poster: "I need help with tasks"
+      tasker: "I want to do tasks"
+  profiles:
+    show:
+      title: "My Profile"
+      edit: "Edit Profile"
+    edit:
+      title: "Edit Profile"
+      save: "Save Profile"
+    roles:
+      poster: "Poster"
+      tasker: "Tasker"
+      toggle: "Switch to %{role}"

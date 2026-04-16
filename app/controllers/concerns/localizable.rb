@@ -16,8 +16,8 @@ module Localizable
     # Order of priority:
     # 1. URL parameter (?locale=ne)
     # 2. Session value
-    # 3. User preference (once User model exists)
-    parsed_locale = params[:locale] || session[:locale] || (current_user&.preferred_locale if defined?(current_user))
+    # 3. User preference
+    parsed_locale = params[:locale] || session[:locale] || current_user&.locale
     
     # Mitigate tampering (T-01-01-01) by validating against available locales
     if I18n.available_locales.map(&:to_s).include?(parsed_locale.to_s)

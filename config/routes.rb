@@ -8,6 +8,11 @@ Rails.application.routes.draw do
     post 'users/verify_otp', to: 'users/sessions#verify_otp', as: :verify_otp
   end
 
+  resource :onboarding, only: [:show, :update], controller: 'onboarding'
+  resource :profile, only: [:show, :edit, :update], controller: 'profiles' do
+    patch :toggle_role
+  end
+
   root "home#index"
   get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

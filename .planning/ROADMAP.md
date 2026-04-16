@@ -19,7 +19,10 @@
   2. User can toggle the entire interface between Nepali and English languages.
   3. User can update their profile information (name, bio, picture).
   4. User can optionally log in with email/password after initial setup.
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 01-01-PLAN.md — Initialize Rails app and establish bilingual foundation.
+- [ ] 01-02-PLAN.md — Implement core SMS OTP and secondary email authentication.
+- [ ] 01-03-PLAN.md — Implement user profiles and onboarding wizard.
 **UI hint**: yes
 
 ### Phase 2: Task Marketplace Core
@@ -73,7 +76,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Identity | 0/0 | Not started | - |
+| 1. Foundation & Identity | 0/3 | Not started | - |
 | 2. Task Marketplace Core | 0/0 | Not started | - |
 | 3. Payments & Escrow | 0/0 | Not started | - |
 | 4. AI Voice Assistant (Magic Box) | 0/0 | Not started | - |

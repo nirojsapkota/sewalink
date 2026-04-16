@@ -1,12 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["status", "title", "description", "budget", "categoryId", "trigger"]
+  static targets = ["status", "title", "description", "budget", "categoryId", "trigger", "aiQuestion", "aiQuestionContainer"]
 
   connect() {
     this.isRecording = false
     this.mediaRecorder = null
     this.audioChunks = []
+    
+    // Reset conversation on page load and form submission
+    this.resetConversation()
+    
+    const form = this.element.querySelector('form')
+    if (form) {
+      form.addEventListener('submit', () => this.resetConversation())
+    }
   }
 
   async toggleRecording(event) {
@@ -47,7 +55,7 @@ export default class extends Controller {
       this.mediaRecorder.start()
       this.isRecording = true
       this.updateStatus("Recording... Click again to stop.")
-      this.element.classList.add("recording")
+      this.triggerTarget.classList.add("recording")
     } catch (err) {
       console.error("Error accessing microphone:", err)
       alert("Could not access microphone. Please check permissions.")
@@ -59,7 +67,7 @@ export default class extends Controller {
       this.mediaRecorder.stop()
       this.isRecording = false
       this.updateStatus("Processing... Please wait.")
-      this.element.classList.remove("recording")
+      this.triggerTarget.classList.remove("recording")
     }
   }
 
@@ -84,23 +92,64 @@ export default class extends Controller {
 
       const data = await response.json()
       
-      if (this.hasTitleTarget && data.title) {
-        this.titleTarget.value = data.title
-      }
-      if (this.hasDescriptionTarget && data.description) {
-        this.descriptionTarget.value = data.description
-      }
-      if (this.hasBudgetTarget && data.budget) {
-        this.budgetTarget.value = data.budget
-      }
-      if (this.hasCategoryIdTarget && data.category_id) {
-        this.categoryIdTarget.value = data.category_id
-      }
+      this.fillForm(data)
       
-      this.updateStatus("Task details successfully generated from voice!")
+      if (data.next_question) {
+        this.displayAIQuestion(data.next_question)
+        this.updateStatus("I need a few more details. Click to respond!")
+      } else {
+        this.hideAIQuestion()
+        this.updateStatus("Task details successfully generated!")
+      }
     } catch (error) {
       console.error("Error uploading audio:", error)
       this.updateStatus("Error processing audio. Please try again.")
+    }
+  }
+
+  fillForm(data) {
+    if (this.hasTitleTarget && data.title) {
+      this.titleTarget.value = data.title
+    }
+    if (this.hasDescriptionTarget && data.description) {
+      this.descriptionTarget.value = data.description
+    }
+    if (this.hasBudgetTarget && data.budget) {
+      this.budgetTarget.value = data.budget
+    }
+    if (this.hasCategoryIdTarget && data.category_id) {
+      this.categoryIdTarget.value = data.category_id
+    }
+  }
+
+  displayAIQuestion(question) {
+    if (this.hasAiQuestionTarget && this.hasAiQuestionContainerTarget) {
+      this.aiQuestionTarget.textContent = question
+      this.aiQuestionContainerTarget.classList.remove("hidden")
+    }
+  }
+
+  hideAIQuestion() {
+    if (this.hasAiQuestionContainerTarget) {
+      this.aiQuestionContainerTarget.classList.add("hidden")
+    }
+  }
+
+  async resetConversation(event) {
+    if (event) event.preventDefault()
+    
+    this.hideAIQuestion()
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+    
+    try {
+      await fetch("/api/voice_tasks/reset", {
+        method: "DELETE",
+        headers: {
+          "X-CSRF-Token": csrfToken
+        }
+      })
+    } catch (error) {
+      console.error("Error resetting conversation:", error)
     }
   }
 

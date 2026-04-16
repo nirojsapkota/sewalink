@@ -56,7 +56,12 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :voice_tasks, only: [:create]
+    resources :voice_tasks, only: [:create] do
+      collection do
+        delete :reset
+      end
+    end
+    resources :assistant, only: [:create]
   end
 
   root "home#index"

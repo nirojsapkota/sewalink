@@ -58,6 +58,34 @@
     </div>
   </section>
 
+  <%# Magic Home Assistant Section %>
+  <section class="max-w-7xl mx-auto px-5 py-12" data-controller="voice-assistant">
+    <div class="bg-gradient-to-br from-[#7C3AED] to-[#4C1D95] rounded-[3rem] p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden group">
+      <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+      
+      <div class="relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Talk to sewaLink</h2>
+        <p class="text-indigo-100 text-lg mb-8 max-w-2xl mx-auto">
+          "Find me a plumber", "I need someone to clean my house", or "Show my dashboard".
+          Just tap and speak!
+        </p>
+
+        <button 
+          data-action="click->voice-assistant#toggleRecording"
+          data-voice-assistant-target="trigger"
+          class="inline-flex items-center justify-center w-24 h-24 bg-white text-[#7C3AED] rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 focus:outline-none ring-8 ring-white/20 group-[.recording]:ring-[#22C55E]/50 group-[.recording]:text-[#22C55E]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 group-[.recording]:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+          </svg>
+        </button>
+
+        <p data-voice-assistant-target="status" class="mt-6 text-sm font-bold tracking-widest uppercase text-indigo-200">
+          Tap to start
+        </p>
+      </div>
+    </div>
+  </section>
+
   <%# How it Works Section %>
   <section class="bg-white py-20">
     <div class="max-w-7xl mx-auto px-5">

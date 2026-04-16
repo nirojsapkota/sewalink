@@ -1,6 +1,7 @@
 class TaskDraftGeneratorService
-  def initialize(audio_file_path)
+  def initialize(audio_file_path, history: [])
     @audio_file_path = audio_file_path
+    @history = history
   end
 
   def call
@@ -21,46 +22,54 @@ class TaskDraftGeneratorService
     )
     
     transcript = transcription_response["text"]
+    @history << { role: "user", content: transcript }
 
-    # Step 2: Extract structured data using GPT
+    # Step 2: Extract structured data using GPT with history
     categories = Category.all.pluck(:id, :name_en).map { |id, name| { id: id, name: name } }
     
     prompt = <<~PROMPT
-      You are an assistant that extracts task details from a transcript.
-      The transcript is a user describing a task they need done.
+      You are an assistant that extracts task details from a conversational transcript.
+      The user is describing a task they need done. They might provide information across multiple turns.
       
       Extract the following information:
-      - title: A short, descriptive title for the task (string)
-      - description: A detailed description based on the transcript (string)
-      - budget: The budget mentioned in the transcript (integer). If no budget is mentioned, leave as null.
-      - category_id: Infer the best matching category from the following list and provide its ID.
+      - title: A short, descriptive title for the task (string or null)
+      - description: A detailed description based on the transcript (string or null)
+      - budget: The budget mentioned (integer or null).
+      - category_id: Infer the best matching category from the list and provide its ID (integer or null).
+      - next_question: If any of the above fields are missing or unclear, provide a polite question in the user's likely language (English or Nepali) to ask for that specific detail. If everything is clear, leave as null.
       
       Available Categories:
       #{categories.to_json}
       
-      Respond STRICTLY in JSON format with the keys: "title", "description", "budget", "category_id".
+      Respond STRICTLY in JSON format with keys: "title", "description", "budget", "category_id", "next_question".
     PROMPT
+
+    messages = [
+      { role: "system", content: prompt }
+    ] + @history.last(10) # Keep last 10 messages for context
 
     chat_response = client.chat(
       parameters: {
         model: "gpt-4o-mini",
         response_format: { type: "json_object" },
-        messages: [
-          { role: "system", content: prompt },
-          { role: "user", content: transcript }
-        ]
+        messages: messages
       }
     )
 
     parsed_content = JSON.parse(chat_response.dig("choices", 0, "message", "content"))
+    
+    # Add assistant response to history
+    @history << { role: "assistant", content: chat_response.dig("choices", 0, "message", "content") }
 
     {
       success: true,
+      history: @history,
       data: {
         title: parsed_content["title"],
         description: parsed_content["description"],
         budget: parsed_content["budget"]&.to_i,
-        category_id: parsed_content["category_id"]
+        category_id: parsed_content["category_id"],
+        next_question: parsed_content["next_question"]
       }
     }
   rescue StandardError => e

@@ -68,6 +68,7 @@ Plan: 0
 
 ### Pending Todos
 
+- Fix blank task detail page and hide locale param from URLs (ui)
 - Fix Resend Code link on login screen (auth)
 - Implement two-way AI communication for task posting (ai)
 - Implement voice-interactive home screen for global task management (ui)

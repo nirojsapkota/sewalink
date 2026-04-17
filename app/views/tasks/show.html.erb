@@ -7,7 +7,7 @@
 
     <%= render @task %>
 
-    <% if current_user.tasker? && @task.assigned_tasker == current_user %>
+    <% if current_user.tasker? && @task.tasker == current_user %>
       <div data-controller="geolocation"
            data-geolocation-task-id-value="<%= @task.id %>"
            data-geolocation-task-latitude-value="<%= @task.latitude %>"

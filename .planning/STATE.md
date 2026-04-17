@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 6 Complete, Ready for Phase 5
-last_updated: "2026-04-17T06:47:40.773Z"
+status: Phase 5/6 Complete (Messaging UI needs polish)
+last_updated: "2026-04-17T11:00:00.000Z"
 progress:
   total_phases: 1
   completed_phases: 0
@@ -17,17 +17,18 @@ progress:
 ## Project Reference
 
 **Core Value**: Mobile-first service marketplace for Nepal, trust-focused, AI-assisted, localized payments.
-**Current Focus**: Trust, Safety & Support (Phase 5).
+**Current Focus**: Admin Panel and Analytics (Phase 7).
 
 ## Current Position
 
-Phase: 5
-Plan: 1
-**Phase**: 05-trust-safety-support
-**Plan**: 05-01-PLAN.md
-**Status**: COMPLETED
+Phase: 7
+Plan: 0
+**Phase**: 07-admin-panel-and-analytics
+**Plan**: RESEARCH.md
+**Status**: IN_PROGRESS
 **Progress**: 
 [████████████████████] 100% (Phase 4)
+[████████████████████] 100% (Phase 5 - Cavities in Messaging UI)
 [████████████████████] 100% (Phase 6)
 [░░░░░░░░░░░░░░░░░░░░] 0% (Phase 7)
 [░░░░░░░░░░░░░░░░░░░░] 0% (Phase 8)
@@ -37,15 +38,9 @@ Plan: 1
 - **Phase Velocity**: 5 plans/day
 - **Plan Velocity**: 1 plan/hour
 - **Total v1 Requirements**: 21
-- **Requirements Completed**: 14 (67%)
+- **Requirements Completed**: 17 (81%)
 
 ## Accumulated Context
-
-### Roadmap Evolution
-
-- Phase 6 added: Add ability to set the tasks statuses, add Hotwire turbo stream when job status changes for poster and tasker
-- Phase 7 added: Admin Panel and Analytics for platform oversight.
-- Phase 8 added: Real-time AI Chat (Gemini Live) to replace magic box with true streaming bidirectional AI chat.
 
 ### Decisions
 
@@ -56,23 +51,29 @@ Plan: 1
 - Negative balance threshold (-500 NPR) for Cash-on-Completion debt tracking.
 - [Phase 04]: Used gpt-4o-mini with json_object format for structured parsing.
 - [Phase 04]: Implemented strict file extension and size validation before sending to OpenAI.
+- [Phase 05]: Implemented real-time chat using Turbo Streams with synchronous broadcasts.
+- [Phase 05]: Used a Stimulus `ChatController` with `MutationObserver` to handle client-side styling and unmasking.
+- [Phase 05]: Established a formal dispute evidence submission flow using Active Storage (SAFE-04).
 
 ### Success Markers
 
-- eSewa v2 integration with server-to-server verification complete.
-- Digital escrow lifecycle (Deposit -> Escrow -> Release) operational.
-- Cash-on-Completion recording and commission debt tracking implemented.
-- Tasker Wallet UI with balance and transaction history functional.
-- Payout Request system with admin approval flow complete.
+- eSewa v2 integration complete.
+- Digital escrow lifecycle operational.
+- Cash-on-Completion and commission debt tracking implemented.
+- Tasker Wallet UI functional.
+- Payout Request system complete.
+- Trust and Safety phase (Phase 5) core logic complete: geofencing, blind reviews, dispute evidence.
 
 ### Blockers / Risks
 
 - eSewa production compliance and merchant onboarding.
-- Scalability of ledger locks under high transaction volume.
+- Messaging UI Reliability: Real-time masking/unmasking sync between client and server remains buggy and needs future polish.
 
 ### Pending Todos
 
-*No pending todos.*
+- Fix Messaging UI: Resolve issues with real-time phone/email masking (ui)
+- Fix Messaging UI: Ensure consistent chat bubble styling across all sessions (ui)
+- Polish Messaging UI: Improve the "Split-View" unmasking logic to be more robust (ui)
 
 ### Completed Todos
 
@@ -80,16 +81,15 @@ Plan: 1
 - Fix Resend Code link on login screen (auth) (2026-04-15)
 - Implement two-way AI communication for task posting (ai) (2026-04-15)
 - Implement voice-interactive home screen for global task management (ui) (2026-04-15)
-- Add ability to mark task as open/draft with Hotwire Stream updates (tooling) (2026-04-15) - *Covered by Phase 6*
+- Add ability to mark task as open/draft with Hotwire Stream updates (tooling) (2026-04-15)
 
 ## Session Continuity
 
 ### Current Session Goals
 
-- [x] Finalize Phase 3 Payments & Escrow.
-- [x] Verify all Phase 3 requirements (PAY-01, PAY-02, PAY-03, PAY-04).
+- [x] Finalize Phase 5 Trust, Safety & Support (moved UI issues to Todo).
+- [ ] Bootstrap Phase 7 Admin Panel.
 
 ### Next Session
 
-- Phase 4: AI Voice Assistant (Magic Box).
-- Implement voice-to-task creation using OpenAI Whisper or similar.
+- Phase 7: Admin Panel implementation.

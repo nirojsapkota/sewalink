@@ -24,10 +24,10 @@
   2. Both parties can leave ratings and text reviews for each other after a task is completed.
   3. In-app messaging protects user privacy through content filtering and contact masking.
 **Plans**: 7 plans
-- [ ] 05-00-PLAN.md — Bootstrap Phase 5 testing infrastructure for Nyquist compliance.
-- [ ] 05-01-PLAN.md — Implement geofencing model logic and mandatory completion photo.
-- [ ] 05-01.1-PLAN.md — Implement geolocation Stimulus controller and UI status indicators.
-- [ ] 05-02-PLAN.md — Implement a blind review system for biased-free feedback.
+- [x] 05-00-PLAN.md — Bootstrap Phase 5 testing infrastructure for Nyquist compliance.
+- [x] 05-01-PLAN.md — Implement geofencing model logic and mandatory completion photo.
+- [x] 05-01.1-PLAN.md — Implement geolocation Stimulus controller and UI status indicators.
+- [x] 05-02-PLAN.md — Implement a blind review system for biased-free feedback.
 - [ ] 05-03-PLAN.md — Establish secure messaging infrastructure with PII filtering.
 - [ ] 05-04-PLAN.md — Implement real-time messaging UI with Turbo Streams.
 - [ ] 05-05-PLAN.md — Implement contact masking UI and dispute evidence submission.

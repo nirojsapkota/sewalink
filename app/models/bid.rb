@@ -16,6 +16,7 @@ class Bid < ApplicationRecord
 
   broadcasts_refreshes
   after_create_commit :notify_poster
+  after_create :create_conversation
 
   private
 
@@ -34,5 +35,9 @@ class Bid < ApplicationRecord
     return if user&.can_bid?
 
     errors.add(:base, "You cannot place new bids because your account has a high debt. Please settle your dues.")
+  end
+
+  def create_conversation
+    Conversation.create!(bid: self, task: task)
   end
 end

@@ -6,6 +6,7 @@ class Task < ApplicationRecord
   has_one :accepted_bid, -> { accepted }, class_name: 'Bid'
   has_one :tasker, through: :accepted_bid, source: :user
   has_many :payment_transactions, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_many_attached :photos
   has_one_attached :completion_photo
 

@@ -94,3 +94,5 @@ gem "httparty", "~> 0.21"
 gem "aasm", "~> 5.5"
 
 gem "ruby-openai", "~> 8.3"
+
+gem "shoulda-matchers", "~> 7.0", group: :test

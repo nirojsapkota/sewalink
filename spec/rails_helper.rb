@@ -95,5 +95,25 @@ RSpec.configure do |config|
         }
       ]
     )
+    Geocoder::Lookup::Test.add_stub(
+      "Kathmandu", [
+        {
+          'latitude'     => 27.7172,
+          'longitude'    => 85.3240,
+          'address'      => 'Kathmandu, Nepal',
+          'state'        => 'Bagmati',
+          'state_code'   => 'BA',
+          'country'      => 'Nepal',
+          'country_code' => 'NP'
+        }
+      ]
+    )
+  end
+
+  Shoulda::Matchers.configure do |config|
+    config.integrate do |with|
+      with.test_framework :rspec
+      with.library :rails
+    end
   end
 end

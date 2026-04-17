@@ -77,6 +77,7 @@ class Task < ApplicationRecord
   validate :must_have_payment_for_digital_task, if: -> { esewa? && (in_progress? || completed?) }
 
   after_commit :release_escrow_if_completed, on: :update
+  after_update_commit :set_completed_at, if: :completed_and_saved_status_changed?
 
   broadcasts_refreshes
   after_update_commit :broadcast_status_change, if: :saved_change_to_status?
@@ -145,5 +146,14 @@ class Task < ApplicationRecord
     if !paid?
       errors.add(:status, "cannot be changed to in_progress or completed without a verified payment for eSewa tasks.")
     end
+  end
+
+  def set_completed_at
+    update_column(:completed_at, Time.current)
+    CloseReviewWindowJob.set(wait: 14.days).perform_later(id)
+  end
+
+  def completed_and_saved_status_changed?
+    saved_change_to_status? && completed?
   end
 end

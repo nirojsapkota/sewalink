@@ -1,24 +1,7 @@
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <%= render 'profile_info', user: @user %>
+
   <div class="flex flex-col items-center">
-    <% if @user.avatar.attached? %>
-      <%= image_tag @user.avatar.variant(resize_to_fill: [150, 150]), class: "w-32 h-32 rounded-full mb-4 object-cover" %>
-    <% else %>
-      <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-4xl text-gray-500">
-        <%= @user.name&.first || "U" %>
-      </div>
-    <% end %>
-
-    <h2 class="text-2xl font-bold text-gray-800"><%= @user.name %></h2>
-    <p class="text-sm text-gray-500 mb-4"><%= @user.phone %></p>
-
-    <div class="bg-[#F3E8FF] text-[#4C1D95] text-xs font-semibold px-2.5 py-0.5 rounded mb-4">
-      <%= t("profiles.roles.#{@user.active_role}") %>
-    </div>
-
-    <% if @user.bio.present? %>
-      <p class="text-gray-600 text-center mb-6"><%= @user.bio %></p>
-    <% end %>
-
     <div class="w-full space-y-3">
       <%= link_to t('profiles.show.edit'), edit_profile_path, class: "block text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded transition-colors" %>
 

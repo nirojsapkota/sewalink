@@ -44,6 +44,10 @@ class TaskPolicy < ApplicationPolicy
     record.tasker == user
   end
 
+  def check_in?
+    record.tasker == user && record.assigned?
+  end
+
   def complete?
     record.tasker == user && record.in_progress?
   end

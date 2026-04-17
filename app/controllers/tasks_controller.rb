@@ -134,21 +134,43 @@ class TasksController < ApplicationController
 
       within_geofence = distance <= 200 # D-04: 200m radius
 
-      auto_checked_in = false
-      if within_geofence && @task.may_start_work?
-        @task.check_in!
-        auto_checked_in = true
-      end
-
       render json: {
         within_geofence: within_geofence,
         distance: distance,
-        auto_checked_in: auto_checked_in,
         task_status: @task.status # Return current task status for UI update
       }
     else
       render json: { error: "Task location not defined." }, status: :unprocessable_entity
     end
+  end
+
+  def perform_check_in
+    authorize @task, :check_in? # Assuming a policy for check_in
+    current_latitude = params[:current_latitude].to_f
+    current_longitude = params[:current_longitude].to_f
+
+    if @task.latitude.present? && @task.longitude.present?
+      distance = Geocoder::Calculations.distance_between(
+        [current_latitude, current_longitude],
+        [@task.latitude, @task.longitude],
+        units: :km
+      ) * 1000
+
+      if distance <= 200 # D-04: 200m radius
+        if @task.may_check_in?
+          @task.check_in!
+          render json: { success: true, message: "Checked in successfully.", task_status: @task.status }
+        else
+          render json: { success: false, message: "Task cannot be checked in at its current status.", task_status: @task.status }, status: :unprocessable_entity
+        end
+      else
+        render json: { success: false, message: "You are outside the geofence.", task_status: @task.status }, status: :forbidden
+      end
+    else
+      render json: { error: "Task location not defined." }, status: :unprocessable_entity
+    end
+  rescue AASM::InvalidTransition => e
+    render json: { success: false, message: "Invalid transition for check-in: #{e.message}", task_status: @task.status }, status: :unprocessable_entity
   end
 
   def complete

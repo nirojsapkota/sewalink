@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       post :raise_dispute
       patch :toggle_draft
       post :check_geofence # New route for geolocation checks
+      post :perform_check_in # New route for manual check-in
       patch :complete     # New route for marking task as complete
     end
     resource :completion, only: [:create], module: :tasks

@@ -40,7 +40,15 @@ RSpec.describe Task, type: :model do
     describe '#release_payment!' do
       it 'transitions from pending_payment to completed' do
         task.status = :pending_payment
+        # Set attributes required for geofence and photo guards
+        task.latitude = 27.7172
+        task.longitude = 85.3240
+        task.on_site = true
+        task.current_lat = 27.7172
+        task.current_lng = 85.3240
+        task.completion_photo.attach(io: File.open(Rails.root.join('public/apple-touch-icon.png')), filename: 'test.png', content_type: 'image/png')
         task.save!
+
         task.release_payment!
         expect(task.status).to eq('completed')
       end

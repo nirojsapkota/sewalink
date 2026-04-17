@@ -33,8 +33,8 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 - [x] **SAFE-01**: **Geofencing**: Taskers must be within a set perimeter of the job to mark it as 'Done'.
 - [x] **SAFE-02**: **Social Trust**: Mutual ratings and reviews after task completion.
 - [ ] **SAFE-04**: Evidence Submission: Ability to upload photos/videos for dispute resolution.
-- [ ] **SAFE-05**: **In-App Messaging**: Private 1-to-1 chat between Poster and Bidders.
-- [ ] **SAFE-06**: **Contact Masking**: Hide phone numbers and emails until task assignment.
+- [x] **SAFE-05**: **In-App Messaging**: Private 1-to-1 chat between Poster and Bidders.
+- [x] **SAFE-06**: **Contact Masking**: Hide phone numbers and emails until task assignment.
 
 ---
 
@@ -76,5 +76,5 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | SAFE-01 | Phase 5 | Pending |
 | SAFE-02 | Phase 5 | Complete |
 | SAFE-04 | Phase 5 | Pending |
-| SAFE-05 | Phase 5 | Pending |
-| SAFE-06 | Phase 5 | Pending |
+| SAFE-05 | Phase 5 | Complete |
+| SAFE-06 | Phase 5 | Complete |

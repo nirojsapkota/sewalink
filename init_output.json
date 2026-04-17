@@ -1,0 +1,53 @@
+{
+  "executor_model": "",
+  "verifier_model": "",
+  "commit_docs": true,
+  "sub_repos": [],
+  "parallelization": true,
+  "context_window": 200000,
+  "branching_strategy": "none",
+  "phase_branch_template": "gsd/phase-{phase}-{slug}",
+  "milestone_branch_template": "gsd/{milestone}-{slug}",
+  "verifier_enabled": true,
+  "phase_found": true,
+  "phase_dir": ".planning/phases/05-trust-safety-support",
+  "phase_number": "05",
+  "phase_name": "trust-safety-support",
+  "phase_slug": "trust-safety-support",
+  "phase_req_ids": null,
+  "plans": [
+    "05-00-PLAN.md",
+    "05-01-PLAN.md",
+    "05-01.1-PLAN.md",
+    "05-02-PLAN.md",
+    "05-03-PLAN.md",
+    "05-04-PLAN.md",
+    "05-05-PLAN.md"
+  ],
+  "summaries": [
+    "05-00-SUMMARY.md",
+    "05-01-SUMMARY.md",
+    "05-02-SUMMARY.md"
+  ],
+  "incomplete_plans": [
+    "05-01.1-PLAN.md",
+    "05-03-PLAN.md",
+    "05-04-PLAN.md",
+    "05-05-PLAN.md"
+  ],
+  "plan_count": 7,
+  "incomplete_count": 4,
+  "branch_name": null,
+  "milestone_version": "v1.0",
+  "milestone_name": "milestone",
+  "milestone_slug": "milestone",
+  "state_exists": true,
+  "roadmap_exists": true,
+  "config_exists": true,
+  "state_path": ".planning/STATE.md",
+  "roadmap_path": ".planning/ROADMAP.md",
+  "config_path": ".planning/config.json",
+  "project_root": "/Users/niroj/projects/project_ideas/sewaLink",
+  "agents_installed": true,
+  "missing_agents": []
+}

@@ -1,6 +1,7 @@
 class Bid < ApplicationRecord
   belongs_to :user
   belongs_to :task
+  has_one :conversation, dependent: :destroy
 
   enum status: { pending: 0, accepted: 1, rejected: 2 }
   enum payment_method: { esewa: 0, cash: 1 }

@@ -1,0 +1,7 @@
+<%= turbo_stream.append "messages" do %>
+  <%= render "messages/message", message: @message, viewer: current_user %>
+<% end %>
+
+<%= turbo_stream.replace "new_message" do %>
+  <%= render "messages/form", conversation: @conversation, message: Message.new %>
+<% end %>

@@ -12,6 +12,10 @@
                   method: :post, 
                   class: "rounded-lg py-2 px-4 bg-green-600 text-white font-medium hover:bg-green-700 transition-colors",
                   form: { data: { turbo_confirm: t('.confirm_request', default: 'Are you sure you want to request payment? This will notify the Poster.') } } %>
+  <% elsif task.pending_payment? && task.tasker == current_user %>
+    <div class="rounded-lg py-2 px-4 bg-yellow-100 text-yellow-800 font-medium border border-yellow-200">
+      <%= t('.payment_pending', default: 'Payment Requested') %>
+    </div>
   <% end %>
 
   <% if policy(task).release_payment? %>

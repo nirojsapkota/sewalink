@@ -42,6 +42,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ActionCable::TestHelper
+  config.include ActiveJob::TestHelper
   config.include Pundit::RSpec::PolicyExampleGroup, type: :policy
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')

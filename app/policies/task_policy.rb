@@ -24,7 +24,7 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def request_payment?
-    record.tasker == user && record.in_progress?
+    record.tasker == user && record.in_progress? && record.esewa?
   end
 
   def release_payment?
@@ -49,7 +49,13 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def complete?
-    record.tasker == user && record.in_progress?
+    return false unless record.tasker == user
+    
+    if record.cash?
+      record.in_progress?
+    else
+      record.payment_completed?
+    end
   end
 
   def edit?

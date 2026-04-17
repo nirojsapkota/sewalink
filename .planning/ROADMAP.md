@@ -6,7 +6,7 @@
 - [x] **Phase 2: Task Marketplace Core** - Task creation, browsing, bidding, and assignment lifecycle. (completed 2026-04-14)
 - [x] **Phase 3: Payments & Escrow** - eSewa integration, commission handling, and payouts. (completed 2026-04-14)
 - [x] **Phase 4: AI Voice Assistant (Magic Box)** - Voice-to-task creation to lower tech barriers. (completed 2026-04-15)
-- [ ] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and secure messaging.
+- [x] **Phase 5: Trust, Safety & Support** - Geofencing, reviews, and secure messaging. (completed 2026-04-17)
 - [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
 - [ ] **Phase 7: Admin Panel and Analytics** - Admin dashboard for platform oversight and growth analytics.
 - [ ] **Phase 8: Real-time AI Chat (Gemini Live)** - Replace magic box with true streaming bidirectional AI chat for task creation.
@@ -29,8 +29,8 @@
 - [x] 05-01.1-PLAN.md — Implement geolocation Stimulus controller and UI status indicators.
 - [x] 05-02-PLAN.md — Implement a blind review system for biased-free feedback.
 - [x] 05-03-PLAN.md — Establish secure messaging infrastructure with PII filtering.
-- [ ] 05-04-PLAN.md — Implement real-time messaging UI with Turbo Streams.
-- [ ] 05-05-PLAN.md — Implement contact masking UI and dispute evidence submission.
+- [x] 05-04-PLAN.md — Implement real-time messaging UI with Turbo Streams.
+- [x] 05-05-PLAN.md — Implement contact masking UI and dispute evidence submission.
 **UI hint**: yes
 
 ... (Phase 6-8) ...

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_17_001308) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_17_073817) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,6 +73,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_001308) do
     t.datetime "updated_at", null: false
     t.index ["bid_id"], name: "index_conversations_on_bid_id"
     t.index ["task_id"], name: "index_conversations_on_task_id"
+  end
+
+  create_table "dispute_evidences", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "user_id", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_dispute_evidences_on_task_id"
+    t.index ["user_id"], name: "index_dispute_evidences_on_user_id"
   end
 
   create_table "double_entry_account_balances", force: :cascade do |t|
@@ -235,6 +245,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_001308) do
   add_foreign_key "bids", "users"
   add_foreign_key "conversations", "bids"
   add_foreign_key "conversations", "tasks"
+  add_foreign_key "dispute_evidences", "tasks"
+  add_foreign_key "dispute_evidences", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "payment_transactions", "tasks"

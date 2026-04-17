@@ -15,7 +15,7 @@ RSpec.describe "Task Status Transitions", type: :request do
     it "toggles task between draft and open" do
       patch toggle_draft_task_path(task)
       expect(task.reload.status).to eq("draft")
-      expect(response).to redirect_to(task_path(task, locale: :en))
+      expect(response).to redirect_to(task_path(task))
 
       patch toggle_draft_task_path(task)
       expect(task.reload.status).to eq("open")
@@ -24,7 +24,7 @@ RSpec.describe "Task Status Transitions", type: :request do
     it "prevents unauthorized users from toggling draft" do
       sign_in create(:user, active_role: :poster, onboarded: true)
       patch toggle_draft_task_path(task)
-      expect(response).to redirect_to(root_path(locale: :en))
+      expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to be_present
     end
   end
@@ -42,13 +42,13 @@ RSpec.describe "Task Status Transitions", type: :request do
     it "transitions task to pending_payment" do
       post request_payment_task_path(task)
       expect(task.reload.status).to eq("pending_payment")
-      expect(response).to redirect_to(task_path(task, locale: :en))
+      expect(response).to redirect_to(task_path(task))
     end
 
     it "prevents poster from requesting payment" do
       sign_in poster
       post request_payment_task_path(task)
-      expect(response).to redirect_to(root_path(locale: :en))
+      expect(response).to redirect_to(root_path)
     end
   end
 
@@ -68,14 +68,14 @@ RSpec.describe "Task Status Transitions", type: :request do
       
       post release_payment_task_path(task)
       expect(task.reload.status).to eq("completed")
-      expect(response).to redirect_to(task_path(task, locale: :en))
+      expect(response).to redirect_to(task_path(task))
       expect(Payments::LedgerManager).to have_received(:release_from_escrow).with(task)
     end
 
     it "prevents tasker from releasing payment" do
       sign_in tasker
       post release_payment_task_path(task)
-      expect(response).to redirect_to(root_path(locale: :en))
+      expect(response).to redirect_to(root_path)
     end
   end
 

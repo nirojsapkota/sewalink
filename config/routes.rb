@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         patch :accept
       end
     end
+    resources :reviews, only: [:create]
   end
 
   resources :payments, only: [:create] do

@@ -39,6 +39,8 @@ class TasksController < ApplicationController
       @user_bid = @task.bids.find_by(user: current_user)
       @bid = @user_bid || @task.bids.build(user: current_user)
     end
+    @review = @task.reviews.build
+    @existing_review = @task.reviews.find_by(reviewer_id: current_user.id)
   end
 
   def new

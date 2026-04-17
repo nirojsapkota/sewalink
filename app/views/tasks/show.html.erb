@@ -49,6 +49,21 @@
         </div>
       <% end %>
     </div>
+    
+    <%# Reviews Section %>
+    <% if (@task.completed? || @task.payment_pending?) && (current_user == @task.user || current_user == @task.assigned_tasker) %>
+      <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Leave a Review</h3>
+        <% if @existing_review %>
+          <div class="text-center py-10 bg-white rounded-lg shadow-sm border border-dashed border-gray-300">
+            <p class="text-gray-500 italic">You have already submitted a review for this task. Thank you for your feedback!</p>
+          </div>
+        <% else %>
+          <%= render 'reviews/form', task: @task, review: @review %>
+        <% end %>
+      </div>
+    <% end %>
+
 
     <div class="mt-8 flex gap-3 border-t border-gray-100 pt-8">
       <% if policy(@task).edit? %>

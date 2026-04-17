@@ -73,7 +73,7 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | PAY-02 | Phase 3 | Pending |
 | PAY-03 | Phase 3 | Pending |
 | PAY-04 | Phase 3 | Pending |
-| SAFE-01 | Phase 5 | Pending |
+| SAFE-01 | Phase 5 | Complete |
 | SAFE-02 | Phase 5 | Complete |
 | SAFE-04 | Phase 5 | Pending |
 | SAFE-05 | Phase 5 | Complete |

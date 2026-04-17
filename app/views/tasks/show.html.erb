@@ -16,6 +16,17 @@
           Loading geofence status...
         </div>
 
+        <% if current_user.tasker? && @task.tasker == current_user && @task.assigned? %>
+          <button type="button"
+                  data-action="geolocation#checkIn"
+                  data-geolocation-target="checkInButton"
+                  class="mt-4 rounded-lg py-3 px-5 bg-blue-600 text-white font-medium cursor-pointer opacity-50 cursor-not-allowed"
+                  disabled
+                  title="You must be within the geofence and task must be assigned to check-in.">
+            Check-in to Task
+          </button>
+        <% end %>
+
         <% if policy(@task).complete? %> <%# Changed from mark_as_done? to complete? based on common Rails practices %>
           <%= button_to "Mark as Done", complete_task_path(@task), method: :patch,
                         data: { geolocation_target: "markDoneButton", turbo_confirm: "Are you sure you want to mark this task as complete?" },
@@ -24,6 +35,7 @@
       </div>
     <% end %>
 
+where am i
     <%= render 'task_actions', task: @task %>
 
     <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">
@@ -66,7 +78,7 @@
         </div>
       <% end %>
     </div>
-    
+
     <%# Reviews Section %>
     <% if (@task.completed? || @task.pending_payment?) && (current_user == @task.user || current_user == @task.tasker) %>
       <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">
@@ -86,7 +98,7 @@
       <% if policy(@task).edit? %>
         <%= link_to t('.edit', default: 'Edit this task'), edit_task_path(@task), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
       <% end %>
-      
+
       <%= link_to t('.back', default: 'Back to tasks'), tasks_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
       <% if policy(@task).destroy? %>

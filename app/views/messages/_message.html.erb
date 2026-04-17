@@ -1,0 +1,8 @@
+<div id="<%= dom_id message %>" class="flex <%= message.sender == current_user ? 'justify-end' : 'justify-start' %>">
+  <div class="max-w-[75%] rounded-2xl px-4 py-2 text-sm <%= message.sender == current_user ? 'bg-blue-600 text-white rounded-br-none' : 'bg-gray-200 text-gray-900 rounded-bl-none' %> shadow-sm">
+    <p class="whitespace-pre-wrap"><%= message.filtered_content %></p>
+    <span class="text-[10px] block text-right mt-1 opacity-70">
+      <%= message.created_at.strftime("%I:%M %p") %>
+    </span>
+  </div>
+</div>

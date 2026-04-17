@@ -9,7 +9,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require 'rspec/rails'
 require 'webmock/rspec'
-
+require 'pundit/rspec' # Corrected from pundit/matchers
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -42,6 +42,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ActionCable::TestHelper
+  config.include Pundit::RSpec::PolicyExampleGroup, type: :policy
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]

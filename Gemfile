@@ -73,6 +73,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webmock"
+  gem "pundit-matchers"
 end
 
 gem "rails-i18n", "~> 7.0"

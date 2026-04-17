@@ -7,6 +7,7 @@ class Task < ApplicationRecord
   has_one :tasker, through: :accepted_bid, source: :user
   has_many :payment_transactions, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :dispute_evidences, dependent: :destroy
   has_many_attached :photos
   has_one_attached :completion_photo
 
@@ -48,11 +49,11 @@ class Task < ApplicationRecord
     end
 
     event :release_payment do
-      transitions from: :pending_payment, to: :payment_completed, success: :complete!
+      transitions from: :pending_payment, to: :completed
     end
 
     event :complete do
-      transitions from: [:in_progress, :payment_completed], to: :completed,
+      transitions from: :in_progress, to: :completed,
                   guard: [:within_geofence?, :completion_photo_attached?]
     end
 

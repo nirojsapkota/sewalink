@@ -40,6 +40,14 @@ class TaskPolicy < ApplicationPolicy
     record.user == user && (record.draft? || record.open?)
   end
 
+  def check_geofence?
+    record.assigned_tasker == user
+  end
+
+  def complete?
+    record.assigned_tasker == user && record.in_progress?
+  end
+
   def edit?
     update?
   end

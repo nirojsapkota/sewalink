@@ -119,6 +119,49 @@ class TasksController < ApplicationController
     end
   end
 
+  def check_geofence
+    authorize @task
+    current_latitude = params[:current_latitude].to_f
+    current_longitude = params[:current_longitude].to_f
+
+    # Ensure task has location data
+    if @task.latitude.present? && @task.longitude.present?
+      distance = Geocoder::Calculations.distance_between(
+        [current_latitude, current_longitude],
+        [@task.latitude, @task.longitude],
+        units: :km # Geocoder defaults to miles, but plan says 200m
+      ) * 1000 # Convert km to meters
+
+      within_geofence = distance <= 200 # D-04: 200m radius
+
+      auto_checked_in = false
+      if within_geofence && @task.may_check_in?
+        @task.check_in!
+        auto_checked_in = true
+      end
+
+      render json: {
+        within_geofence: within_geofence,
+        distance: distance,
+        auto_checked_in: auto_checked_in,
+        task_status: @task.status # Return current task status for UI update
+      }
+    else
+      render json: { error: "Task location not defined." }, status: :unprocessable_entity
+    end
+  end
+
+  def complete
+    authorize @task
+    if @task.complete!
+      redirect_to @task, notice: t('.success', default: 'Task marked as complete.')
+    else
+      redirect_to @task, alert: t('.failure', default: 'Could not mark task as complete.')
+    end
+  rescue AASM::InvalidTransition => e
+    redirect_to @task, alert: t('.invalid_transition', default: "Invalid status transition: #{e.message}.")
+  end
+
   private
 
   def set_task

@@ -87,7 +87,7 @@ class Task < ApplicationRecord
   end
 
   def within_geofence?
-    return true unless on_site?
+    return true unless on_site # D-01: Geofencing logic applies strictly to tasks where on_site is true.
     return false if current_lat.blank? || current_lng.blank?
 
     distance = distance_from([current_lat, current_lng], :km)
@@ -99,10 +99,11 @@ class Task < ApplicationRecord
     completion_photo.attached?
   end
 
-  def check_in!(lat, lng)
-    self.current_lat = lat
-    self.current_lng = lng
-    start_work! if within_geofence?
+  def check_in!
+    start_work!
+  rescue AASM::InvalidTransition => e
+    Rails.logger.warn "Task #{id} could not transition to in_progress: #{e.message}"
+    false # Indicate failure to transition
   end
 
   private

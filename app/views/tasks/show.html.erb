@@ -7,6 +7,23 @@
 
     <%= render @task %>
 
+    <% if current_user.tasker? && @task.assigned_tasker == current_user %>
+      <div data-controller="geolocation"
+           data-geolocation-task-id-value="<%= @task.id %>"
+           data-geolocation-task-latitude-value="<%= @task.latitude %>"
+           data-geolocation-task-longitude-value="<%= @task.longitude %>">
+        <div data-geolocation-target="geofenceStatus" class="mt-4 p-3 rounded-lg bg-blue-50 text-blue-800">
+          Loading geofence status...
+        </div>
+
+        <% if policy(@task).complete? %> <%# Changed from mark_as_done? to complete? based on common Rails practices %>
+          <%= button_to "Mark as Done", complete_task_path(@task), method: :patch,
+                        data: { geolocation_target: "markDoneButton", turbo_confirm: "Are you sure you want to mark this task as complete?" },
+                        class: "mt-4 rounded-lg py-3 px-5 bg-green-600 text-white font-medium cursor-pointer" %>
+        <% end %>
+      </div>
+    <% end %>
+
     <%= render 'task_actions', task: @task %>
 
     <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">

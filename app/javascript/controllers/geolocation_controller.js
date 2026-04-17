@@ -5,6 +5,10 @@ export default class extends Controller {
   static values = { taskId: Number, taskLatitude: Number, taskLongitude: Number }
   static targets = ["geofenceStatus", "markDoneButton"]
 
+  // Debounce timeout for geofence checks (e.g., 2 seconds)
+  geofenceCheckTimeout = null;
+  debounceDelay = 2000; // milliseconds
+
   connect() {
     if (navigator.geolocation) {
       this.geofenceStatusTarget.textContent = "Checking location...";
@@ -18,6 +22,9 @@ export default class extends Controller {
   disconnect() {
     if (this.watchId) {
       navigator.geolocation.clearWatch(this.watchId);
+    }
+    if (this.geofenceCheckTimeout) {
+      clearTimeout(this.geofenceCheckTimeout);
     }
   }
 
@@ -36,7 +43,13 @@ export default class extends Controller {
 
   positionSuccess(position) {
     const { latitude, longitude } = position.coords;
-    this.checkGeofence(latitude, longitude);
+    // Debounce the geofence check
+    if (this.geofenceCheckTimeout) {
+      clearTimeout(this.geofenceCheckTimeout);
+    }
+    this.geofenceCheckTimeout = setTimeout(() => {
+      this.checkGeofence(latitude, longitude);
+    }, this.debounceDelay);
   }
 
   positionError(error) {

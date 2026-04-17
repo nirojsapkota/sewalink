@@ -4,8 +4,10 @@ class Message < ApplicationRecord
 
   validates :content, presence: true
 
-  # Will implement filtered_content method in Task 2
   def filtered_content
-    content # Placeholder for now
+    # Per D-16, lift masking for Poster and Assigned Tasker once assigned.
+    return content if conversation.task.assigned?
+
+    ContentFilterService.mask(content)
   end
 end

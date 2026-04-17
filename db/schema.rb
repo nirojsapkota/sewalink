@@ -65,6 +65,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_001308) do
     t.index ["name_ne"], name: "index_categories_on_name_ne"
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "bid_id", null: false
+    t.bigint "task_id", null: false
+    t.boolean "archived", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bid_id"], name: "index_conversations_on_bid_id"
+    t.index ["task_id"], name: "index_conversations_on_task_id"
+  end
+
   create_table "double_entry_account_balances", force: :cascade do |t|
     t.string "account", limit: 31, null: false
     t.string "scope", limit: 23
@@ -127,6 +137,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_001308) do
     t.index ["account", "created_at"], name: "lines_account_created_at_idx"
     t.index ["scope", "account", "created_at"], name: "lines_scope_account_created_at_idx"
     t.index ["scope", "account", "id"], name: "lines_scope_account_id_idx"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "sender_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
   create_table "payment_transactions", force: :cascade do |t|
@@ -213,6 +233,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_001308) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bids", "tasks"
   add_foreign_key "bids", "users"
+  add_foreign_key "conversations", "bids"
+  add_foreign_key "conversations", "tasks"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "payment_transactions", "tasks"
   add_foreign_key "payout_requests", "users"
   add_foreign_key "reviews", "tasks"

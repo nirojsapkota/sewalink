@@ -68,7 +68,7 @@
     </div>
     
     <%# Reviews Section %>
-    <% if (@task.completed? || @task.pending_payment?) && (current_user == @task.user || current_user == @task.assigned_tasker) %>
+    <% if (@task.completed? || @task.pending_payment?) && (current_user == @task.user || current_user == @task.tasker) %>
       <div class="mt-12 bg-gray-50 p-8 rounded-xl border border-gray-100">
         <h3 class="text-2xl font-bold text-gray-900 mb-6">Leave a Review</h3>
         <% if @existing_review %>

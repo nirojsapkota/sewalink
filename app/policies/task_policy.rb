@@ -41,11 +41,11 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def check_geofence?
-    record.assigned_tasker == user
+    record.tasker == user
   end
 
   def complete?
-    record.assigned_tasker == user && record.in_progress?
+    record.tasker == user && record.in_progress?
   end
 
   def edit?

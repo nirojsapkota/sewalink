@@ -60,7 +60,13 @@
             <div class="bg-[#F3E8FF] border border-[#F3E8FF] rounded-lg p-5">
               <div class="flex justify-between items-start mb-2">
                 <span class="text-[#4C1D95] font-semibold">Your Bid: NPR <%= number_with_delimiter(@user_bid.amount) %></span>
-                <span class="px-2 py-0.5 bg-[#F3E8FF] text-[#4C1D95] text-xs font-bold rounded-full uppercase"><%= @user_bid.status.titleize %></span>
+                <div class="flex flex-col items-end gap-2">
+                  <span class="px-2 py-0.5 bg-[#F3E8FF] text-[#4C1D95] text-xs font-bold rounded-full uppercase"><%= @user_bid.status.titleize %></span>
+                  <% if @user_bid.conversation %>
+                    <%= link_to "Open Chat", conversation_path(@user_bid.conversation), 
+                        class: "text-[#7C3AED] text-sm font-bold underline" %>
+                  <% end %>
+                </div>
               </div>
               <p class="text-[#7C3AED] text-sm italic mb-3">"<%= @user_bid.message %>"</p>
               <p class="text-xs text-[#7C3AED] italic">You've already submitted a bid for this task. The Poster will review it soon.</p>
@@ -83,6 +89,43 @@
         <% else %>
           <%= render 'reviews/form', task: @task, review: @review %>
         <% end %>
+      </div>
+    <% end %>
+
+    <%# Dispute Evidence Section %>
+    <% if (@task.completed? || @task.dispute?) && (current_user == @task.user || current_user == @task.tasker) %>
+      <div class="mt-12 bg-red-50 p-8 rounded-xl border border-red-100">
+        <h3 class="text-2xl font-bold text-red-900 mb-6">Dispute & Evidence</h3>
+        
+        <% if @task.dispute_evidences.any? %>
+          <div class="space-y-4 mb-6">
+            <% @task.dispute_evidences.each do |evidence| %>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-red-200">
+                <p class="text-sm font-semibold text-gray-500 mb-1">
+                  Reported by <%= evidence.user == current_user ? "you" : "the other party" %> 
+                  on <%= evidence.created_at.strftime("%B %d, %Y") %>
+                </p>
+                <p class="text-gray-800"><%= evidence.description %></p>
+                <% if evidence.files.attached? %>
+                  <div class="mt-3 flex gap-2 flex-wrap">
+                    <% evidence.files.each do |file| %>
+                      <% if file.image? %>
+                        <%= image_tag file, class: "h-20 w-20 object-cover rounded border" %>
+                      <% else %>
+                        <%= link_to "View Attachment", rails_blob_path(file, only_path: true), target: "_blank", class: "text-blue-600 underline text-sm" %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-red-200">
+          <h4 class="text-lg font-bold text-gray-900 mb-4">Report an Issue</h4>
+          <%= render 'dispute_evidences/form', task: @task %>
+        </div>
       </div>
     <% end %>
 

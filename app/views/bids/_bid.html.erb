@@ -20,9 +20,14 @@
     <% if bid.pending? && policy(bid).accept? %>
       <%= button_to "Assign Tasker", accept_task_bid_path(bid.task, bid), 
           method: :patch,
-          class: "rounded-lg py-2 px-4 bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors shadow-sm" %>
+          class: "rounded-lg py-2 px-4 bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors shadow-sm w-full" %>
     <% elsif bid.accepted? %>
-      <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider rounded">Assigned</span>
+      <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider rounded text-center">Assigned</span>
+    <% end %>
+
+    <% if bid.conversation %>
+      <%= link_to "Chat", conversation_path(bid.conversation), 
+          class: "rounded-lg py-2 px-4 bg-blue-100 text-blue-700 text-sm font-semibold hover:bg-blue-200 transition-colors text-center" %>
     <% end %>
   </div>
 </div>

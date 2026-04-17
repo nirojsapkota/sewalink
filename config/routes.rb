@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       end
     end
     resources :reviews, only: [:create]
+    resources :dispute_evidences, only: [:create]
   end
 
   resources :payments, only: [:create] do

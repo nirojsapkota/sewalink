@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :request_payment, :release_payment, :raise_dispute, :toggle_draft]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :request_payment, :release_payment, :raise_dispute, :toggle_draft, :check_geofence, :complete]
 
   def index
     if current_user.tasker?

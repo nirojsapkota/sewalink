@@ -135,7 +135,7 @@ class TasksController < ApplicationController
       within_geofence = distance <= 200 # D-04: 200m radius
 
       auto_checked_in = false
-      if within_geofence && @task.may_check_in?
+      if within_geofence && @task.may_start_work?
         @task.check_in!
         auto_checked_in = true
       end

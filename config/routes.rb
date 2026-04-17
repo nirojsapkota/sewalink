@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     patch :toggle_role
   end
 
+  resources :conversations, only: [:show] do
+    resources :messages, only: [:create]
+  end
+
   resources :tasks do
     member do
       post :request_payment

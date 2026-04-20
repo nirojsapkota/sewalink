@@ -2,6 +2,7 @@ module AI
   class ChatChannel < ApplicationCable::Channel
     def subscribed
       @service = Gemini::LiveService.new(
+        user: current_user,
         on_message: method(:handle_gemini_message)
       )
       @service.connect

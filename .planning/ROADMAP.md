@@ -81,5 +81,5 @@
 **Success Criteria**:
   1. Bidirectional streaming AI chat for task setup.
 **Plans**: 2 plans
-- [ ] 08-01-PLAN.md — Bootstrap real-time AI infrastructure (Gemini Live Proxy).
-- [ ] 08-02-PLAN.md — Implement AI Tool callbacks and Dynamic UI updates.
+- [x] 08-01-PLAN.md — Bootstrap real-time AI infrastructure (Gemini Live Proxy).
+- [ ] 08-02-PLAN.md — Implement tool execution and dynamic UI updates via Turbo Streams.

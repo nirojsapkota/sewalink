@@ -3,7 +3,7 @@
     <%= image_tag user.avatar.variant(resize_to_fill: [150, 150]), class: "w-32 h-32 rounded-full mb-4 object-cover" %>
   <% else %>
     <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-4xl text-gray-500">
-      <%= user.name&.first || "U" %>
+      <%= user.first_name&.first || "U" %>
     </div>
   <% end %>
 

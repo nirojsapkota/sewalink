@@ -101,3 +101,4 @@ gem "groupdate"
 gem "ruby-openai", "~> 8.3"
 
 gem "shoulda-matchers", "~> 7.0", group: :test
+gem "slim-rails"

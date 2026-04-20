@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       post :check_geofence # New route for geolocation checks
       post :perform_check_in # New route for manual check-in
       patch :complete     # New route for marking task as complete
+      delete :delete_photo
     end
     resource :completion, only: [:create], module: :tasks
     resource :start, only: [:create], module: :tasks
@@ -81,6 +82,11 @@ Rails.application.routes.draw do
       end
     end
     resources :assistant, only: [:create]
+  end
+
+  namespace :gemini do
+    resources :tokens, only: [:create]
+    post 'tools/execute', to: 'tools#execute'
   end
 
   root "home#index"

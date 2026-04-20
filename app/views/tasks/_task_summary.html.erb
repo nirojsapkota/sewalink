@@ -16,5 +16,7 @@
      <%= task.location %>
   </div>
 
-  <%= link_to t('.view', default: 'View Details'), task, class: "block text-center rounded-lg py-2 px-4 bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors" %>
+  <%= link_to t('.view', default: 'View Details'), task, 
+                class: "block text-center rounded-lg py-2 px-4 bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors",
+                data: { turbo_frame: "_top" } %>
 </div>

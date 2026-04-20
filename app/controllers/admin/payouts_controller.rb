@@ -1,7 +1,4 @@
-class Admin::PayoutsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :ensure_admin!
-
+class Admin::PayoutsController < Admin::BaseController
   def index
     @pending_payouts = PayoutRequest.pending.includes(:user).order(created_at: :asc)
     @processed_payouts = PayoutRequest.processed.includes(:user).order(created_at: :desc).limit(50)
@@ -24,11 +21,5 @@ class Admin::PayoutsController < ApplicationController
     else
       redirect_to admin_payouts_path, alert: "Could not reject payout."
     end
-  end
-
-  private
-
-  def ensure_admin!
-    redirect_to root_path, alert: "Access denied. Admin only." unless current_user.admin?
   end
 end

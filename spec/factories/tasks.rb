@@ -9,5 +9,10 @@ FactoryBot.define do
     latitude { 27.7172 }
     longitude { 85.3240 }
     status { :open }
+
+    trait :completed do
+      status { :completed }
+      completed_at { Time.current }
+    end
   end
 end

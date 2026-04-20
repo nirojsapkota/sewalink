@@ -8,6 +8,7 @@ class Task < ApplicationRecord
   has_many :payment_transactions, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :dispute_evidences, dependent: :destroy
+  has_many :conversations, dependent: :destroy
   has_many_attached :photos
   has_one_attached :completion_photo
 

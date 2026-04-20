@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = ["container"]
 
   connect() {
+    console.log("ToastController is connected");
     // Automatically close after 5 seconds
     this.timeout = setTimeout(() => {
       this.close()

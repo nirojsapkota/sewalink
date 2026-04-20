@@ -5,5 +5,9 @@ FactoryBot.define do
     password { "Password123!" }
     active_role { :poster }
     onboarded { true }
+
+    trait :admin do
+      admin { true }
+    end
   end
 end

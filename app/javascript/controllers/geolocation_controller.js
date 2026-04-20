@@ -10,6 +10,7 @@ export default class extends Controller {
   debounceDelay = 2000; // milliseconds
 
   connect() {
+    console.log("GeolocationController is connected");
     if (navigator.geolocation) {
       this.geofenceStatusTarget.textContent = "Checking location...";
       this.startWatchingLocation();

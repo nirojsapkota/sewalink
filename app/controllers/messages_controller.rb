@@ -8,13 +8,31 @@ class MessagesController < ApplicationController
     @message.sender = current_user
 
     if @message.save
-      # Broadcast masked version to everyone in the conversation
+      # Broadcast masked version to everyone in the conversation (publicly)
       @message.broadcast_append_to(
         @conversation,
         target: "messages",
         partial: "messages/message",
         locals: { viewer: nil }
       )
+
+      # Securely broadcast unmasked content to authorized participants privately
+      # 1. To Sender (always authorized)
+      @message.broadcast_update_to(
+        current_user,
+        target: "#{ActionView::RecordIdentifier.dom_id(@message)}_text",
+        html: @message.content
+      )
+
+      # 2. To Recipient (only if authorized)
+      other_user = @conversation.other_participant(current_user)
+      if @message.viewer_aware_content(other_user) == @message.content
+        @message.broadcast_update_to(
+          other_user,
+          target: "#{ActionView::RecordIdentifier.dom_id(@message)}_text",
+          html: @message.content
+        )
+      end
 
       respond_to do |format|
         format.turbo_stream

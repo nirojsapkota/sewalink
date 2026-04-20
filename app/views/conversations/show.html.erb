@@ -23,6 +23,7 @@
        data-controller="chat" 
        data-chat-current-user-id-value="<%= current_user.id %>">
     <%= turbo_stream_from @conversation %>
+    <%= turbo_stream_from current_user %>
     <%= render partial: "messages/message", collection: @messages, as: :message, locals: { viewer: current_user } %>
   </div>
 

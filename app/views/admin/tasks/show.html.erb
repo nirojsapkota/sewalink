@@ -69,7 +69,7 @@
           <p class="text-sm text-gray-500">Poster</p>
           <%= link_to admin_user_path(@task.user), class: "flex items-center gap-3 mt-1 hover:bg-gray-50 p-2 rounded" do %>
             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
-              <%= @task.user.name&.first || "U" %>
+              <%= @task.user.first_name&.first || "U" %>
             </div>
             <div>
               <p class="font-medium text-blue-600"><%= @task.user.name || "Unnamed User" %></p>
@@ -82,7 +82,7 @@
             <p class="text-sm text-gray-500">Tasker</p>
             <%= link_to admin_user_path(@task.tasker), class: "flex items-center gap-3 mt-1 hover:bg-gray-50 p-2 rounded" do %>
               <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold">
-                <%= @task.tasker.name&.first || "T" %>
+                <%= @task.tasker.first_name&.first || "T" %>
               </div>
               <div>
                 <p class="font-medium text-green-600"><%= @task.tasker.name || "Unnamed Tasker" %></p>

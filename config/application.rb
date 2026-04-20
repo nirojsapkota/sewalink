@@ -27,6 +27,8 @@ module SewaLink
     config.i18n.available_locales = [:en, :ne]
     config.i18n.default_locale = :en
 
+    config.active_storage.variant_processor = :mini_magick
+
     # ActiveRecord Encryption fallbacks for development
     config.active_record.encryption.primary_key = "test_primary_key_must_be_32_chars_!!!"
     config.active_record.encryption.deterministic_key = "test_deterministic_key_must_be_32"

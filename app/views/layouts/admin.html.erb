@@ -20,6 +20,7 @@
         <a href="<%= admin_root_path %>" class="text-xl font-bold">sewaLink Admin</a>
         <div class="flex gap-4">
           <%= link_to 'Dashboard', admin_root_path, class: 'hover:text-gray-300' %>
+          <%= link_to 'Users', admin_users_path, class: 'hover:text-gray-300' %>
           <%= link_to 'Payouts', admin_payouts_path, class: 'hover:text-gray-300' %>
           <%= link_to 'Main Site', root_path, class: 'hover:text-gray-300' %>
         </div>

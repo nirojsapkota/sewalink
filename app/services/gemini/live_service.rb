@@ -4,8 +4,9 @@ require 'json'
 
 module Gemini
   class LiveService
-    def initialize(on_message: nil)
+    def initialize(user: nil, on_message: nil)
       @api_key = ENV['GEMINI_API_KEY']
+      @user = user
       @on_message = on_message
       @url = "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=#{@api_key}"
       @ws = nil
@@ -24,9 +25,10 @@ module Gemini
           @ws.on :message do |event|
             begin
               data = JSON.parse(event.data)
+              handle_message(data)
               @on_message&.call(data)
             rescue => e
-              Rails.logger.error "[Gemini::LiveService] Error parsing message: #{e.message}"
+              Rails.logger.error "[Gemini::LiveService] Error parsing message: #{e.message} - #{e.backtrace.first}"
             end
           end
 
@@ -65,6 +67,59 @@ module Gemini
     end
 
     private
+
+    def handle_message(data)
+      if data['tool_call']
+        data['tool_call']['function_calls'].each do |call|
+          execute_tool(call)
+        end
+      end
+    end
+
+    def execute_tool(call)
+      case call['name']
+      when 'create_task_draft'
+        args = call['args']
+        title = args['title']
+        description = args['description']
+        budget = args['budget']
+        location = args['location']
+
+        task = @user.tasks.draft.last || @user.tasks.new(status: :draft)
+        task.title = title if title.present?
+        task.description = description if description.present?
+        task.budget = budget if budget.present?
+        task.location = location if location.present?
+        task.category ||= Category.first # Fallback
+
+        if task.save
+          # Broadcast Turbo Stream
+          Turbo::StreamsChannel.broadcast_replace_to(
+            @user,
+            :live_chat,
+            target: "ai_task_preview",
+            partial: "live_chats/task_preview",
+            locals: { task: task }
+          )
+
+          # Send tool response
+          response_msg = {
+            tool_response: {
+              function_responses: [
+                {
+                  id: call["id"],
+                  name: call["name"],
+                  response: { result: "success", task_id: task.id }
+                }
+              ]
+            }
+          }
+          EM.next_tick { @ws.send(response_msg.to_json) }
+        else
+          Rails.logger.error "[Gemini::LiveService] Failed to save task: #{task.errors.full_messages}"
+        end
+      end
+    end
 
     def send_setup
       setup_msg = {

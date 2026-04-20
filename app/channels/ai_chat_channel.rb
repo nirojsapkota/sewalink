@@ -15,19 +15,20 @@ class AiChatChannel < ApplicationCable::Channel
   end
 
   def send_audio(data)
-    # Forward the audio to the existing service instance
+    # Log that we are receiving audio from the browser
+    puts "[AiChatChannel] -> Forwarding audio to Gemini (#{data['audio'].length} bytes)"
     @service&.send_audio(data['audio'])
   end
 
   def send_turn_complete
-    puts "[AiChatChannel] Received turn_complete signal."
+    puts "[AiChatChannel] -> Received silence. Signalling end of turn."
     @service&.send_turn_complete
   end
 
   private
 
   def handle_gemini_message(data)
-    puts "[AiChatChannel] Transmitting Gemini message to browser: #{data.keys}"
+    puts "[AiChatChannel] <- Transmitting Gemini response: #{data.keys}"
     transmit(data)
   end
 end

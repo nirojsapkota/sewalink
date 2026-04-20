@@ -1,24 +1,24 @@
 class PCMProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
-    this.buffer = [];
-    this.bufferSize = 1600; // ~100ms of audio at 16kHz
+    this.buffer = new Int16Array(4800); // 300ms at 16kHz
+    this.bufferIndex = 0;
   }
 
-  process(inputs, outputs, parameters) {
+  process(inputs) {
     const input = inputs[0];
-    if (input && input.length > 0) {
-      const channelData = input[0];
-      
-      for (let i = 0; i < channelData.length; i++) {
-        const s = Math.max(-1, Math.min(1, channelData[i]));
-        this.buffer.push(s < 0 ? s * 0x8000 : s * 0x7FFF);
-      }
+    if (!input || !input[0]) return true;
 
-      if (this.buffer.length >= this.bufferSize) {
-        const int16Data = new Int16Array(this.buffer);
-        this.port.postMessage(int16Data.buffer, [int16Data.buffer]);
-        this.buffer = [];
+    const channelData = input[0];
+    for (let i = 0; i < channelData.length; i++) {
+      const s = Math.max(-1, Math.min(1, channelData[i]));
+      this.buffer[this.bufferIndex++] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+
+      if (this.bufferIndex >= this.buffer.length) {
+        // Correct way: Create a copy of the content to send
+        const sendBuffer = new Int16Array(this.buffer);
+        this.port.postMessage(sendBuffer.buffer, [sendBuffer.buffer]);
+        this.bufferIndex = 0;
       }
     }
     return true;

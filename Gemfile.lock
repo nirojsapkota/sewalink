@@ -388,6 +388,13 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (7.0.1)
       activesupport (>= 7.1)
+    slim (5.2.1)
+      temple (~> 0.10.0)
+      tilt (>= 2.1.0)
+    slim-rails (4.0.0)
+      actionpack (>= 3.1)
+      railties (>= 3.1)
+      slim (>= 3.0, < 6.0, != 5.0.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -409,7 +416,9 @@ GEM
     tailwindcss-ruby (4.2.2-x86_64-darwin)
     tailwindcss-ruby (4.2.2-x86_64-linux-gnu)
     tailwindcss-ruby (4.2.2-x86_64-linux-musl)
+    temple (0.10.4)
     thor (1.5.0)
+    tilt (2.7.0)
     timeout (0.6.1)
     tsort (0.2.0)
     turbo-rails (2.0.23)
@@ -484,6 +493,7 @@ DEPENDENCIES
   ruby-openai (~> 8.3)
   selenium-webdriver
   shoulda-matchers (~> 7.0)
+  slim-rails
   sprockets-rails
   stimulus-rails
   tailwindcss-rails

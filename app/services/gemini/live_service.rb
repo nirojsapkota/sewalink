@@ -8,7 +8,7 @@ module Gemini
       @api_key = ENV['GEMINI_API_KEY'] || Rails.application.credentials.gemini_api_key || Rails.application.credentials.dig(:gemini, :api_key)
       @user = user
       @on_message = on_message
-      @url = "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=#{@api_key}"
+      @url = "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=#{@api_key}"
       @ws = nil
       @setup_complete = false
       @obj_id = self.object_id
@@ -16,40 +16,52 @@ module Gemini
 
     def connect
       return if @ws
-      puts "[Gemini:#{@obj_id}] Connecting..."
-      @thread = Thread.new do
-        begin
-          if EM.reactor_running?
-            setup_websocket
-          else
-            EM.run { setup_websocket }
-          end
-        rescue => e
-          puts "[Gemini:#{@obj_id}] EM ERROR: #{e.message}"
-        end
+      puts "[Gemini:#{@obj_id}] Connecting to v1alpha..."
+
+      Thread.new { EM.run } unless EM.reactor_running?
+      sleep 0.1 until EM.reactor_running?
+
+      EM.next_tick { setup_websocket }
+
+      30.times do
+        break if @ws
+        sleep 0.1
       end
     end
 
     def send_audio(base64_pcm)
       return unless @ws && @ws.ready_state == 1 && @setup_complete
-      
+
       payload = {
-        realtimeInput: {
-          mediaChunks: [
-            {
-              mimeType: "audio/l16;rate=16000",
-              data: base64_pcm
-            }
-          ]
+        realtime_input: {
+          media_chunks: [{
+            mime_type: "audio/pcm;rate=16000",
+            data: base64_pcm
+          }]
         }
       }
       EM.next_tick { @ws.send(payload.to_json) }
     end
 
+    def send_turn_complete
+      return unless @ws && @ws.ready_state == 1
+
+      payload = {
+        client_content: {
+          turns: [{ role: "user", parts: [{ text: "" }] }],
+          turn_complete: true
+        }
+      }
+
+      puts "[Gemini:#{@obj_id}] End of turn signaled."
+      EM.next_tick { @ws.send(payload.to_json) }
+    end
+
     def close
       puts "[Gemini:#{@obj_id}] Closing..."
-      @ws&.close
+      EM.next_tick { @ws&.close }
       @ws = nil
+      @setup_complete = false
     end
 
     private
@@ -65,16 +77,17 @@ module Gemini
       @ws.on :message do |event|
         begin
           data = JSON.parse(event.data)
-          puts "[Gemini:#{@obj_id}] RECEIVED FROM GOOGLE: #{data.keys}"
-          
           if data['setupComplete']
             @setup_complete = true
-            puts "[Gemini:#{@obj_id}] Setup Handshake Complete. AI is ready to listen."
+            puts "[Gemini:#{@obj_id}] Setup Complete. Triggering greeting..."
+            # Send an empty text prompt to make the AI speak its intro
+            send_text_prompt("")
           end
+
           handle_message(data)
           @on_message&.call(data)
         rescue => e
-          puts "[Gemini:#{@obj_id}] Parse Error: #{e.message}"
+          puts "[Gemini:#{@obj_id}] Message error: #{e.message}"
         end
       end
 
@@ -83,20 +96,46 @@ module Gemini
         @ws = nil
         @setup_complete = false
       end
+
+      @ws.on :error do |event|
+        puts "[Gemini:#{@obj_id}] WebSocket ERROR: #{event.message}"
+      end
+    end
+
+    def send_text_prompt(text)
+      return unless @ws && @ws.ready_state == 1
+
+      payload = {
+        client_content: {
+          turns: [{ role: "user", parts: [{ text: text }] }],
+          turn_complete: true
+        }
+      }
+      EM.next_tick { @ws.send(payload.to_json) }
     end
 
     def handle_message(data)
-      if data['toolCall']
-        data['toolCall']['functionCalls'].each { |call| execute_tool(call) }
+      # Support both camelCase (v1beta) and snake_case (v1alpha)
+      tool_call = data['toolCall'] || data['tool_call']
+      if tool_call
+        calls = tool_call['functionCalls'] || tool_call['function_calls']
+        calls&.each { |call| execute_tool(call) }
+      end
+
+      server_content = data['serverContent'] || data['server_content']
+      if server_content
+        model_turn = server_content['modelTurn'] || server_content['model_turn']
+        puts "[Gemini:#{@obj_id}] AI Turn Received" if model_turn
       end
     end
 
     def execute_tool(call)
-      case call['name']
+      name = call['name']
+      args = call['args']
+      puts "[Gemini:#{@obj_id}] Tool Call: #{name}(#{args})"
+
+      case name
       when 'create_task_draft'
-        args = call['args']
-        puts "[Gemini:#{@obj_id}] Updating Task: #{args}"
-        
         task = @user.tasks.draft.last || @user.tasks.new(status: :draft)
         task.title = args['title'] if args['title'].present?
         task.description = args['description'] if args['description'].present?
@@ -105,6 +144,7 @@ module Gemini
         task.category ||= Category.first
 
         if task.save
+          puts "[Gemini:#{@obj_id}] Task Saved: ID #{task.id}"
           Turbo::StreamsChannel.broadcast_replace_to(
             @user, :live_chat,
             target: "ai_task_preview",
@@ -112,32 +152,35 @@ module Gemini
             locals: { task: task }
           )
 
-          response_msg = {
-            toolResponse: {
-              functionResponses: [
-                {
-                  id: call["id"],
-                  name: call["name"],
-                  response: { result: "success", task_id: task.id }
-                }
-              ]
+          response_payload = {
+            tool_response: {
+              function_responses: [{
+                id: call["id"],
+                name: call["name"],
+                response: { result: "success", task_id: task.id }
+              }]
             }
           }
-          EM.next_tick { @ws.send(response_msg.to_json) }
+          EM.next_tick { @ws.send(response_payload.to_json) }
         end
       end
     end
 
     def send_setup
+      puts "[Gemini:#{@obj_id}] Sending Setup Frame..."
+
+      user_name = @user&.name.present? ? @user.name.split.first : "there"
+      greeting_instruction = "Your first response MUST be a vocal greeting, such as 'Hello, #{user_name}! How can I help you?'. After that, your primary goal is to help the user create a service task by calling the 'create_task_draft' tool as soon as you have details like title, description, budget, or location."
+
       setup_msg = {
         setup: {
           model: "models/gemini-2.5-flash-native-audio-latest",
-          generationConfig: {
-            responseModalities: ["AUDIO", "TEXT"]
+          generation_config: {
+            response_modalities: ["AUDIO"]
           },
-          tools: [ { functionDeclarations: Gemini::ToolDefinitions::ALL_TOOLS } ],
-          systemInstruction: {
-            parts: [ { text: "You are a helpful assistant. You MUST respond to every user input immediately with voice." } ]
+          tools: [{ function_declarations: Gemini::ToolDefinitions::ALL_TOOLS }],
+          system_instruction: {
+            parts: [ { text: greeting_instruction } ]
           }
         }
       }

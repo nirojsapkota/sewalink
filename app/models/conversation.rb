@@ -11,4 +11,8 @@ class Conversation < ApplicationRecord
   def archive!
     update(archived: true)
   end
+
+  def other_participant(user)
+    user == task.user ? bid.user : task.user
+  end
 end

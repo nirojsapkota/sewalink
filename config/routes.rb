@@ -58,6 +58,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboards#show'
     get '/', to: 'dashboards#show' # Extra alias for clarity if needed, but root to: is enough
+    resources :users, only: [:index, :show]
     resources :payouts, only: [:index] do
       member do
         patch :process_payout

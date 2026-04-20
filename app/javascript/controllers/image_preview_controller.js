@@ -13,13 +13,20 @@ export default class extends Controller {
 
     Array.from(files).forEach(file => {
       if (file.type.startsWith("image/")) {
-        const img = document.createElement("img")
-        img.src = URL.createObjectURL(file)
-        img.classList.add("w-24", "h-24", "object-cover", "rounded", "mr-2", "mb-2")
-        // Clean up memory
-        img.onload = () => { URL.revokeObjectURL(img.src) }
-        this.previewTarget.appendChild(img)
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const div = document.createElement("div");
+          div.className = "relative group animate-in fade-in zoom-in duration-300";
+          
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.className = "w-full aspect-square object-cover rounded-xl border-2 border-gray-100 shadow-sm group-hover:border-[#7C3AED]/30 transition-all";
+          
+          div.appendChild(img);
+          this.previewTarget.appendChild(div);
+        };
+        reader.readAsDataURL(file);
       }
-    })
+    });
   }
 }

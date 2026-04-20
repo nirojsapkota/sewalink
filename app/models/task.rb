@@ -49,7 +49,7 @@ class Task < ApplicationRecord
     end
 
     event :release_payment do
-      transitions from: :pending_payment, to: :completed
+      transitions from: [:pending_payment, :dispute], to: :completed
     end
 
     event :complete do
@@ -62,7 +62,7 @@ class Task < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: [:draft, :open, :assigned, :in_progress], to: :cancelled
+      transitions from: [:draft, :open, :assigned, :in_progress, :dispute], to: :cancelled
     end
   end
 

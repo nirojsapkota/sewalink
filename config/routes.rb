@@ -65,6 +65,12 @@ Rails.application.routes.draw do
         patch :reject_payout
       end
     end
+    resources :tasks, only: [:index, :show]
+    resources :disputes, only: [:index, :show] do
+      member do
+        post :resolve
+      end
+    end
   end
 
   namespace :api do

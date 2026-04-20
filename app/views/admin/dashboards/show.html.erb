@@ -1,0 +1,23 @@
+<h1 class="text-2xl font-bold mb-4">Admin Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-lg font-semibold text-gray-600">Total Users</h2>
+    <p class="text-3xl font-bold"><%= User.count %></p>
+  </div>
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-lg font-semibold text-gray-600">Open Tasks</h2>
+    <p class="text-3xl font-bold"><%= Task.where(status: 'open').count %></p>
+  </div>
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-lg font-semibold text-gray-600">Pending Payouts</h2>
+    <p class="text-3xl font-bold"><%= PayoutRequest.pending.count %></p>
+  </div>
+</div>
+
+<div class="mt-8 bg-white p-6 rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Growth (Coming Soon)</h2>
+  <div class="h-64 bg-gray-50 flex items-center justify-center border-2 border-dashed border-gray-200">
+    <p class="text-gray-400">Charts will be implemented here using Chartkick</p>
+  </div>
+</div>

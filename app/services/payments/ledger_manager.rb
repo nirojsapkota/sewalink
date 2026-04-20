@@ -39,6 +39,19 @@ module Payments
         end
       end
 
+      def refund_poster(task)
+        perform_with_lock([DoubleEntry.account(:escrow, scope: task), DoubleEntry.account(:user_external)]) do
+          return if escrow_balance(task) == 0
+
+          DoubleEntry.transfer(
+            escrow_balance(task),
+            from: DoubleEntry.account(:escrow, scope: task),
+            to: DoubleEntry.account(:user_external),
+            code: :refund
+          )
+        end
+      end
+
       def record_cash_commission(task)
         tasker = task.tasker
         perform_with_lock([DoubleEntry.account(:tasker_balance, scope: tasker), DoubleEntry.account(:platform_revenue)]) do

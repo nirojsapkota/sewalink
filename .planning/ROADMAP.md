@@ -13,7 +13,37 @@
 
 ## Phase Details
 
-... (Phase 1-4) ...
+### Phase 1: Foundation & Identity
+**Goal**: Establish the basic identity system and multi-lingual foundation.
+**Requirements**: AUTH-01, AUTH-02, AUTH-04, AUTH-05
+**Success Criteria**:
+  1. User can register/login with phone + OTP.
+  2. User can toggle between English and Nepali.
+  3. Profile information persists.
+
+### Phase 2: Task Marketplace Core
+**Goal**: Enable the primary marketplace interaction.
+**Requirements**: AUTH-03, TASK-01, TASK-03, TASK-04, TASK-05, TASK-06
+**Success Criteria**:
+  1. User can switch roles (Poster/Tasker).
+  2. Poster can create tasks with images.
+  3. Tasker can bid on tasks.
+  4. Poster can assign a tasker.
+
+### Phase 3: Payments & Escrow
+**Goal**: Secure financial transactions and commission tracking.
+**Requirements**: PAY-01, PAY-02, PAY-03, PAY-04
+**Success Criteria**:
+  1. eSewa integration handles deposits.
+  2. Commission is automatically deducted from tasker balance.
+  3. Tasker can request payouts.
+
+### Phase 4: AI Voice Assistant (Magic Box)
+**Goal**: Lower the barrier to entry with voice-to-task technology.
+**Requirements**: TASK-02
+**Success Criteria**:
+  1. User can record voice to create a task.
+  2. AI extracts title, description, and budget from voice.
 
 ### Phase 5: Trust, Safety & Support
 **Goal**: Ensure job quality, verify completion, and provide a safety net for users.
@@ -23,14 +53,29 @@
   1. Tasker can only mark a task as 'Done' when they are within the geofenced perimeter of the task location.
   2. Both parties can leave ratings and text reviews for each other after a task is completed.
   3. In-app messaging protects user privacy through content filtering and contact masking.
-**Plans**: 7 plans
-- [x] 05-00-PLAN.md — Bootstrap Phase 5 testing infrastructure for Nyquist compliance.
-- [x] 05-01-PLAN.md — Implement geofencing model logic and mandatory completion photo.
-- [x] 05-01.1-PLAN.md — Implement geolocation Stimulus controller and UI status indicators.
-- [x] 05-02-PLAN.md — Implement a blind review system for biased-free feedback.
-- [x] 05-03-PLAN.md — Establish secure messaging infrastructure with PII filtering.
-- [x] 05-04-PLAN.md — Implement real-time messaging UI with Turbo Streams.
-- [x] 05-05-PLAN.md — Implement contact masking UI and dispute evidence submission.
-**UI hint**: yes
 
-... (Phase 6-8) ...
+### Phase 6: Task Status & Real-time Updates
+**Goal**: Improve transparency and responsiveness of the marketplace.
+**Requirements**: TASK-07, TASK-08, TASK-09
+**Success Criteria**:
+  1. Granular task statuses (draft, open, in_progress, etc.) are tracked.
+  2. UI updates in real-time when bids are placed or status changes.
+  3. Poster has a dedicated dashboard for task management.
+
+### Phase 7: Admin Panel and Analytics
+**Goal**: Provide tools for platform oversight, financial auditing, and growth tracking.
+**Requirements**: ADMIN-01, ADMIN-02, ADMIN-03, ADMIN-04
+**Success Criteria**:
+  1. Admin can view platform growth metrics (Users, Tasks, GMV) via interactive charts.
+  2. Admin can manage all users and oversee all task lifecycles.
+  3. Admin can resolve disputes by reviewing evidence and releasing/refunding escrow funds.
+**Plans**: 3 plans
+- [x] 07-01-PLAN.md — Bootstrap admin infrastructure, analytics dependencies, and base testing.
+- [ ] 07-02-PLAN.md — Implement growth analytics dashboard with Chartkick.
+- [ ] 07-03-PLAN.md — Implement user management and task/dispute oversight.
+
+### Phase 8: Real-time AI Chat (Gemini Live)
+**Goal**: Advanced conversational task creation.
+**Requirements**: SAFE-03
+**Success Criteria**:
+  1. Bidirectional streaming AI chat for task setup.

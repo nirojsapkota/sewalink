@@ -5,13 +5,9 @@
 <div id="<%= dom_id message %>" 
      class="message-bubble flex" 
      data-message-sender-id="<%= message.sender_id %>"
-     data-chat-target="message"
-     data-content="<%= message.content %>"
-     data-is-poster="<%= task.user_id %>"
-     data-assigned-tasker-id="<%= task.assigned? ? task.tasker&.id : '' %>"
-     data-task-assigned="<%= task.assigned? || task.status_before_type_cast > Task.statuses[:assigned] %>">
+     data-chat-target="message">
   <div class="message-bubble-content max-w-[75%] rounded-2xl px-4 py-2 text-sm shadow-sm">
-    <p class="message-text whitespace-pre-wrap"><%= message.viewer_aware_content(viewer) %></p>
+    <p id="<%= dom_id message %>_text" class="message-text whitespace-pre-wrap"><%= message.viewer_aware_content(viewer) %></p>
     <span class="text-[10px] block text-right mt-1 opacity-70">
       <%= message.created_at.strftime("%I:%M %p") %>
     </span>

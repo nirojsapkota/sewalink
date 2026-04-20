@@ -18,11 +18,11 @@
         </div>
         <div>
           <p class="text-sm text-gray-500">Budget</p>
-          <p class="font-medium"><%= humanized_money_with_symbol @task.budget %> (<%= @task.payment_type.humanize %>)</p>
+          <p class="font-medium"><%= humanized_money_with_symbol @task.budget %> (<%= @task.payment_type&.humanize || "Not Set" %>)</p>
         </div>
         <div>
           <p class="text-sm text-gray-500">Category</p>
-          <p class="font-medium"><%= @task.category.name %></p>
+          <p class="font-medium"><%= @task.category.name_en %></p>
         </div>
         <div>
           <p class="text-sm text-gray-500">Created At</p>
@@ -101,11 +101,14 @@
           <% @task.payment_transactions.each do |tx| %>
             <div class="text-sm border-b pb-2 last:border-0">
               <div class="flex justify-between">
-                <span class="font-medium"><%= tx.transaction_type.humanize %></span>
-                <span class="<%= tx.completed? ? 'text-green-600' : 'text-orange-600' %>"><%= tx.status %></span>
+                <span class="font-medium">Payment #<%= tx.id %></span>
+                <span class="<%= tx.completed? ? 'text-green-600' : 'text-orange-600' %>"><%= tx.status.humanize %></span>
               </div>
-              <p class="text-gray-500 text-xs"><%= tx.payment_method.upcase %> • <%= tx.created_at.strftime("%b %d, %Y") %></p>
-              <p class="font-mono text-xs"><%= tx.external_id %></p>
+              <p class="text-gray-500 text-xs"><%= tx.created_at.strftime("%b %d, %Y %H:%M") %></p>
+              <p class="font-mono text-xs text-gray-400 break-all"><%= tx.transaction_uuid %></p>
+              <% if tx.external_ref.present? %>
+                <p class="text-xs text-gray-500 mt-1">Ref: <%= tx.external_ref %></p>
+              <% end %>
             </div>
           <% end %>
         </div>

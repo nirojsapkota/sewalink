@@ -11,13 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-[#FAF5FF] font-['Mukta'] text-[#4C1D95]">
-    <%= render "shared/navbar" %>
+  <body class="bg-[#FAF5FF] font-['Mukta'] text-[#4C1D95]" data-user-signed-in="<%= user_signed_in? %>">
+  <%= render "shared/navbar" %>
 
-    <main>
-      <%= yield %>
+  <%= render "shared/flash" %>
+
+  <main>      <%= yield %>
     </main>
 
     <%# Landing Footer %>

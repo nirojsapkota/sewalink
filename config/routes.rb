@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   end
 
   resources :bids, only: [:update, :destroy]
+  resource :live_chat, only: [:show]
 
   namespace :tasker do
     resource :wallet, only: [:show]
@@ -68,7 +69,7 @@ Rails.application.routes.draw do
     resources :tasks, only: [:index, :show]
     resources :disputes, only: [:index, :show] do
       member do
-        post :resolve
+        patch :resolve
       end
     end
   end

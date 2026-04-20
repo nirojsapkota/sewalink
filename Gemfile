@@ -93,6 +93,7 @@ gem "double_entry"
 gem "money-rails", "~> 1.15"
 gem "httparty", "~> 0.21"
 gem "aasm", "~> 5.5"
+gem "faye-websocket"
 
 gem "chartkick"
 gem "groupdate"

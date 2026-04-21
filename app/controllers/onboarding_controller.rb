@@ -26,7 +26,7 @@ class OnboardingController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :locale, :active_role)
+    params.require(:user).permit(:first_name, :last_name, :locale, :active_role)
   end
 
   def redirect_if_onboarded

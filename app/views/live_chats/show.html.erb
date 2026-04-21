@@ -3,7 +3,10 @@
     <div class="flex-1">
       <h1 class="text-3xl font-bold mb-6">Voice Assistant</h1>
 
-      <div data-controller="real-time-chat" class="bg-white rounded-3xl p-10 shadow-2xl border border-[#7C3AED]/10 text-center">
+      <div data-controller="real-time-chat"
+           data-real-time-chat-user-name-value="<%= current_user&.first_name || 'there' %>"
+           data-real-time-chat-locale-value="<%= current_user&.locale || I18n.locale %>"
+           class="bg-white rounded-3xl p-10 shadow-2xl border border-[#7C3AED]/10 text-center">
         <div class="mb-8">
           <div class="w-32 h-32 bg-[#F5F3FF] rounded-full mx-auto flex items-center justify-center mb-4 relative">
             <div data-real-time-chat-target="status" class="absolute inset-0 bg-[#7C3AED]/10 rounded-full animate-pulse hidden"></div>
@@ -15,7 +18,7 @@
         </div>
 
         <div class="flex justify-center gap-4">
-          <button type="button" data-action="click->real-time-chat#toggleChat" 
+          <button type="button" data-action="click->real-time-chat#toggleChat"
                   data-real-time-chat-target="trigger"
                   class="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-[#7C3AED]/30 active:scale-95">
             Tap to Talk

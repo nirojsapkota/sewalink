@@ -119,6 +119,18 @@ class TasksController < ApplicationController
     end
   end
 
+  def delete_photo
+    @task = Task.find(params[:id])
+    authorize @task, :update?
+    photo = @task.photos.find(params[:photo_id])
+    photo.purge
+    
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("photo_#{params[:photo_id]}") }
+      format.html { redirect_to edit_task_path(@task), notice: "Photo deleted." }
+    end
+  end
+
   def check_geofence
     authorize @task
     current_latitude = params[:current_latitude].to_f
@@ -193,6 +205,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :budget, :location, :category_id, photos: [])
+    params.require(:task).permit(:title, :description, :budget, :location, :category_id, :status, photos: [])
   end
 end

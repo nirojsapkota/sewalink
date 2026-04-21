@@ -70,11 +70,11 @@ class Task < ApplicationRecord
   geocoded_by :location
   after_validation :geocode, if: ->(obj){ obj.location.present? && obj.location_changed? }
 
-  validates :title, presence: true
+  validates :title, presence: true, unless: :draft?
   validates :description, presence: true
-  validates :budget, presence: true, numericality: { greater_than: 0 }
-  validates :location, presence: true
-  validates :category_id, presence: true
+  validates :budget, presence: true, numericality: { greater_than: 0 }, unless: :draft?
+  validates :location, presence: true, unless: :draft?
+  validates :category_id, presence: true, unless: :draft?
   validates :status, presence: true
   validate :must_have_payment_for_digital_task, if: -> { esewa? && (in_progress? || completed?) }
 

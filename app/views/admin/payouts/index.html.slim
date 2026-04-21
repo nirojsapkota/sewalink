@@ -1,0 +1,78 @@
+.max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8.py-8
+  h1.text-3xl.font-bold.text-gray-900.mb-8
+    = t('.admin_payout_management', default: 'Admin Payout Management')
+  section.mb-12
+    h2.text-xl.font-bold.text-gray-900.mb-4
+      = t('.pending_requests', default: 'Pending Requests')
+    .bg-white.rounded-xl.shadow-sm.border.border-gray-100.overflow-hidden
+
+    table.min-w-full.divide-y.divide-gray-200
+
+    thead.bg-gray-50
+
+    tr
+
+    th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+      | User (Phone)
+    th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+      | Amount
+    th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+      | eSewa ID / Details
+    th.px-6.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+      | Actions
+    tbody.bg-white.divide-y.divide-gray-200
+      - if @pending_payouts.any?
+        - @pending_payouts.each do |payout|
+          tr
+            td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-900
+              = payout.user.phone
+            td.px-6.py-4.whitespace-nowrap.text-sm.font-bold
+              = payout.amount.format
+            td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+              = payout.payment_details
+            td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium.flex.justify-end.gap-2
+              = button_to process_payout_admin_payout_path(payout), method: :patch, class: "bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-700 transition" do
+                = t('.mark_processed', default: 'Processed')
+              = button_to reject_payout_admin_payout_path(payout), method: :patch, class: "bg-red-600 text-white px-3 py-1.5 rounded hover:bg-red-700 transition", params: { rejection_reason: "Manual Rejection" } do
+                = t('.reject', default: 'Reject')
+      - else
+        tr
+          td.px-6.py-8.text-center.text-sm.text-gray-500[colspan="4"]
+            | No pending payout requests.
+section
+  h2.text-xl.font-bold.text-gray-900.mb-4
+    = t('.processed_history', default: 'Processed History')
+  .bg-white.rounded-xl.shadow-sm.border.border-gray-100.overflow-hidden
+
+  table.min-w-full.divide-y.divide-gray-200
+
+  thead.bg-gray-50
+
+  tr
+
+  th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+    | User (Phone)
+  th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+    | Amount
+  th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+    | Status
+  th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+    | Processed Date
+  tbody.bg-white.divide-y.divide-gray-200
+    - if @processed_payouts.any?
+      - @processed_payouts.each do |payout|
+        tr
+          td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-900
+            = payout.user.phone
+          td.px-6.py-4.whitespace-nowrap.text-sm.font-bold
+            = payout.amount.format
+          td.px-6.py-4.whitespace-nowrap.text-sm
+
+        span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-green-100.text-green-800
+          = payout.status.humanize
+        td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+          = payout.updated_at.strftime("%b %d, %Y %H:%M")
+    - else
+      tr
+        td.px-6.py-8.text-center.text-sm.text-gray-500[colspan="4"]
+          | No processed payouts yet.

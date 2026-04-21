@@ -1,0 +1,31 @@
+- # app/views/reviews/_form.html.erb
+= form_with(model: [@task, @review], url: task_reviews_path(@task), local: true) do |form|
+  - if @review.errors.any?
+    #error_explanation
+
+    h2
+      = pluralize(@review.errors.count, "error")
+      |  prohibited this review from being saved:
+    ul
+      - @review.errors.full_messages.each do |message|
+        li
+          = message
+  .field
+    = form.label :rating
+    = form.number_field :rating, in: 1..5, step: 1
+  .field
+    = form.label :comment
+    = form.text_area :comment
+  - if current_user == @task.tasker
+    .field
+      = form.label :private_note, "Private Note (visible to Admins only)"
+      = form.text_area :private_note
+    .field
+      = form.check_box :is_public, checked: false
+      = form.label :is_public, "Make review public (for Poster feedback)"
+  - else
+    .field
+      = form.check_box :is_public, checked: true
+      = form.label :is_public, "Make review public"
+  .actions
+    = form.submit "Submit Review"

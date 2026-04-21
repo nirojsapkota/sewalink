@@ -1,0 +1,18 @@
+.flex.flex-col.items-center
+  - if user.avatar.attached?
+    = image_tag user.avatar.variant(resize_to_fill: [150, 150]), class: "w-32 h-32 rounded-full mb-4 object-cover"
+  - else
+    .w-32.h-32.bg-gray-200.rounded-full.flex.items-center.justify-center.mb-4.text-4xl.text-gray-500
+      = user.first_name&.first || "U"
+  h2.text-2xl.font-bold.text-gray-800
+    = user.name
+  p.text-sm.text-gray-500.mb-1
+    = mask_contact_info(user.phone, visible: can_see_contact_info?(user, task: local_assigns[:task]))
+  - if user.email.present?
+    p.text-sm.text-gray-500.mb-4
+      = mask_contact_info(user.email, visible: can_see_contact_info?(user, task: local_assigns[:task]))
+  .bg-[#F3E8FF].text-[#4C1D95].text-xs.font-semibold.px-2.5.py-0.5.rounded.mb-4
+    = t("profiles.roles.#{user.active_role}")
+  - if user.bio.present?
+    p.text-gray-600.text-center.mb-6
+      = user.bio

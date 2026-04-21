@@ -1,0 +1,35 @@
+#task_actions.mt-6.flex.flex-wrap.gap-3
+  - if policy(task).toggle_draft?
+    = button_to task.draft? ? t('.publish', default: 'Publish Task') : t('.unpublish', default: 'Move to Draft'), 
+    -                   toggle_draft_task_path(task), 
+    -                   method: :patch, 
+    -                   class: "rounded-lg py-2 px-4 bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors"
+  - if policy(task).request_payment?
+    = button_to t('.request_payment', default: 'Request Payment'), 
+    -                   request_payment_task_path(task), 
+    -                   method: :post, 
+    -                   class: "rounded-lg py-2 px-4 bg-green-600 text-white font-medium hover:bg-green-700 transition-colors",
+    -                   form: { data: { turbo_confirm: t('.confirm_request', default: 'Are you sure you want to request payment? This will notify the Poster.') } }
+  - elsif task.pending_payment? && task.tasker == current_user
+    .rounded-lg.py-2.px-4.bg-yellow-100.text-yellow-800.font-medium.border.border-yellow-200
+      = t('.payment_pending', default: 'Payment Requested')
+  - if policy(task).release_payment?
+    = button_to t('.release_payment', default: 'Release Payment'), 
+    -                   release_payment_task_path(task), 
+    -                   method: :post, 
+    -                   class: "rounded-lg py-2 px-4 bg-green-600 text-white font-medium hover:bg-green-700 transition-colors",
+    -                   data: { 
+    -                     controller: "confirmation", 
+    -                     confirmation_message_value: t('.confirm_release', default: 'Are you sure you want to release the payment? This will complete the task.'),
+    -                     action: "click->confirmation#confirm" 
+    -                   }
+  - if policy(task).raise_dispute?
+    = button_to t('.raise_dispute', default: 'I Have an Issue'), 
+    -                   raise_dispute_task_path(task), 
+    -                   method: :post, 
+    -                   class: "rounded-lg py-2 px-4 bg-red-100 text-red-700 font-medium hover:bg-red-200 transition-colors",
+    -                   data: { 
+    -                     controller: "confirmation", 
+    -                     confirmation_message_value: t('.confirm_dispute', default: 'Are you sure you want to raise a dispute? Our team will be notified.'),
+    -                     action: "click->confirmation#confirm" 
+    -                   }

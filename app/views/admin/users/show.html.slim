@@ -1,0 +1,62 @@
+.mb-8.flex.justify-between.items-center
+  h1.text-3xl.font-bold
+    | User: 
+    = @user.phone
+  = link_to "Back to Users", admin_users_path, class: "text-blue-600 hover:text-blue-900"
+.grid.grid-cols-1.md:grid-cols-2.gap-8
+  .bg-white.p-6.rounded-lg.shadow
+    h2.text-xl.font-semibold.mb-4.border-b.pb-2
+      | Profile Details
+    dl.grid.grid-cols-3.gap-4
+      dt.font-medium.text-gray-500
+        | Name
+      dd.col-span-2.text-gray-900
+        = @user.name || "N/A"
+      dt.font-medium.text-gray-500
+        | Phone
+      dd.col-span-2.text-gray-900
+        = @user.phone
+      dt.font-medium.text-gray-500
+        | Locale
+      dd.col-span-2.text-gray-900
+        = @user.locale || "N/A"
+      dt.font-medium.text-gray-500
+        | Admin
+      dd.col-span-2.text-gray-900
+        = @user.admin? ? "Yes" : "No"
+      dt.font-medium.text-gray-500
+        | Onboarded
+      dd.col-span-2.text-gray-900
+        = @user.onboarded? ? "Yes" : "No"
+      dt.font-medium.text-gray-500
+        | Bio
+      dd.col-span-2.text-gray-900
+        = @user.bio || "N/A"
+      dt.font-medium.text-gray-500
+        | Joined
+      dd.col-span-2.text-gray-900
+        = @user.created_at.strftime("%Y-%m-%d %H:%M")
+  .bg-white.p-6.rounded-lg.shadow
+    h2.text-xl.font-semibold.mb-4.border-b.pb-2
+      | Marketplace Activity
+    .grid.grid-cols-1.gap-4
+      .p-4.bg-blue-50.border.border-blue-200.rounded-lg.flex.justify-between.items-center
+        span.text-blue-800.font-medium
+          | Total Tasks Posted
+        span.text-2xl.font-bold.text-blue-900
+          = @tasks_posted
+      .p-4.bg-green-50.border.border-green-200.rounded-lg.flex.justify-between.items-center
+        span.text-green-800.font-medium
+          | Tasks Completed (as Poster)
+        span.text-2xl.font-bold.text-green-900
+          = @tasks_completed_as_poster
+      .p-4.bg-purple-50.border.border-purple-200.rounded-lg.flex.justify-between.items-center
+        span.text-purple-800.font-medium
+          | Tasks Completed (as Tasker)
+        span.text-2xl.font-bold.text-purple-900
+          = @tasks_completed_as_tasker
+      .p-4.bg-gray-50.border.border-gray-200.rounded-lg.flex.justify-between.items-center
+        span.text-gray-800.font-medium
+          | Current Balance
+        span.text-2xl.font-bold.text-gray-900
+          = humanized_money_with_symbol @user.balance

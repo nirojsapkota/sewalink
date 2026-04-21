@@ -1,0 +1,31 @@
+.mx-auto.w-full
+  - if notice.present?
+    p#notice.py-2.px-3.bg-green-50.text-green-500.font-medium.rounded-lg.inline-block.mb-5
+      = notice
+  .flex.justify-between.items-center.mb-6
+    h1.font-bold.text-4xl
+      = current_user.tasker? ? t('.discovery_title', default: 'Find Work') : t('.dashboard_title', default: 'My Tasks')
+    - if current_user.poster?
+      = link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white block font-medium"
+  - if current_user.tasker?
+    = render "filter_form"
+  = turbo_frame_tag "tasks" do
+    #tasks-list.min-w-full
+      - if @tasks.any?
+        .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
+          - @tasks.each do |task|
+            - if current_user.tasker?
+              = render "task_card", task: task
+            - else
+              = render "task_summary", task: task
+        .mt-10
+          = paginate @tasks
+      - else
+        .text-center.py-20.bg-gray-50.rounded-xl.border-2.border-dashed.border-gray-200
+
+        h3.text-xl.font-medium.text-gray-600.mb-2
+          = current_user.tasker? ? t('.no_available_tasks', default: 'No tasks found.') : t('.no_my_tasks', default: 'You haven\'t posted any tasks yet.')
+        p.text-gray-400.mb-6
+          = current_user.tasker? ? t('.try_adjusting_filters', default: 'Try adjusting your filters to see more results.') : t('.start_posting', default: 'Post your first task and get bids from local experts!')
+        - if current_user.poster?
+          = link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white inline-block font-medium"

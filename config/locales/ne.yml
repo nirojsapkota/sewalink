@@ -93,3 +93,31 @@ ne:
       title: "काम थप्नुहोस्"
     index:
       find_tasks: "काम खोज्नुहोस्"
+      new_task: "नयाँ काम"
+    statuses:
+      draft: "मस्यौदा (Draft)"
+      open: "प्रकाशित"
+  live_chats:
+    show:
+      title: "भ्वाइस असिस्टेन्ट"
+      ready_to_talk: "कुरा गर्न तयार"
+      tap_to_talk: "कुरा गर्न थिच्नुहोस्"
+      stop_chat: "कुरा रोक्नुहोस्"
+      authenticating: "प्रमाणित गर्दै..."
+      ready: "तयार"
+      speaking: "बोल्दै..."
+      listening: "सुन्दै..."
+      thinking: "सोच्दै..."
+      connection_lost: "सम्पर्क टुट्यो"
+      tip: "सुझाव: 'मलाई भोलि कलंकीमा १००० रुपैयाँ जतिको लागि धारा मर्मत गर्ने मान्छे चाहिन्छ' भन्नुहोस्"
+    task_preview:
+      title: "कामको विवरण"
+      syncing: "सिङ्क गर्दै..."
+      untitled_task: "बिना शीर्षकको काम"
+      description: "विवरण"
+      describe_placeholder: "तपाईंको कामको विवरण दिनुहोस्..."
+      budget: "बजेट"
+      location: "स्थान"
+      review_and_publish: "पूर्वावलोकन र प्रकाशित"
+      view_task: "काम हेर्नुहोस्"
+      empty_state: "तपाईंको कामको विवरण AI लाई भन्नुहोस्।"

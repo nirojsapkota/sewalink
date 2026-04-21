@@ -97,3 +97,31 @@ en:
       title: "Post a Task"
     index:
       find_tasks: "Find Tasks"
+      new_task: "New Task"
+    statuses:
+      draft: "Draft"
+      open: "Open"
+  live_chats:
+    show:
+      title: "Voice Assistant"
+      ready_to_talk: "Ready to talk"
+      tap_to_talk: "Tap to Talk"
+      stop_chat: "Stop Chat"
+      authenticating: "Authenticating..."
+      ready: "Ready"
+      speaking: "Speaking..."
+      listening: "Listening..."
+      thinking: "Thinking..."
+      connection_lost: "Connection Lost"
+      tip: "Tip: Say \"I need someone to fix my sink tomorrow at Kalanki for around 1000 rupees\""
+    task_preview:
+      title: "Task Preview"
+      syncing: "Syncing..."
+      untitled_task: "Untitled Task"
+      description: "Description"
+      describe_placeholder: "Describe your task..."
+      budget: "Budget"
+      location: "Location"
+      review_and_publish: "Review & Publish"
+      view_task: "View Task"
+      empty_state: "Describe your task to the AI to begin drafting your request."

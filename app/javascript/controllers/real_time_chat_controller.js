@@ -331,7 +331,18 @@ class GeminiLiveAPI {
  */
 export default class extends Controller {
   static targets = ["status", "statusLabel", "response", "trigger"];
-  static values = { userName: String, locale: String };
+  static values = {
+    userName: String,
+    locale: String,
+    tapToTalkLabel: String,
+    stopChatLabel: String,
+    authenticatingLabel: String,
+    readyLabel: String,
+    speakingLabel: String,
+    listeningLabel: String,
+    thinkingLabel: String,
+    connectionLostLabel: String
+  };
 
   connect() {
     this.isRecording = false;
@@ -358,6 +369,7 @@ export default class extends Controller {
     this._updateUI(true);
 
     try {
+      this._updateStatus(this.authenticatingLabelValue, true);
       const response = await fetch("/gemini/tokens", {
         method: "POST",
         headers: {
@@ -382,7 +394,13 @@ export default class extends Controller {
       this.client = new GeminiLiveAPI(tokenData, instructions);
       this.client.onMessage = this._handleMessage.bind(this);
       this.client.onOpen = () => console.log("Gemini API Connected");
-      this.client.onClose = () => { console.log("Gemini API Closed"); if (this.isRecording) this.stopChat(); };
+      this.client.onClose = () => { 
+        console.log("Gemini API Closed"); 
+        if (this.isRecording) {
+          this._updateStatus(this.connectionLostLabelValue, false);
+          this.stopChat(); 
+        }
+      };
 
       this.client.connect();
       this.streamer = new AudioStreamer(this.client);
@@ -427,10 +445,10 @@ export default class extends Controller {
   async _handleMessage(message) {
     switch (message.type) {
       case MultimodalLiveResponseType.SETUP_COMPLETE:
-        this._updateStatus("Ready", true);
+        this._updateStatus(this.readyLabelValue, true);
         break;
       case MultimodalLiveResponseType.AUDIO:
-        this._updateStatus("Speaking...", true);
+        this._updateStatus(this.speakingLabelValue, true);
         if (this.streamer) this.streamer.mute(true); // Prevent AI from hearing itself
         await this.player.play(message.data);
         break;
@@ -440,7 +458,7 @@ export default class extends Controller {
         if (this.streamer) this.streamer.mute(false);
         break;
       case MultimodalLiveResponseType.TURN_COMPLETE:
-        this._updateStatus("Listening...", true);
+        this._updateStatus(this.listeningLabelValue, true);
         if (this.streamer) this.streamer.mute(false);
         break;
       case MultimodalLiveResponseType.TOOL_CALL:
@@ -479,11 +497,11 @@ export default class extends Controller {
 
   _updateUI(active) {
     if (active) {
-      this.triggerTarget.textContent = "Stop Chat";
+      this.triggerTarget.textContent = this.stopChatLabelValue;
       this.triggerTarget.className = "bg-red-500 hover:bg-red-600 text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-red-500/30 active:scale-95 animate-pulse";
       this.statusTarget.classList.remove("hidden");
     } else {
-      this.triggerTarget.textContent = "Tap to Talk";
+      this.triggerTarget.textContent = this.tapToTalkLabelValue;
       this.triggerTarget.className = "bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-[#7C3AED]/30 active:scale-95";
       this.statusTarget.classList.add("hidden");
     }

@@ -11,9 +11,7 @@
         = (@step * 100 / 3).to_i
         | % 
     .overflow-hidden.h-2.mb-4.text-xs.flex.rounded.bg-[#E9D5FF]
-      |  <div style="width:
-      = (@step * 100 / 3).to_i
-      | %" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7C3AED] transition-all duration-500">
+      div style="width:#{(@step * 100 / 3).to_i}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7C3AED] transition-all duration-500"
 = form_with model: @user, url: onboarding_path(step: @step), method: :patch, local: true do |f|
   - if @user.errors.any?
     .bg-red-100.border.border-red-400.text-red-700.px-4.py-3.rounded.mb-4

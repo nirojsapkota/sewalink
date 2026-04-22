@@ -6,20 +6,14 @@
         = notice
     = render @task
     - if current_user.tasker? && @task.tasker == current_user
-      |  <div data-controller="geolocation" data-geolocation-task-id-value="
-      = @task.id
-      | " data-geolocation-task-latitude-value="
-      = @task.latitude
-      | " data-geolocation-task-longitude-value="
-      = @task.longitude
-      | "> 
-      .mt-4.p-3.rounded-lg.bg-blue-50.text-blue-800[data-geolocation-target="geofenceStatus"]
-        |  Loading geofence status... 
-      - if policy(@task).complete?
-        - # Changed from mark_as_done? to complete? based on common Rails practices
-        = button_to "Mark as Done", complete_task_path(@task), method: :patch,
-        -                         data: { geolocation_target: "markDoneButton", turbo_confirm: "Are you sure you want to mark this task as complete?" },
-        -                         class: "mt-4 rounded-lg py-3 px-5 bg-green-600 text-white font-medium cursor-pointer"
+      div data-controller="geolocation" data-geolocation-task-id-value="#{@task.id}" data-geolocation-task-latitude-value="#{@task.latitude}" data-geolocation-task-longitude-value="#{@task.longitude}"
+        .mt-4.p-3.rounded-lg.bg-blue-50.text-blue-800[data-geolocation-target="geofenceStatus"]
+          |  Loading geofence status... 
+        - if policy(@task).complete?
+          - # Changed from mark_as_done? to complete? based on common Rails practices
+          = button_to "Mark as Done", complete_task_path(@task), method: :patch,
+                                    data: { geolocation_target: "markDoneButton", turbo_confirm: "Are you sure you want to mark this task as complete?" },
+                                    class: "mt-4 rounded-lg py-3 px-5 bg-green-600 text-white font-medium cursor-pointer"
   = render 'task_actions', task: @task
   .mt-8.bg-white.p-6.rounded-xl.border.border-gray-100.shadow-sm
     h3.text-xl.font-bold.text-gray-900.mb-4
@@ -62,7 +56,7 @@
         = @user_bid.status.titleize
       - if @user_bid.conversation
         = link_to "Open Chat", conversation_path(@user_bid.conversation), 
-        -                         class: "text-[#7C3AED] text-sm font-bold underline"
+                                  class: "text-[#7C3AED] text-sm font-bold underline"
 p.text-[#7C3AED].text-sm.italic.mb-3
   | "
   = @user_bid.message

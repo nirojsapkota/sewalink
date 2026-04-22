@@ -15,10 +15,8 @@
         div
           p.text-sm.text-gray-500
             | Status
-          |  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-          = status_badge_class(@task.status)
-          | "> 
-          = @task.status.humanize
+          span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{status_badge_class(@task.status)}"
+            = @task.status.humanize
         div
           p.text-sm.text-gray-500
             | Budget
@@ -109,10 +107,8 @@
         span.font-medium
           | Payment #
           = tx.id
-        |  <span class="
-        = tx.completed? ? 'text-green-600' : 'text-orange-600'
-        | ">
-        = tx.status.humanize
+        span class="#{tx.completed? ? 'text-green-600' : 'text-orange-600'}"
+          = tx.status.humanize
     p.text-gray-500.text-xs
       = tx.created_at.strftime("%b %d, %Y %H:%M")
     p.font-mono.text-xs.text-gray-400.break-all

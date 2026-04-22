@@ -1,12 +1,10 @@
 .border.rounded-xl.p-5.hover:shadow-lg.transition-shadow.bg-white.relative
   .flex.justify-between.items-start.mb-3
-    |  <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full 
-    = task.open? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-    | "> 
-    = t("tasks.statuses.#{task.status}")
-    p.font-bold.text-[#7C3AED]
-      | Rs. 
-      = number_with_delimiter(task.budget)
+    span class="inline-block px-2 py-1 text-xs font-semibold rounded-full #{task.open? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}"
+      = t("tasks.statuses.#{task.status}")
+      p.font-bold.text-[#7C3AED]
+        | Rs. 
+        = number_with_delimiter(task.budget)
   h2.text-xl.font-bold.mb-1.truncate
     = task.title
   p.text-sm.text-gray-500.mb-3
@@ -19,5 +17,5 @@
       path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"]
     = task.location
   = link_to t('.view', default: 'View Details'), task, 
-  -                 class: "block text-center rounded-lg py-2 px-4 bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors",
-  -                 data: { turbo_frame: "_top" }
+                    class: "block text-center rounded-lg py-2 px-4 bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors",
+                    data: { turbo_frame: "_top" }

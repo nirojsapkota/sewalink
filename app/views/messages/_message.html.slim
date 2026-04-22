@@ -1,14 +1,8 @@
 - viewer = local_assigns[:viewer]
 -   task = message.conversation.task
-|  <div id="
-= dom_id message
-| " class="message-bubble flex" data-message-sender-id="
-= message.sender_id
-| " data-chat-target="message"> 
-.message-bubble-content.max-w-[75%].rounded-2xl.px-4.py-2.text-sm.shadow-sm
-  |  <p id="
-  = dom_id message
-  | _text" class="message-text whitespace-pre-wrap">
-  = message.viewer_aware_content(viewer)
-  span.text-[10px].block.text-right.mt-1.opacity-70
-    = message.created_at.strftime("%I:%M %p")
+div id="#{dom_id message}" class="message-bubble flex" data-message-sender-id="#{message.sender_id}" data-chat-target="message"
+  .message-bubble-content.max-w-[75%].rounded-2xl.px-4.py-2.text-sm.shadow-sm
+    p id="#{dom_id message}_text" class="message-text whitespace-pre-wrap"
+      = message.viewer_aware_content(viewer)
+      span.text-[10px].block.text-right.mt-1.opacity-70
+        = message.created_at.strftime("%I:%M %p")

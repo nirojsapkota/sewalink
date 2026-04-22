@@ -3,14 +3,14 @@
     = t('onboarding.title')
   .mb-8
     .flex.justify-between.mb-2
-      span.text-xs.font-semibold.inline-block.py-1.px-2.uppercase.rounded-full.text-[#7C3AED].bg-[#E9D5FF]
+      span[class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#7C3AED] bg-[#E9D5FF]"]
         |  Step 
         = @step
         |  of 3 
-      span.text-xs.font-semibold.inline-block.py-1.px-2.uppercase.rounded-full.text-[#7C3AED].bg-[#E9D5FF]
+      span[class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#7C3AED] bg-[#E9D5FF]"]
         = (@step * 100 / 3).to_i
         | % 
-    .overflow-hidden.h-2.mb-4.text-xs.flex.rounded.bg-[#E9D5FF]
+    div[class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#E9D5FF]"]
       div style="width:#{(@step * 100 / 3).to_i}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7C3AED] transition-all duration-500"
 = form_with model: @user, url: onboarding_path(step: @step), method: :patch, local: true do |f|
   - if @user.errors.any?
@@ -51,7 +51,7 @@
 
     label.cursor-pointer
       = f.radio_button :active_role, 'poster', class: "peer sr-only"
-    .p-4.border-2.rounded-lg.peer-checked:border-[#7C3AED].peer-checked:bg-[#F3E8FF].hover:bg-gray-50.transition-colors
+    div[class="p-4 border-2 rounded-lg peer-checked:border-[#7C3AED] peer-checked:bg-[#F3E8FF] hover:bg-gray-50 transition-colors"]
 
     span.block.font-bold
       = t('profiles.roles.poster')
@@ -59,7 +59,7 @@
       = t('onboarding.roles.poster')
     label.cursor-pointer
       = f.radio_button :active_role, 'tasker', class: "peer sr-only"
-    .p-4.border-2.rounded-lg.peer-checked:border-[#7C3AED].peer-checked:bg-[#F3E8FF].hover:bg-gray-50.transition-colors
+    div[class="p-4 border-2 rounded-lg peer-checked:border-[#7C3AED] peer-checked:bg-[#F3E8FF] hover:bg-gray-50 transition-colors"]
 
     span.block.font-bold
       = t('profiles.roles.tasker')

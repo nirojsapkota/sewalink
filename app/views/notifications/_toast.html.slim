@@ -1,8 +1,8 @@
 div id="#{dom_id(Bid.new)}_notification" data-controller="toast" class="relative max-w-sm w-full bg-white border border-indigo-100 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-500 translate-y-0 opacity-100 pointer-events-auto" data-toast-target="container"
   .p-4.flex.items-start.gap-4
     .bg-indigo-50.p-2.rounded-lg
-      svg.h-6.w-6.text-indigo-600[xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-        path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"]
+      svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
     .flex-1
       h4.text-sm.font-bold.text-gray-900
         = message
@@ -12,7 +12,7 @@ div id="#{dom_id(Bid.new)}_notification" data-controller="toast" class="relative
       - if defined?(link)
         .mt-2
           = link_to t('.view_details', default: 'View Details'), link, class: "text-xs font-bold text-indigo-600 hover:text-indigo-800"
-    button.text-gray-400.hover:text-gray-600.transition-colors[data-action="click->toast#close"]
-      svg.h-5.w-5[xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-        path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"]
-  .h-1.bg-indigo-600.animate-shrink[style="animation-duration: 5000ms;"]
+    button.text-gray-400.hover:text-gray-600.transition-colors data-action="click->toast#close"
+      svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
+  div class="h-1 bg-indigo-600 animate-shrink" style="animation-duration: 5000ms;"

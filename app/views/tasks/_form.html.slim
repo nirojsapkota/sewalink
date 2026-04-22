@@ -1,61 +1,61 @@
 = form_with(model: task, class: "contents", data: { controller: "image-preview" }) do |form|
   - if task.errors.any?
-    #error_explanation.bg-red-50.text-red-500.px-3.py-2.font-medium.rounded-lg.mt-3
+    #error_explanation class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3"
+      h2 = pluralize(task.errors.count, "error") + " prohibited this task from being saved:"
+      ul
+        - task.errors.each do |error|
+          li = error.full_message
 
-    h2
-      = pluralize(task.errors.count, "error")
-      |  prohibited this task from being saved:
-    ul
-      - task.errors.each do |error|
-        li
-          = error.full_message
   .my-5
     = form.label :category_id, t('.category', default: 'Category')
-    = form.collection_select :category_id, Category.all, :id, ->(c) { I18n.locale == :ne ? c.name_ne : c.name_en }, { prompt: t('.select_category', default: 'Select Category') }, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", data: { voice_recorder_target: "categoryId" }
+    = form.collection_select :category_id, Category.all, :id, ->(c) { I18n.locale == :ne ? c.name_ne : c.name_en }, { prompt: t('.select_category', default: 'Select Category') }, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+  
   .my-5
     = form.label :title, t('.title', default: 'Title')
-    = form.text_field :title, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.title_placeholder', default: "e.g., Fix leaking kitchen sink"), data: { voice_recorder_target: "title" }
+    = form.text_field :title, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.title_placeholder', default: "e.g., Fix leaking kitchen sink")
+  
   .my-5
     = form.label :description, t('.description', default: 'Description')
-    = form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.description_placeholder', default: "Describe the job in detail..."), data: { voice_recorder_target: "description" }
+    = form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.description_placeholder', default: "Describe the job in detail...")
+  
   .my-5
     = form.label :budget, t('.budget', default: 'Budget (Rs.)')
-    = form.number_field :budget, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", data: { voice_recorder_target: "budget" }
+    = form.number_field :budget, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+  
   .my-5
     = form.label :location, t('.location', default: 'Location (Address)')
     = form.text_field :location, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: t('.location_placeholder', default: "e.g., Koteshwor, Kathmandu")
+  
   .my-5
     = form.label :photos, t('.photos', default: 'Task Photos'), class: "font-bold text-gray-700 block mb-2"
-  .border-2.border-dashed.border-gray-200.rounded-2xl.p-8.bg-gray-50/50.hover:bg-gray-50.transition-colors.text-center.relative.group
-    = form.file_field :photos, multiple: true, accept: 'image/*', 
-                data: { 
-                  image_preview_target: "input", 
-                  action: "change->image-preview#preview" 
-                }, 
-                class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-  .space-y-2
-    svg.h-10.w-10.mx-auto.text-gray-400.group-hover:text-[#7C3AED].transition-colors[xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-      path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"]
-  p.text-sm.text-gray-500
+    div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 bg-gray-50/50 hover:bg-gray-50 transition-colors text-center relative group"
+      = form.file_field :photos, multiple: true, accept: 'image/*', 
+                  data: { image_preview_target: "input", action: "change->image-preview#preview" }, 
+                  class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+      
+      .space-y-2
+        svg class="h-10 w-10 mx-auto text-gray-400 group-hover:text-[#7C3AED] transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+        p class="text-sm text-gray-500"
+          span class="text-[#7C3AED] font-bold" Click to upload
+          |  or drag and drop 
+        p class="text-xs text-gray-400 italic" PNG, JPG, WEBP (up to 5MB each)
 
-  span.text-[#7C3AED].font-bold
-    | Click to upload
-  |  or drag and drop 
-  p.text-xs.text-gray-400.italic
-    | PNG, JPG, WEBP (up to 5MB each)
-  .grid.grid-cols-2.sm:grid-cols-3.md:grid-cols-4.gap-4.mt-6[data-image-preview-target="preview"]
-    - if task.photos.attached?
-      - task.photos.each do |photo|
-        div class="relative group" id="photo_#{photo.id}"
-          = image_tag photo, class: "w-full aspect-square object-cover rounded-xl border-2 border-gray-100 shadow-sm"
-          = button_to delete_photo_task_path(task, photo_id: photo.id), 
-                                      method: :delete, 
-                                      class: "absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-red-600 transition-colors z-20",
-                                      data: { turbo_confirm: "Delete this photo?" } do
-          svg.h-4.w-4[xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-            path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"]
-.my-5
-  = form.label :status, t('.status', default: 'Status')
-  = form.select :status, Task.statuses.keys.map { |s| [s.humanize, s] }.select { |s| ['draft', 'open'].include?(s[1]) }, {}, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
-.inline
-  = form.submit class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white inline-block font-medium cursor-pointer"
+    div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6" data-image-preview-target="preview"
+      - if task.photos.attached?
+        - task.photos.each do |photo|
+          div class="relative group" id="photo_#{photo.id}"
+            = image_tag photo, class: "w-full aspect-square object-cover rounded-xl border-2 border-gray-100 shadow-sm"
+            = button_to delete_photo_task_path(task, photo_id: photo.id), 
+                        method: :delete, 
+                        class: "absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-red-600 transition-colors z-20",
+                        data: { turbo_confirm: "Delete this photo?" } do
+              svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
+
+  .my-5
+    = form.label :status, t('.status', default: 'Status')
+    = form.select :status, Task.statuses.keys.map { |s| [s.humanize, s] }.select { |s| ['draft', 'open'].include?(s[1]) }, {}, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+
+  .inline
+    = form.submit class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white inline-block font-medium cursor-pointer"

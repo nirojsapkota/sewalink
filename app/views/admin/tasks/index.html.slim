@@ -34,10 +34,8 @@
           td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
             = humanized_money_with_symbol task.budget
           td.px-6.py-4.whitespace-nowrap
-            |  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-            = status_badge_class(task.status)
-            | "> 
-            = task.status.humanize
+            span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{status_badge_class(task.status)}"
+              = task.status.humanize
           td.px-6.py-4.whitespace-nowrap.text-sm.font-medium
             = link_to 'Show', admin_task_path(task), class: "text-blue-600 hover:text-blue-900"
 .mt-8

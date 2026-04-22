@@ -58,12 +58,8 @@ section.bg-white.p-6.rounded-2xl.shadow-sm.border.border-[#7C3AED]/10
           = conversation.id
         .space-y-4
           - conversation.messages.order(created_at: :asc).each do |msg|
-            |  <div class="flex flex-col 
-            = msg.sender_id == @task.user_id ? "items-start" : "items-end"
-            | "> <div class="max-w-[80%] rounded-2xl p-3 text-sm 
-            = msg.sender_id == @task.user_id ? "bg-[#F3E8FF] text-[#4C1D95]" : "bg-white border border-[#7C3AED]/20 text-[#4C1D95]"
-            |  shadow-sm"> 
-            = msg.content
+            div class="flex flex-col #{msg.sender_id == @task.user_id ? "items-start" : "items-end"}"> <div class="max-w-[80%] rounded-2xl p-3 text-sm #{msg.sender_id == @task.user_id ? "bg-[#F3E8FF] text-[#4C1D95]" : "bg-white border border-[#7C3AED]/20 text-[#4C1D95]"}shadow-sm"
+              = msg.content
         .mt-1.text-[10px].text-gray-400.font-medium.px-2
           = msg.sender.name || msg.sender.phone
           |  • 
@@ -86,18 +82,18 @@ section.bg-white.p-6.rounded-2xl.shadow-sm.border.border-[#7C3AED]/10
     p.text-xs.text-white/70.mb-4
       | Releases the escrowed amount to the Tasker. Mark the task as "Completed".
     = button_to "Release to Tasker", resolve_admin_dispute_path(@task, decision: 'release'), 
-    -                         method: :patch, 
-    -                         class: "w-full bg-[#22C55E] hover:bg-[#16a34a] text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
-    -                         data: { confirm: "Are you sure you want to release funds to the tasker?" }
+                              method: :patch, 
+                              class: "w-full bg-[#22C55E] hover:bg-[#16a34a] text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
+                              data: { confirm: "Are you sure you want to release funds to the tasker?" }
 .pt-6.border-t.border-white/10
   h3.font-bold.mb-2
     | Option 2: Refund Poster
   p.text-xs.text-white/70.mb-4
     | Refunds the escrowed amount to the Poster's wallet. Mark the task as "Cancelled".
   = button_to "Refund to Poster", resolve_admin_dispute_path(@task, decision: 'refund'), 
-  -                         method: :patch, 
-  -                         class: "w-full bg-white text-[#7C3AED] hover:bg-[#F3E8FF] font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
-  -                         data: { confirm: "Are you sure you want to refund the poster?" }
+                            method: :patch, 
+                            class: "w-full bg-white text-[#7C3AED] hover:bg-[#F3E8FF] font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
+                            data: { confirm: "Are you sure you want to refund the poster?" }
 section.bg-white.p-6.rounded-2xl.shadow-sm.border.border-[#7C3AED]/10
   h2.text-lg.font-bold.mb-4
     | Task Details

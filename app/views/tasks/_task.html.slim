@@ -1,32 +1,27 @@
-div id="#{dom_id task}"
+div id=dom_id(task)
   .mb-5
     .flex.justify-between.items-start
       div
-        h2.text-3xl.font-bold
-          = task.title
-        p.text-gray-600
-          = I18n.locale == :ne ? task.category.name_ne : task.category.name_en
+        h2.text-3xl.font-bold = task.title
+        p.text-gray-600 = I18n.locale == :ne ? task.category.name_ne : task.category.name_en
+      
       .text-right
         span class="inline-block px-3 py-1 text-sm font-semibold rounded-full #{task.open? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}"
           = t("tasks.statuses.#{task.status}")
-          p.text-xl.font-bold.text-[#7C3AED].mt-1
-            | Rs. 
-            = number_with_delimiter(task.budget)
+        p class="text-xl font-bold text-[#7C3AED] mt-1" Rs. #{number_with_delimiter(task.budget)}
+
   .grid.grid-cols-1.md:grid-cols-2.gap-8
     div
-      h3.text-lg.font-semibold.mb-2
-        = t('.description', default: 'Description')
-      p.text-gray-700.whitespace-pre-wrap
-        = task.description
-      h3.text-lg.font-semibold.mt-6.mb-2
-        = t('.location', default: 'Location')
-      p.text-gray-700
-        = task.location
+      h3.text-lg.font-semibold.mb-2 = t('.description', default: 'Description')
+      p.text-gray-700.whitespace-pre-wrap = task.description
+      
+      h3.text-lg.font-semibold.mt-6.mb-2 = t('.location', default: 'Location')
+      p.text-gray-700 = task.location
+      
     div
       - if task.photos.attached?
-        h3.text-lg.font-semibold.mb-2
-          = t('.photos', default: 'Photos')
+        h3.text-lg.font-semibold.mb-2 = t('.photos', default: 'Photos')
         .grid.grid-cols-2.gap-2
           - task.photos.each do |photo|
-            .cursor-pointer.hover:opacity-90.transition-opacity[data-controller="lightbox"]
+            div class="cursor-pointer hover:opacity-90 transition-opacity" data-controller="lightbox"
               = image_tag photo, class: "rounded-lg object-cover w-full h-48", data: { action: "click->lightbox#zoom" }

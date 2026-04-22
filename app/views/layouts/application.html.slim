@@ -14,7 +14,7 @@ html
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
 
-  body.bg-[#FAF5FF] font-['Mukta'] text-[#4C1D95] data-user-signed-in=user_signed_in?.to_s
+  body[class="bg-[#FAF5FF] font-['Mukta'] text-[#4C1D95]" data-user-signed-in=user_signed_in?.to_s]
     = render "shared/navbar"
     
     - if user_signed_in?
@@ -28,7 +28,7 @@ html
     main.container.mx-auto.mt-8.md:mt-12.px-5
       = yield
     
-    footer.bg-white/50.py-10.border-t.border-[#7C3AED]/5.mt-20
+    footer[class="bg-white/50 py-10 border-t border-[#7C3AED]/5 mt-20"]
       .max-w-7xl.mx-auto.px-5.text-center
-        .text-xl.font-bold.text-[#7C3AED].mb-4 sewaLink
-        p.text-sm.text-[#4C1D95]/40 © 2026 sewaLink Nepal. All rights reserved.
+        div[class="text-xl font-bold text-[#7C3AED] mb-4"] sewaLink
+        p[class="text-sm text-[#4C1D95]/40"] © 2026 sewaLink Nepal. All rights reserved.

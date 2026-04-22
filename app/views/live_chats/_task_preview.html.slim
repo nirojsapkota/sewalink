@@ -1,43 +1,43 @@
-#ai_task_preview.bg-white.rounded-2xl.p-6.shadow-sm.border.border-[#7C3AED]/10
+div#ai_task_preview class="bg-white rounded-2xl p-6 shadow-sm border border-[#7C3AED]/10"
   - if task
     .mb-4.flex.items-center.justify-between
-      span[class="bg-[#F5F3FF] text-[#7C3AED] text-xs font-bold px-2 py-1 rounded uppercase tracking-wider"]
+      span class="bg-[#F5F3FF] text-[#7C3AED] text-xs font-bold px-2 py-1 rounded uppercase tracking-wider"
         = t("tasks.statuses.#{task.status}")
       - if task.draft?
-        span[class="text-[10px] text-[#4C1D95]/40 italic"]
+        span class="text-[10px] text-[#4C1D95]/40 italic"
           = t('live_chats.task_preview.syncing')
 
-    h3[class="font-bold text-[#4C1D95] mb-2"]
+    h3 class="font-bold text-[#4C1D95] mb-2"
       = task.title.presence || t('live_chats.task_preview.untitled_task')
     
     .space-y-3
       div
-        label[class="text-[10px] uppercase font-bold text-[#4C1D95]/40 block"]
+        label class="text-[10px] uppercase font-bold text-[#4C1D95]/40 block"
           = t('live_chats.task_preview.description')
-        p[class="text-sm text-[#4C1D95]/80 line-clamp-3"]
+        p class="text-sm text-[#4C1D95]/80 line-clamp-3"
           = task.description.presence || t('live_chats.task_preview.describe_placeholder')
 
       .flex.justify-between.items-end
         div
-          label[class="text-[10px] uppercase font-bold text-[#4C1D95]/40 block"]
+          label class="text-[10px] uppercase font-bold text-[#4C1D95]/40 block"
             = t('live_chats.task_preview.budget')
-          p[class="text-lg font-bold text-[#7C3AED]"]
+          p class="text-lg font-bold text-[#7C3AED]"
             = (task.budget && task.budget > 0) ? humanized_money_with_symbol(task.budget) : "NPR ---"
         .text-right
-          label[class="text-[10px] uppercase font-bold text-[#4C1D95]/40 block"]
+          label class="text-[10px] uppercase font-bold text-[#4C1D95]/40 block"
             = t('live_chats.task_preview.location')
-          p[class="text-sm font-medium text-[#4C1D95]/80"]
+          p class="text-sm font-medium text-[#4C1D95]/80"
             = task.location.presence || "---"
 
-    div[class="mt-6 pt-6 border-t border-[#7C3AED]/5"]
+    div class="mt-6 pt-6 border-t border-[#7C3AED]/5"
       - if task.draft?
         = link_to t('live_chats.task_preview.review_and_publish'), edit_task_path(task), class: "w-full block text-center bg-[#7C3AED] text-white py-2 rounded-xl font-bold text-sm shadow-sm hover:shadow-md transition"
       - else
         = link_to t('live_chats.task_preview.view_task'), task_path(task), class: "w-full block text-center bg-green-500 text-white py-2 rounded-xl font-bold text-sm shadow-sm hover:shadow-md transition"
   - else
     .py-12.text-center
-      div[class="w-12 h-12 bg-[#F5F3FF] rounded-full mx-auto flex"] items-center justify-center mb-4
-        svg[class="h-6 w-6 text-[#7C3AED]/40"] xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+      div class="w-12 h-12 bg-[#F5F3FF] rounded-full mx-auto flex items-center justify-center mb-4"
+        svg class="h-6 w-6 text-[#7C3AED]/40" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-      p[class="text-sm text-[#4C1D95]/40 px-4"]
+      p class="text-sm text-[#4C1D95]/40 px-4"
         = t('live_chats.task_preview.empty_state')

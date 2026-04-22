@@ -1,122 +1,89 @@
 .mb-8.flex.justify-between.items-center
   h1.text-3xl.font-bold
-    | Task #
-    = @task.id
-    | : 
-    = @task.title
+    | Task ##{@task.id}: #{@task.title}
   .flex.gap-2
     = link_to 'Back to List', admin_tasks_path, class: "bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+
 .grid.grid-cols-1.md:grid-cols-3.gap-8
   .md:col-span-2.space-y-8
     .bg-white.p-6.rounded-lg.shadow
-      h2.text-xl.font-semibold.mb-4.border-b.pb-2
-        | Details
+      h2.text-xl.font-semibold.mb-4.border-b.pb-2 Details
       .grid.grid-cols-2.gap-4
         div
-          p.text-sm.text-gray-500
-            | Status
+          p.text-sm.text-gray-500 Status
           span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{status_badge_class(@task.status)}"
             = @task.status.humanize
         div
-          p.text-sm.text-gray-500
-            | Budget
+          p.text-sm.text-gray-500 Budget
           p.font-medium
             = humanized_money_with_symbol @task.budget
-            |  (
-            = @task.payment_type&.humanize || "Not Set"
-            | )
+            |  (#{@task.payment_type&.humanize || "Not Set"})
         div
-          p.text-sm.text-gray-500
-            | Category
-          p.font-medium
-            = @task.category.name_en
+          p.text-sm.text-gray-500 Category
+          p.font-medium = @task.category.name_en
         div
-          p.text-sm.text-gray-500
-            | Created At
-          p.font-medium
-            = @task.created_at.strftime("%Y-%m-%d %H:%M")
+          p.text-sm.text-gray-500 Created At
+          p.font-medium = @task.created_at.strftime("%Y-%m-%d %H:%M")
+      
       .mt-4
-        p.text-sm.text-gray-500
-          | Description
-        p.mt-1
-          = @task.description
+        p.text-sm.text-gray-500 Description
+        p.mt-1 = @task.description
+      
       .mt-4
-        p.text-sm.text-gray-500
-          | Location
-        p.mt-1
-          = @task.location
+        p.text-sm.text-gray-500 Location
+        p.mt-1 = @task.location
+
     - if @task.dispute?
       .bg-red-50.p-6.rounded-lg.border.border-red-200.shadow
+        h2.text-xl.font-semibold.text-red-700.mb-4 Dispute Underway
+        p.mb-4 This task is currently in dispute. Platform administrators must resolve it.
+        = link_to "Go to Dispute Resolution", admin_dispute_path(@task), class: "inline-block bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
 
-      h2.text-xl.font-semibold.text-red-700.mb-4
-        | Dispute Underway
-      p.mb-4
-        | This task is currently in dispute. Platform administrators must resolve it.
-      = link_to "Go to Dispute Resolution", admin_dispute_path(@task), class: "inline-block bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
-  .bg-white.p-6.rounded-lg.shadow
-    h2.text-xl.font-semibold.mb-4.border-b.pb-2
-      | Photos
-    - if @task.photos.attached?
-      .grid.grid-cols-2.md:grid-cols-3.gap-4
-        - @task.photos.each do |photo|
-          = image_tag photo, class: "rounded-lg object-cover h-48 w-full"
-    - else
-      p.text-gray-500.italic
-        | No photos attached.
-.space-y-8
-  .bg-white.p-6.rounded-lg.shadow
-    h2.text-xl.font-semibold.mb-4.border-b.pb-2
-      | Participants
-    .space-y-4
-      div
-        p.text-sm.text-gray-500
-          | Poster
-        = link_to admin_user_path(@task.user), class: "flex items-center gap-3 mt-1 hover:bg-gray-50 p-2 rounded" do
-          .w-10.h-10.bg-blue-100.rounded-full.flex.items-center.justify-center.text-blue-600.font-bold
-            = @task.user.first_name&.first || "U"
-          div
+    .bg-white.p-6.rounded-lg.shadow
+      h2.text-xl.font-semibold.mb-4.border-b.pb-2 Photos
+      - if @task.photos.attached?
+        .grid.grid-cols-2.md:grid-cols-3.gap-4
+          - @task.photos.each do |photo|
+            = image_tag photo, class: "rounded-lg object-cover h-48 w-full"
+      - else
+        p.text-gray-500.italic No photos attached.
 
-          p.font-medium.text-blue-600
-            = @task.user.name || "Unnamed User"
-          p.text-xs.text-gray-500
-            = @task.user.phone
-    - if @task.tasker
-      div
-
-      p.text-sm.text-gray-500
-        | Tasker
-      = link_to admin_user_path(@task.tasker), class: "flex items-center gap-3 mt-1 hover:bg-gray-50 p-2 rounded" do
-        .w-10.h-10.bg-green-100.rounded-full.flex.items-center.justify-center.text-green-600.font-bold
-          = @task.tasker.first_name&.first || "T"
+  .space-y-8
+    .bg-white.p-6.rounded-lg.shadow
+      h2.text-xl.font-semibold.mb-4.border-b.pb-2 Participants
+      .space-y-4
         div
+          p.text-sm.text-gray-500 Poster
+          = link_to admin_user_path(@task.user), class: "flex items-center gap-3 mt-1 hover:bg-gray-50 p-2 rounded" do
+            .w-10.h-10.bg-blue-100.rounded-full.flex.items-center.justify-center.text-blue-600.font-bold
+              = @task.user.first_name&.first || "U"
+            div
+              p.font-medium.text-blue-600 = @task.user.name || "Unnamed User"
+              p.text-xs.text-gray-500 = @task.user.phone
+        
+        - if @task.tasker
+          div
+            p.text-sm.text-gray-500 Tasker
+            = link_to admin_user_path(@task.tasker), class: "flex items-center gap-3 mt-1 hover:bg-gray-50 p-2 rounded" do
+              .w-10.h-10.bg-green-100.rounded-full.flex.items-center.justify-center.text-green-600.font-bold
+                = @task.tasker.first_name&.first || "T"
+              div
+                p.font-medium.text-green-600 = @task.tasker.name || "Unnamed Tasker"
+                p.text-xs.text-gray-500 = @task.tasker.phone
 
-        p.font-medium.text-green-600
-          = @task.tasker.name || "Unnamed Tasker"
-        p.text-xs.text-gray-500
-          = @task.tasker.phone
-.bg-white.p-6.rounded-lg.shadow
-  h2.text-xl.font-semibold.mb-4.border-b.pb-2
-    | Transactions
-  - if @task.payment_transactions.any?
-    .space-y-3
-      - @task.payment_transactions.each do |tx|
-        .text-sm.border-b.pb-2.last:border-0
-
-        .flex.justify-between
-
-        span.font-medium
-          | Payment #
-          = tx.id
-        span class="#{tx.completed? ? 'text-green-600' : 'text-orange-600'}"
-          = tx.status.humanize
-    p.text-gray-500.text-xs
-      = tx.created_at.strftime("%b %d, %Y %H:%M")
-    p.font-mono.text-xs.text-gray-400.break-all
-      = tx.transaction_uuid
-    - if tx.external_ref.present?
-      p.text-xs.text-gray-500.mt-1
-        | Ref: 
-        = tx.external_ref
-- else
-  p.text-gray-500.italic
-    | No transactions found.
+    .bg-white.p-6.rounded-lg.shadow
+      h2.text-xl.font-semibold.mb-4.border-b.pb-2 Transactions
+      - if @task.payment_transactions.any?
+        .space-y-3
+          - @task.payment_transactions.each do |tx|
+            .text-sm.border-b.pb-2.last:border-0
+              .flex.justify-between
+                span.font-medium Payment ##{tx.id}
+                span class="#{tx.completed? ? 'text-green-600' : 'text-orange-600'}"
+                  = tx.status.humanize
+              p.text-gray-500.text-xs = tx.created_at.strftime("%b %d, %Y %H:%M")
+              p.font-mono.text-xs.text-gray-400.break-all = tx.transaction_uuid
+              - if tx.external_ref.present?
+                p.text-xs.text-gray-500.mt-1 Ref: #{tx.external_ref}
+      - else
+        p.text-gray-500.italic No transactions found.

@@ -1,22 +1,7 @@
-.mx-auto.md:w-2/3.w-full[data-controller="voice-recorder"]
-  h1.font-bold.text-4xl
+div class="mx-auto md:w-2/3 w-full"
+  h1 class="font-bold text-4xl"
     = t('.title', default: 'New Task')
-  .my-6.p-6.bg-purple-50.rounded-xl.border.border-purple-100.flex.flex-col.items-center.justify-center.text-center.shadow-sm
-    h2.text-xl.font-semibold.text-purple-900.mb-2
-      | ✨ Magic Box
-    p.text-purple-700.mb-4.text-sm
-      | Describe what you need done out loud, and AI will fill out the form for you!
-    button.group.relative.flex.items-center.justify-center.w-16.h-16.bg-[#7C3AED].hover:bg-purple-700.text-white.rounded-full.shadow-lg.transition-all.duration-300.transform.hover:scale-105.focus:outline-none.focus:ring-4.focus:ring-purple-300[data-action="click->voice-recorder#toggleRecording" data-voice-recorder-target="trigger"]
-      svg.h-8.w-8.group-[.recording]:animate-pulse[xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-        path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"]
-      span.absolute.-inset-2.rounded-full.border-2.border-[#7C3AED].opacity-0.group-[.recording]:animate-ping
-    span.mt-4.text-sm.font-medium.text-purple-800.h-5[data-voice-recorder-target="status"]
-      | Click the microphone to start...
-    .hidden.mt-6.p-4.bg-white.rounded-lg.border.border-purple-200.shadow-inner.w-full.max-w-lg[data-voice-recorder-target="aiQuestionContainer"]
-      p.text-xs.font-bold.text-purple-400.uppercase.tracking-wider.mb-1
-        | AI Assistant
-      p.text-purple-900.font-medium[data-voice-recorder-target="aiQuestion"]
-    button.mt-4.text-xs.font-bold.text-purple-500.hover:text-purple-700.underline.uppercase.tracking-tighter[data-action="click->voice-recorder#resetConversation"]
-      |  Reset Conversation 
+
   = render "form", task: @task
+
   = link_to t('.back', default: 'Back to tasks'), tasks_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium mt-4"

@@ -384,12 +384,14 @@ export default class extends Controller {
       const instructions = `
       Start communicating in the '${currentLocale}' language.
       Greet the user with name ${userName}!
-      Introduce yourself as SewaLink, a helpful assistant for creating service tasks on the SewaLink platform. Always be friendly and engaging in your responses.
-      Your primary goal is to help the user create a service task.
-      IMPORTANT:
-      1. Call 'create_task_draft' IMMEDIATELY every time the user provides or updates any information (title, description, budget, or location).
-      2. Call 'publish_task' ONLY when the user explicitly asks to 'publish', 'post', or 'finish' their task.
-      Always confirm to the user when you have updated their task draft or published it.`;
+      Introduce yourself as SewaLink, a helpful assistant for managing service tasks on the SewaLink platform. Always be friendly and engaging in your responses.
+      
+      Capabilities:
+      1. Help create tasks. Call 'create_task_draft' IMMEDIATELY every time the user provides or updates any information (title, description, budget, or location).
+      2. Publish tasks. Call 'publish_task' ONLY when the user explicitly asks to 'publish', 'post', or 'finish' their task.
+      3. Query status/history. Call 'query_tasks' when the user asks about their pending tasks, status of a job, or a summary of their activity.
+      
+      Always confirm to the user when you have performed an action or found the information they requested.`;
 
       this.client = new GeminiLiveAPI(tokenData, instructions);
       this.client.onMessage = this._handleMessage.bind(this);
@@ -411,24 +413,6 @@ export default class extends Controller {
       console.error("Failed to start chat:", err);
       this.stopChat();
     }
-  }
-
-  _calculateVolume(buffer) {
-    const int16 = new Int16Array(buffer);
-    let sum = 0;
-    for (let i = 0; i < int16.length; i++) sum += Math.abs(int16[i] / 32768.0);
-    return sum / int16.length;
-  }
-
-  _resetSilenceTimer() {
-    if (this.silenceTimer) clearTimeout(this.silenceTimer);
-    this.silenceTimer = setTimeout(() => {
-      if (this.isRecording) {
-        this.channel.perform('send_turn_complete');
-        this._updateStatus("Thinking...", true);
-        this.triggerTarget.className = "bg-yellow-500 text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-yellow-500/30";
-      }
-    }, 1500);
   }
 
   stopChat() {

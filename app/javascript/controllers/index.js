@@ -12,6 +12,9 @@ application.register("geolocation", GeolocationController)
 import ImagePreviewController from "controllers/image_preview_controller"
 application.register("image-preview", ImagePreviewController)
 
+import LightboxController from "controllers/lightbox_controller"
+application.register("lightbox", LightboxController)
+
 import RealTimeChatController from "controllers/real_time_chat_controller"
 application.register("real-time-chat", RealTimeChatController)
 

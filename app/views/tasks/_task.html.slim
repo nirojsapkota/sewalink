@@ -23,5 +23,5 @@ div id=dom_id(task)
         h3.text-lg.font-semibold.mb-2 = t('.photos', default: 'Photos')
         .grid.grid-cols-2.gap-2
           - task.photos.each do |photo|
-            div class="cursor-pointer hover:opacity-90 transition-opacity" data-controller="lightbox"
-              = image_tag photo, class: "rounded-lg object-cover w-full h-48", data: { action: "click->lightbox#zoom" }
+            = image_tag photo, class: "rounded-lg object-cover w-full h-48 cursor-pointer hover:opacity-90 transition-opacity", 
+                        data: { controller: "lightbox", action: "click->lightbox#zoom" }

@@ -37,6 +37,20 @@ module Gemini
       }
     }.freeze
 
-    ALL_TOOLS = [CREATE_TASK_DRAFT, PUBLISH_TASK].freeze
+    QUERY_TASKS = {
+      name: "query_tasks",
+      description: "Get a summary of the user's tasks, their statuses, and counts. Use this to answer questions like 'How many tasks do I have pending?' or 'What is the status of my plumbing task?'. It returns information based on the user's active role (Poster or Tasker).",
+      parameters: {
+        type: "OBJECT",
+        properties: {
+          search_query: {
+            type: "STRING",
+            description: "Optional keywords to filter tasks by title or description."
+          }
+        }
+      }
+    }.freeze
+
+    ALL_TOOLS = [CREATE_TASK_DRAFT, PUBLISH_TASK, QUERY_TASKS].freeze
   end
 end

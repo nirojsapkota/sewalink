@@ -23,4 +23,14 @@ module ApplicationHelper
       'bg-gray-100 text-gray-800'
     end
   end
+
+  def user_dashboard_path
+    return root_path unless user_signed_in?
+
+    if current_user.poster?
+      poster_dashboard_path
+    else
+      tasker_dashboard_path
+    end
+  end
 end

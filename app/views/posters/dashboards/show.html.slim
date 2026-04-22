@@ -1,25 +1,19 @@
-.mx-auto.w-full
+div class="mx-auto w-full"
   .flex.justify-between.items-center.mb-8
-    h1.font-bold.text-4xl.text-[#4C1D95]
-      = t('dashboards.poster.title')
+    h1 class="font-bold text-4xl text-[#4C1D95]" = t('dashboards.poster.title')
     = link_to t('tasks.index.new_task'), new_task_path, class: "rounded-xl py-3 px-6 bg-[#7C3AED] text-white block font-bold shadow-lg hover:bg-[#6D28D9] transition-all transform hover:-translate-y-0.5"
-  - # Status Tabs
+  
+  / Status Tabs
   .mb-8.border-b.border-gray-200
     .flex.flex-wrap.-mb-px.text-sm.font-medium.text-center.text-gray-500
-      - tabs = [
-                  { label: 'All', status: nil },
-                  { label: 'Drafts', status: 'draft' },
-                  { label: 'Active', status: 'active' },
-                  { label: 'Pending Payment', status: 'pending_payment' },
-                  { label: 'Completed', status: 'completed' },
-                  { label: 'Dispute', status: 'dispute' }
-                ]
-        tabs.each do |tab|
+      - tabs = [ { label: 'All', status: nil }, { label: 'Drafts', status: 'draft' }, { label: 'Active', status: 'active' }, { label: 'Pending Payment', status: 'pending_payment' }, { label: 'Completed', status: 'completed' }, { label: 'Dispute', status: 'dispute' } ]
+      - tabs.each do |tab|
         - active = params[:status] == tab[:status]
         .mr-2
           = link_to poster_dashboard_path(status: tab[:status]), 
-                                  class: "inline-block p-4 rounded-t-lg border-b-2 transition-colors #{active ? 'text-[#7C3AED] border-[#7C3AED] active' : 'border-transparent hover:text-gray-600 hover:border-gray-300'}",
-                                  data: { turbo_frame: "tasks_list", turbo_action: "advance" } do
-          = tab[:label]
-= turbo_frame_tag "tasks_list" do
-  = render "task_list", tasks: @tasks
+                      class: "inline-block p-4 rounded-t-lg border-b-2 transition-colors #{active ? 'text-[#7C3AED] border-[#7C3AED] active' : 'border-transparent hover:text-gray-600 hover:border-gray-300'}",
+                      data: { turbo_frame: "tasks_list", turbo_action: "advance" } do
+            = tab[:label]
+
+  = turbo_frame_tag "tasks_list" do
+    = render "task_list", tasks: @tasks

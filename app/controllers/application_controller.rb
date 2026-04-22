@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def after_sign_in_path_for(resource)
+    if resource.poster?
+      poster_dashboard_path
+    else
+      tasker_dashboard_path
+    end
+  end
+
   def user_not_authorized
     flash[:alert] = t("errors.messages.not_authorized")
     redirect_back(fallback_location: root_path)

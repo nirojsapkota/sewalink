@@ -2,9 +2,9 @@
   h2.text-2xl.font-bold.mb-6.text-center
     = t('login')
   .mb-6.flex.justify-center.space-x-4
-    button#toggle-phone.px-4.py-2.bg-[#7C3AED].text-white.rounded.hover:bg-[#6D28D9].focus:outline-none.focus:ring-2.focus:ring-[#7C3AED]
+    button#toggle-phone class="px-4 py-2 bg-[#7C3AED] text-white rounded hover:bg-[#6D28D9] focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
       = t('auth.login_phone')
-    button#toggle-email.px-4.py-2.bg-gray-200.text-gray-700.rounded.hover:bg-gray-300.focus:outline-none.focus:ring-2.focus:ring-gray-400
+    button#toggle-email class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
       = t('auth.login_email')
   #phone-login-form
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
@@ -31,5 +31,31 @@
         = f.submit t('auth.submit'), class: "w-full bg-[#7C3AED] text-white p-2 rounded-md hover:bg-[#6D28D9]"
   .mt-6.text-center
     = render "users/shared/links"
-script
-  |  document.addEventListener('turbo:load', function() { const togglePhoneBtn = document.getElementById('toggle-phone'); const toggleEmailBtn = document.getElementById('toggle-email'); const phoneForm = document.getElementById('phone-login-form'); const emailForm = document.getElementById('email-login-form'); if (togglePhoneBtn && toggleEmailBtn && phoneForm && emailForm) { togglePhoneBtn.addEventListener('click', function() { phoneForm.classList.remove('hidden'); emailForm.classList.add('hidden'); togglePhoneBtn.classList.replace('bg-gray-200', 'bg-[#7C3AED]'); togglePhoneBtn.classList.replace('text-gray-700', 'text-white'); toggleEmailBtn.classList.replace('bg-[#7C3AED]', 'bg-gray-200'); toggleEmailBtn.classList.replace('text-white', 'text-gray-700'); }); toggleEmailBtn.addEventListener('click', function() { emailForm.classList.remove('hidden'); phoneForm.classList.add('hidden'); toggleEmailBtn.classList.replace('bg-gray-200', 'bg-[#7C3AED]'); toggleEmailBtn.classList.replace('text-gray-700', 'text-white'); togglePhoneBtn.classList.replace('bg-[#7C3AED]', 'bg-gray-200'); togglePhoneBtn.classList.replace('text-white', 'text-gray-700'); }); } }); 
+
+javascript:
+  document.addEventListener('turbo:load', function() {
+    const togglePhoneBtn = document.getElementById('toggle-phone');
+    const toggleEmailBtn = document.getElementById('toggle-email');
+    const phoneForm = document.getElementById('phone-login-form');
+    const emailForm = document.getElementById('email-login-form');
+
+    if (togglePhoneBtn && toggleEmailBtn && phoneForm && emailForm) {
+      togglePhoneBtn.addEventListener('click', function() {
+        phoneForm.classList.remove('hidden');
+        emailForm.classList.add('hidden');
+        togglePhoneBtn.classList.replace('bg-gray-200', 'bg-[#7C3AED]');
+        togglePhoneBtn.classList.replace('text-gray-700', 'text-white');
+        toggleEmailBtn.classList.replace('bg-[#7C3AED]', 'bg-gray-200');
+        toggleEmailBtn.classList.replace('text-white', 'text-gray-700');
+      });
+
+      toggleEmailBtn.addEventListener('click', function() {
+        emailForm.classList.remove('hidden');
+        phoneForm.classList.add('hidden');
+        toggleEmailBtn.classList.replace('bg-gray-200', 'bg-[#7C3AED]');
+        toggleEmailBtn.classList.replace('text-gray-700', 'text-white');
+        togglePhoneBtn.classList.replace('bg-[#7C3AED]', 'bg-gray-200');
+        togglePhoneBtn.classList.replace('text-white', 'text-gray-700');
+      });
+    }
+  }); 

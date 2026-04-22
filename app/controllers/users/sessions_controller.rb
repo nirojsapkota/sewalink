@@ -43,7 +43,7 @@ class Users::SessionsController < Devise::SessionsController
     if @user && @user.validate_and_consume_otp!(params[:otp])
       sign_in(@user)
       session.delete(:otp_phone)
-      redirect_to root_path, notice: t('devise.sessions.signed_in')
+      redirect_to after_sign_in_path_for(@user), notice: t('devise.sessions.signed_in')
     else
       flash.now[:alert] = t('devise.two_factor_authentication.invalid_otp') || "Invalid OTP"
       render :otp

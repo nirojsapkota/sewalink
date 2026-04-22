@@ -1,7 +1,12 @@
 div class="mx-auto w-full"
   .flex.justify-between.items-center.mb-8
     h1 class="font-bold text-4xl text-[#4C1D95]" = t('dashboards.poster.title')
-    = link_to t('tasks.index.new_task'), new_task_path, class: "rounded-xl py-3 px-6 bg-[#7C3AED] text-white block font-bold shadow-lg hover:bg-[#6D28D9] transition-all transform hover:-translate-y-0.5"
+    .flex.gap-4
+      = link_to live_chat_path, class: "rounded-xl py-3 px-6 bg-white text-[#7C3AED] border-2 border-[#7C3AED] block font-bold shadow-lg hover:bg-gray-50 transition-all transform hover:-translate-y-0.5 flex items-center gap-2" do
+        svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+        = t('live_chats.show.title')
+      = link_to t('tasks.index.new_task'), new_task_path, class: "rounded-xl py-3 px-6 bg-[#7C3AED] text-white block font-bold shadow-lg hover:bg-[#6D28D9] transition-all transform hover:-translate-y-0.5"
   
   / Status Tabs
   .mb-8.border-b.border-gray-200

@@ -3,23 +3,22 @@
     = t('auth.verify_otp')
   - if @dev_otp
     .mb-4.p-3.bg-yellow-50.border.border-yellow-200.rounded.text-center
-
-    p.text-sm.text-yellow-700.font-medium
-      | Dev OTP: 
-    span.text-lg.font-mono
-      = @dev_otp
-p.text-center.text-gray-600.mb-6
-  = t('auth.otp_sent')
-  br
-  span.font-bold.text-[#7C3AED]
-    = @phone
-= form_tag verify_otp_path, method: :post do
-  .mb-6
-    = label_tag :otp, t('auth.otp'), class: "block text-sm font-medium text-gray-700"
-    = text_field_tag :otp, nil, autofocus: true, placeholder: "000000", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-center text-2xl tracking-widest focus:ring-[#7C3AED] focus:border-[#7C3AED]", maxlength: 6
-  .mt-6
-    = submit_tag t('auth.verify_otp'), class: "w-full bg-[#7C3AED] text-white p-2 rounded-md hover:bg-[#6D28D9]"
-.mt-6.text-center
-  = button_to t('auth.resend_otp'), resend_otp_path, class: "text-sm text-[#7C3AED] hover:text-[#6D28D9] bg-transparent border-0 cursor-pointer p-0"
-  br
-  = link_to t('login'), new_user_session_path, class: "text-sm text-gray-600 hover:text-gray-500 mt-2 inline-block"
+      p.text-sm.text-yellow-700.font-medium
+        | Dev OTP: 
+      span.text-lg.font-mono
+        = @dev_otp
+  p.text-center.text-gray-600.mb-6
+    = t('auth.otp_sent')
+    br
+    span class="font-bold text-[#7C3AED]"
+      = @phone
+  = form_tag verify_otp_path, method: :post do
+    .mb-6
+      = label_tag :otp, t('auth.otp'), class: "block text-sm font-medium text-gray-700"
+      = text_field_tag :otp, nil, autofocus: true, placeholder: "000000", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-center text-2xl tracking-widest focus:ring-[#7C3AED] focus:border-[#7C3AED]", maxlength: 6
+    .mt-6
+      = submit_tag t('auth.verify_otp'), class: "w-full bg-[#7C3AED] text-white p-2 rounded-md hover:bg-[#6D28D9]"
+  .mt-6.text-center
+    = button_to t('auth.resend_otp'), resend_otp_path, class: "text-sm text-[#7C3AED] hover:text-[#6D28D9] bg-transparent border-0 cursor-pointer p-0"
+    br
+    = link_to t('login'), new_user_session_path, class: "text-sm text-gray-600 hover:text-gray-500 mt-2 inline-block"

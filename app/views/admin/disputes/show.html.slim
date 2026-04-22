@@ -1,139 +1,114 @@
 .mb-8
   = link_to "← Back to Disputes", admin_disputes_path, class: "text-[#7C3AED] hover:underline"
-  h1.text-3xl.font-bold.mt-4
-    | Dispute Resolution: 
-    = @task.title
+  h1 class="text-3xl font-bold mt-4" Dispute Resolution: #{@task.title}
   .mt-2.text-sm.text-gray-500.font-mono
-    | ID: 
-    = @task.id
-    |  | Status: 
-    = status_badge_class(@task.status)
+    | ID: #{@task.id} | Status: 
+    span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{status_badge_class(@task.status)}"
+      = @task.status.humanize
+
 .grid.grid-cols-1.lg:grid-cols-3.gap-8
   .lg:col-span-2.space-y-8
-    section.bg-white.p-6.rounded-2xl.shadow-sm.border.border-[#7C3AED]/10
-      h2.text-xl.font-bold.mb-4.flex.items-center.gap-2
-        svg.h-6.w-6.text-[#7C3AED][xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-          path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"]
-          path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"]
-        |  Submitted Evidence 
+    section class="bg-white p-6 rounded-2xl shadow-sm border border-[#7C3AED]/10"
+      h2 class="text-xl font-bold mb-4 flex items-center gap-2"
+        svg class="h-6 w-6 text-[#7C3AED]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+        | Submitted Evidence 
+
       - if @dispute_evidences.any?
         .space-y-6
           - @dispute_evidences.each do |evidence|
             .p-4.bg-gray-50.rounded-xl.border.border-gray-100
+              .flex.justify-between.items-start.mb-3
+                div
+                  span class="font-bold text-[#4C1D95]" = evidence.user.name || evidence.user.phone
+                  span class="text-xs font-normal text-gray-500 ml-1"
+                    | (# {evidence.user.id == @task.user_id ? "Poster" : "Tasker"})
+                .text-xs.text-gray-400
+                  = evidence.created_at.strftime("%B %d, %Y at %I:%M %p")
+              
+              p class="text-sm text-[#4C1D95]/80 mb-4 italic" "#{evidence.description}"
+              
+              .grid.grid-cols-2.sm:grid-cols-3.gap-4
+                - evidence.files.each do |file|
+                  .aspect-square.relative.rounded-lg.overflow-hidden.border.border-gray-200.shadow-sm
+                    = image_tag file, class: "object-cover w-full h-full"
+                    = link_to "View Original", url_for(file), target: "_blank", class: "absolute bottom-1 right-1 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"
+      - else
+        .text-center.py-8.bg-gray-50.rounded-xl.border.border-dashed.border-gray-200.text-gray-400.italic
+          | No evidence submitted yet. 
 
-            .flex.justify-between.items-start.mb-3
+    section class="bg-white p-6 rounded-2xl shadow-sm border border-[#7C3AED]/10"
+      h2 class="text-xl font-bold mb-4 flex items-center gap-2"
+        svg class="h-6 w-6 text-[#7C3AED]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+        | Full Conversation History 
 
-            .font-bold.text-[#4C1D95]
-              = evidence.user.name || evidence.user.phone
-            span.text-xs.font-normal.text-gray-500
-              | (
-              = evidence.user.id == @task.user_id ? "Poster" : "Tasker"
-              | )
-        .text-xs.text-gray-400
-          = evidence.created_at.strftime("%B %d, %Y at %I:%M %p")
-  p.text-sm.text-[#4C1D95]/80.mb-4.italic
-    | "
-    = evidence.description
-    | "
-  .grid.grid-cols-2.sm:grid-cols-3.gap-4
-    - evidence.files.each do |file|
-      .aspect-square.relative.rounded-lg.overflow-hidden.border.border-gray-200.shadow-sm
-        = image_tag file, class: "object-cover w-full h-full"
-        = link_to "View Original", url_for(file), target: "_blank", class: "absolute bottom-1 right-1 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"
-- else
-  .text-center.py-8.bg-gray-50.rounded-xl.border.border-dashed.border-gray-200.text-gray-400.italic
-    |  No evidence submitted yet. 
-section.bg-white.p-6.rounded-2xl.shadow-sm.border.border-[#7C3AED]/10
-  h2.text-xl.font-bold.mb-4.flex.items-center.gap-2
-    svg.h-6.w-6.text-[#7C3AED][xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-      path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"]
-    |  Full Conversation History 
-  - if @conversations.any?
-    .space-y-8
-      - @conversations.each do |conversation|
-        .border-b.border-gray-100.last:border-0.pb-6
+      - if @conversations.any?
+        .space-y-8
+          - @conversations.each do |conversation|
+            .border-b.border-gray-100.last:border-0.pb-6
+              .text-xs.font-bold.text-[#7C3AED].uppercase.tracking-wider.mb-4
+                | Conversation ID: #{conversation.id}
+              .space-y-4
+                - conversation.messages.order(created_at: :asc).each do |msg|
+                  div class="flex flex-col #{msg.sender_id == @task.user_id ? 'items-start' : 'items-end'}"
+                    div class="max-w-[80%] rounded-2xl p-3 text-sm shadow-sm #{msg.sender_id == @task.user_id ? 'bg-[#F3E8FF] text-[#4C1D95]' : 'bg-white border border-[#7C3AED]/20 text-[#4C1D95]'}"
+                      = msg.content
+                    .mt-1.text-[10px].text-gray-400.font-medium.px-2
+                      | #{msg.sender.name || msg.sender.phone} • #{msg.created_at.strftime("%H:%M")}
+      - else
+        .text-center.py-8.bg-gray-50.rounded-xl.border.border-dashed.border-gray-200.text-gray-400.italic
+          | No messages found for this task. 
 
-        .text-xs.font-bold.text-[#7C3AED].uppercase.tracking-wider.mb-4
-          | Conversation ID: 
-          = conversation.id
-        .space-y-4
-          - conversation.messages.order(created_at: :asc).each do |msg|
-            div class="flex flex-col #{msg.sender_id == @task.user_id ? "items-start" : "items-end"}"> <div class="max-w-[80%] rounded-2xl p-3 text-sm #{msg.sender_id == @task.user_id ? "bg-[#F3E8FF] text-[#4C1D95]" : "bg-white border border-[#7C3AED]/20 text-[#4C1D95]"}shadow-sm"
-              = msg.content
-        .mt-1.text-[10px].text-gray-400.font-medium.px-2
-          = msg.sender.name || msg.sender.phone
-          |  • 
-          = msg.created_at.strftime("%H:%M")
-  - else
-    .text-center.py-8.bg-gray-50.rounded-xl.border.border-dashed.border-gray-200.text-gray-400.italic
-      |  No messages found for this task. 
-.space-y-8
-  section.bg-[#7C3AED].text-white.p-6.rounded-2xl.shadow-lg.border.border-[#7C3AED]
-    h2.text-xl.font-bold.mb-6.flex.items-center.gap-2
-      svg.h-6.w-6[xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"]
-        path[stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"]
-      |  Resolution Controls 
-    .space-y-6
+  .space-y-8
+    section class="bg-[#7C3AED] text-white p-6 rounded-2xl shadow-lg border border-[#7C3AED]"
+      h2 class="text-xl font-bold mb-6 flex items-center gap-2"
+        svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        | Resolution Controls 
 
-    div
+      .space-y-6
+        div
+          h3.font-bold.mb-2 Option 1: Release Funds
+          p class="text-xs text-white/70 mb-4" Releases the escrowed amount to the Tasker. Mark the task as "Completed".
+          = button_to "Release to Tasker", resolve_admin_dispute_path(@task, decision: 'release'), 
+                                    method: :patch, 
+                                    class: "w-full bg-[#22C55E] hover:bg-[#16a34a] text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
+                                    data: { confirm: "Are you sure you want to release funds to the tasker?" }
+        
+        .pt-6.border-t.border-white/10
+          h3.font-bold.mb-2 Option 2: Refund Poster
+          p class="text-xs text-white/70 mb-4" Refunds the escrowed amount to the Poster's wallet. Mark the task as "Cancelled".
+          = button_to "Refund to Poster", resolve_admin_dispute_path(@task, decision: 'refund'), 
+                                    method: :patch, 
+                                    class: "w-full bg-white text-[#7C3AED] hover:bg-[#F3E8FF] font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
+                                    data: { confirm: "Are you sure you want to refund the poster?" }
 
-    h3.font-bold.mb-2
-      | Option 1: Release Funds
-    p.text-xs.text-white/70.mb-4
-      | Releases the escrowed amount to the Tasker. Mark the task as "Completed".
-    = button_to "Release to Tasker", resolve_admin_dispute_path(@task, decision: 'release'), 
-                              method: :patch, 
-                              class: "w-full bg-[#22C55E] hover:bg-[#16a34a] text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
-                              data: { confirm: "Are you sure you want to release funds to the tasker?" }
-.pt-6.border-t.border-white/10
-  h3.font-bold.mb-2
-    | Option 2: Refund Poster
-  p.text-xs.text-white/70.mb-4
-    | Refunds the escrowed amount to the Poster's wallet. Mark the task as "Cancelled".
-  = button_to "Refund to Poster", resolve_admin_dispute_path(@task, decision: 'refund'), 
-                            method: :patch, 
-                            class: "w-full bg-white text-[#7C3AED] hover:bg-[#F3E8FF] font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
-                            data: { confirm: "Are you sure you want to refund the poster?" }
-section.bg-white.p-6.rounded-2xl.shadow-sm.border.border-[#7C3AED]/10
-  h2.text-lg.font-bold.mb-4
-    | Task Details
-  .space-y-4.text-sm
-
-  div
-
-  .text-gray-400.uppercase.text-[10px].font-bold
-    | Amount
-  .font-bold.text-[#22C55E].text-lg
-    = number_to_currency(@task.budget, unit: "Rs. ")
-  div
-
-  .text-gray-400.uppercase.text-[10px].font-bold
-    | Poster
-  .font-medium.text-[#4C1D95]
-    = link_to (@task.user.name || @task.user.phone), admin_user_path(@task.user), class: "text-[#7C3AED] hover:underline"
-  .text-xs.text-gray-500
-    = @task.user.phone
-  div
-
-  .text-gray-400.uppercase.text-[10px].font-bold
-    | Tasker
-  - if @task.tasker
-    .font-medium.text-[#4C1D95]
-      = link_to (@task.tasker.name || @task.tasker.phone), admin_user_path(@task.tasker), class: "text-[#7C3AED] hover:underline"
-    .text-xs.text-gray-500
-      = @task.tasker.phone
-  - else
-    .text-gray-400
-      | Not assigned
-  div
-
-  .text-gray-400.uppercase.text-[10px].font-bold
-    | Location
-  .text-[#4C1D95]
-    = @task.location
-  .pt-4.border-t.border-gray-100
-
-  .text-gray-400.uppercase.text-[10px].font-bold.mb-1
-    | Description
-  .text-[#4C1D95]/70.text-xs.leading-relaxed
-    = @task.description
+    section class="bg-white p-6 rounded-2xl shadow-sm border border-[#7C3AED]/10"
+      h2 class="text-lg font-bold mb-4" Task Details
+      .space-y-4.text-sm
+        div
+          .text-gray-400.uppercase.text-[10px].font-bold Amount
+          .font-bold.text-[#22C55E].text-lg = number_to_currency(@task.budget, unit: "Rs. ")
+        
+        div
+          .text-gray-400.uppercase.text-[10px].font-bold Poster
+          .font-medium.text-[#4C1D95] = link_to (@task.user.name || @task.user.phone), admin_user_path(@task.user), class: "text-[#7C3AED] hover:underline"
+          .text-xs.text-gray-500 = @task.user.phone
+        
+        div
+          .text-gray-400.uppercase.text-[10px].font-bold Tasker
+          - if @task.tasker
+            .font-medium.text-[#4C1D95] = link_to (@task.tasker.name || @task.tasker.phone), admin_user_path(@task.tasker), class: "text-[#7C3AED] hover:underline"
+            .text-xs.text-gray-500 = @task.tasker.phone
+          - else
+            .text-gray-400 Not assigned
+        
+        div
+          .text-gray-400.uppercase.text-[10px].font-bold Location
+          .text-[#4C1D95] = @task.location
+        
+        .pt-4.border-t.border-gray-100
+          .text-gray-400.uppercase.text-[10px].font-bold mb-1 Description
+          p class="text-[#4C1D95]/70 text-xs leading-relaxed" = @task.description

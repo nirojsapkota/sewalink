@@ -1,66 +1,57 @@
 .max-w-4xl.mx-auto.px-4.sm:px-6.lg:px-8.py-8
-  h1.text-3xl.font-bold.text-gray-900.mb-8
-    = t('.wallet_title', default: 'My Wallet')
+  h1 class="text-3xl font-bold text-gray-900 mb-8" = t('.wallet_title', default: 'My Wallet')
+  
   .grid.grid-cols-1.md:grid-cols-3.gap-6.mb-8
     .bg-white.p-6.rounded-xl.shadow-sm.border.border-gray-100
-      h3.text-sm.font-medium.text-gray-500.uppercase.tracking-wider
-        = t('.current_balance', default: 'Current Balance')
-      p.mt-2.text-3xl.font-bold.text-[#7C3AED]
-        = @balance.format
+      h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider" = t('.current_balance', default: 'Current Balance')
+      p class="mt-2 text-3xl font-bold text-[#7C3AED]" = @balance.format
+    
     .bg-white.p-6.rounded-xl.shadow-sm.border.border-gray-100
-      h3.text-sm.font-medium.text-gray-500.uppercase.tracking-wider
-        = t('.potential_income', default: 'Potential Income (Pending Bids)')
-      p.mt-2.text-2xl.font-semibold.text-gray-700
-        | Rs. 
-        = @pending_bids_total
+      h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider" = t('.potential_income', default: 'Potential Income (Pending Bids)')
+      p class="mt-2 text-2xl font-semibold text-gray-700" Rs. #{@pending_bids_total}
+    
     .bg-white.p-6.rounded-xl.shadow-sm.border.border-gray-100.flex.flex-col.justify-center
       = link_to t('.request_payout', default: 'Request Payout'), '#payout-form', class: "block w-full text-center py-3 px-4 bg-[#7C3AED] text-white rounded-lg font-bold hover:bg-[#6D28D9] transition"
+
   .bg-white.rounded-xl.shadow-sm.border.border-gray-100.overflow-hidden.mb-8
     .px-6.py-4.border-b.border-gray-100.flex.justify-between.items-center
-      h2.text-lg.font-bold.text-gray-900
-        = t('.recent_transactions', default: 'Recent Transactions')
+      h2 class="text-lg font-bold text-gray-900" = t('.recent_transactions', default: 'Recent Transactions')
+    
     .overflow-x-auto
       table.min-w-full.divide-y.divide-gray-200
         thead.bg-gray-50
           tr
-            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
-              = t('.date', default: 'Date')
-            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
-              = t('.type', default: 'Type')
-            th.px-6.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
-              = t('.amount', default: 'Amount')
-        tbody.bg-white.divide-y.divide-gray-200
+            th class="px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider" = t('.date', default: 'Date')
+            th class="px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider" = t('.type', default: 'Type')
+            th class="px-6.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase.tracking-wider" = t('.amount', default: 'Amount')
+        
+        tbody class="bg-white divide-y divide-gray-200"
           - if @transactions.any?
             - @transactions.each do |tx|
               tr
-                td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
-                  = tx.created_at.strftime("%b %d, %Y")
-                td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-900
-                  = tx.code.to_s.humanize
-                |  <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium 
-                = tx.amount > 0 ? 'text-green-600' : 'text-red-600'
-                | "> 
-                = tx.amount.format
+                td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" = tx.created_at.strftime("%b %d, %Y")
+                td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" = tx.code.to_s.humanize
+                td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium #{tx.amount > 0 ? 'text-green-600' : 'text-red-600'}"
+                  = tx.amount.format
           - else
             tr
-              td.px-6.py-8.text-center.text-sm.text-gray-500[colspan="3"]
-                = t('.no_transactions', default: 'No transactions found.')
+              td class="px-6 py-8 text-center text-sm text-gray-500" colspan="3" = t('.no_transactions', default: 'No transactions found.')
+
   #payout-form.bg-white.p-6.rounded-xl.shadow-sm.border.border-gray-100
-    h2.text-lg.font-bold.text-gray-900.mb-4
-      = t('.payout_request', default: 'Submit Payout Request')
+    h2 class="text-lg font-bold text-gray-900 mb-4" = t('.payout_request', default: 'Submit Payout Request')
+    
     - if @balance >= Money.new(500_00, 'NPR')
       = form_with(model: @payout_request, url: tasker_payout_requests_path, local: true, class: "space-y-4") do |f|
         .flex.flex-col
           = f.label :amount, t('.amount_to_withdraw', default: 'Amount (NPR)'), class: "text-sm font-semibold text-gray-700 mb-1"
           = f.number_field :amount, min: 500, max: @balance.to_f, class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]", placeholder: "Minimum 500"
-        p.text-xs.text-gray-500.mt-1
-          = t('.min_amount_help', default: 'Minimum withdrawal: Rs. 500')
-  .flex.flex-col
-    = f.label :payment_details, t('.eSewa_ID', default: 'eSewa ID (Phone Number)'), class: "text-sm font-semibold text-gray-700 mb-1"
-    = f.text_field :payment_details, class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]", placeholder: "e.g. 98XXXXXXXX"
-  = f.submit t('.submit_request', default: 'Submit Withdrawal Request'), class: "w-full rounded-lg py-3 px-6 bg-[#7C3AED] text-white font-bold hover:bg-[#6D28D9] transition"
-  - else
-    .bg-yellow-50.border-l-4.border-yellow-400.p-4.rounded-r-lg
-
-    p.text-sm.text-yellow-700
-      = t('.insufficient_balance_msg', default: 'You need at least Rs. 500 in your wallet to request a payout.')
+          p class="text-xs text-gray-500 mt-1" = t('.min_amount_help', default: 'Minimum withdrawal: Rs. 500')
+        
+        .flex.flex-col
+          = f.label :payment_details, t('.eSewa_ID', default: 'eSewa ID (Phone Number)'), class: "text-sm font-semibold text-gray-700 mb-1"
+          = f.text_field :payment_details, class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#7C3AED] focus:ring-[#7C3AED]", placeholder: "e.g. 98XXXXXXXX"
+        
+        = f.submit t('.submit_request', default: 'Submit Withdrawal Request'), class: "w-full rounded-lg py-3 px-6 bg-[#7C3AED] text-white font-bold hover:bg-[#6D28D9] transition"
+    - else
+      .bg-yellow-50.border-l-4.border-yellow-400.p-4.rounded-r-lg
+        p class="text-sm text-yellow-700" = t('.insufficient_balance_msg', default: 'You need at least Rs. 500 in your wallet to request a payout.')

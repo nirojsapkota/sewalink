@@ -1,9 +1,10 @@
-.max-w-4xl.mx-auto.py-10
+div class="max-w-4xl mx-auto py-10"
   .flex.flex-col.md:flex-row.gap-8
     .flex-1
-      h1.text-3xl.font-bold.mb-6 = t('live_chats.show.title')
+      h1 class="text-3xl font-bold mb-6" = t('live_chats.show.title')
 
-      div[class="bg-white rounded-3xl p-10 shadow-2xl border border-[#7C3AED]/10 text-center"][
+      div [
+        class="bg-white rounded-3xl p-10 shadow-2xl border border-[#7C3AED]/10 text-center"
         data-controller="real-time-chat"
         data-real-time-chat-user-name-value=(current_user&.first_name || 'there')
         data-real-time-chat-locale-value=(current_user&.locale || I18n.locale)
@@ -17,26 +18,27 @@
         data-real-time-chat-connection-lost-label=t('live_chats.show.connection_lost')
       ]
         .mb-8
-          div[class="w-32 h-32 bg-[#F5F3FF] rounded-full mx-auto flex items-center justify-center mb-4 relative"]
-            div[class="absolute inset-0 bg-[#7C3AED]/10 rounded-full animate-pulse hidden" data-real-time-chat-target="status"]
-            svg[class="h-16 w-16 text-[#7C3AED]"] xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          div class="w-32 h-32 bg-[#F5F3FF] rounded-full mx-auto flex items-center justify-center mb-4 relative"
+            div class="absolute inset-0 bg-[#7C3AED]/10 rounded-full animate-pulse hidden" data-real-time-chat-target="status"
+            svg class="h-16 w-16 text-[#7C3AED]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
               path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-          p[class="text-lg font-medium text-[#4C1D95]"] data-real-time-chat-target="statusLabel"
+          p class="text-lg font-medium text-[#4C1D95]" data-real-time-chat-target="statusLabel"
             = t('live_chats.show.ready_to_talk')
 
         .flex.justify-center.gap-4
-          button[class="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-[#7C3AED]/30 active:scale-95"][
+          button [
+            class="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-[#7C3AED]/30 active:scale-95"
             type="button"
             data-action="click->real-time-chat#toggleChat"
             data-real-time-chat-target="trigger"
           ]
             = t('live_chats.show.tap_to_talk')
 
-        p[class="mt-6 text-sm text-[#4C1D95]/60 italic"]
+        p class="mt-6 text-sm text-[#4C1D95]/60 italic"
           = t('live_chats.show.tip')
 
     .w-full.md:w-80
-      h2.text-xl.font-bold.mb-6 = t('live_chats.task_preview.title')
+      h2 class="text-xl font-bold mb-6" = t('live_chats.task_preview.title')
       = turbo_stream_from current_user, :live_chat
-      #ai_task_preview
+      div#ai_task_preview
         = render partial: 'task_preview', locals: { task: @task }

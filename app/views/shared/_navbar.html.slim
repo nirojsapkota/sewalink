@@ -7,16 +7,16 @@ nav[class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b bor
       .hidden.md:flex.space-x-4.items-center
         - if user_signed_in?
           - if current_user.poster?
-            = link_to t("dashboards.poster.title"), poster_dashboard_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
-            = link_to t("tasks.new.title"), new_task_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
-            = link_to t("live_chats.show.title"), live_chat_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
+            = link_to t("dashboards.poster.title"), poster_dashboard_path, class: nav_link_class(poster_dashboard_path)
+            = link_to t("tasks.new.title"), new_task_path, class: nav_link_class(new_task_path)
+            = link_to t("live_chats.show.title"), live_chat_path, class: nav_link_class(live_chat_path)
           - else
-            = link_to t("tasks.index.find_tasks"), tasks_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
-            = link_to t("dashboards.tasker.title"), tasker_dashboard_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
+            = link_to t("tasks.index.find_tasks"), tasks_path, class: nav_link_class(tasks_path)
+            = link_to t("dashboards.tasker.title"), tasker_dashboard_path, class: nav_link_class(tasker_dashboard_path)
           div[class="h-4 w-px bg-[#7C3AED]/20 mx-2"]
         
-        = link_to t('language.english'), url_for(locale: :en), class: "text-xs font-semibold text-[#4C1D95]/50 hover:text-[#7C3AED]"
-        = link_to t('language.nepali'), url_for(locale: :ne), class: "text-xs font-semibold text-[#4C1D95]/50 hover:text-[#7C3AED]"
+        = link_to t('language.english'), url_for(locale: :en), class: language_link_class(url_for(locale: :en))
+        = link_to t('language.nepali'), url_for(locale: :ne), class: language_link_class(url_for(locale: :ne))
 
     .flex.items-center.space-x-4
       - if user_signed_in?
@@ -28,7 +28,7 @@ nav[class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b bor
           span.text-xs.opacity-70 = t("profiles.roles.toggle", role: t("profiles.roles.#{target_role}"))
         
         .flex.items-center.space-x-3
-          = link_to profile_path, class: "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]" do
+          = link_to profile_path, class: nav_link_class(profile_path) do
             = t("profiles.show.title")
           = button_to destroy_user_session_path, method: :delete, class: "text-sm font-bold text-red-500 hover:text-red-600 transition-colors" do
             = t("logout")
@@ -37,5 +37,5 @@ nav[class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b bor
         = link_to t("register"), new_user_registration_path, class: "bg-[#7C3AED] text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-[#6D28D9] transition-all shadow-md hover:shadow-lg"
 
   div[class="md:hidden bg-[#FAF5FF] px-5 py-2 flex justify-center space-x-6 border-t border-[#7C3AED]/5"]
-    = link_to t('language.english'), url_for(locale: :en), class: "text-xs font-bold text-[#4C1D95]/40"
-    = link_to t('language.nepali'), url_for(locale: :ne), class: "text-xs font-bold text-[#4C1D95]/40"
+    = link_to t('language.english'), url_for(locale: :en), class: language_link_class(url_for(locale: :en))
+    = link_to t('language.nepali'), url_for(locale: :ne), class: language_link_class(url_for(locale: :ne))

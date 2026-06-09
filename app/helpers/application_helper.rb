@@ -24,6 +24,30 @@ module ApplicationHelper
     end
   end
 
+  def nav_link_class(path)
+    if current_page?(path)
+      "text-sm font-semibold text-[#7C3AED]"
+    else
+      "text-sm font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
+    end
+  end
+
+  def admin_nav_link_class(path)
+    if current_page?(path)
+      "text-white font-bold"
+    else
+      "text-gray-300 hover:text-white"
+    end
+  end
+
+  def language_link_class(path)
+    if current_page?(path)
+      "text-xs font-bold text-[#7C3AED]"
+    else
+      "text-xs font-bold text-[#4C1D95]/40 hover:text-[#7C3AED]"
+    end
+  end
+
   def user_dashboard_path
     return root_path unless user_signed_in?
 

@@ -33,11 +33,14 @@ class TasksController < ApplicationController
 
   def show
     authorize @task
+    Rails.logger.info "Task show: Task ID #{@task.id}, Status: #{@task.status}, Current User: #{current_user.id} (#{current_user.active_role})"
+
     if current_user.poster? && @task.user == current_user
       @bids = @task.bids.includes(:user).order(created_at: :desc)
     elsif current_user.tasker?
       @user_bid = @task.bids.find_by(user: current_user)
       @bid = @user_bid || @task.bids.build(user: current_user)
+      Rails.logger.info "Task show (Tasker): Bid initialized: #{@bid.persisted?}"
     end
     @review = @task.reviews.build
     @existing_review = @task.reviews.find_by(reviewer_id: current_user.id)
@@ -124,7 +127,7 @@ class TasksController < ApplicationController
     authorize @task, :update?
     photo = @task.photos.find(params[:photo_id])
     photo.purge
-    
+
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.remove("photo_#{params[:photo_id]}") }
       format.html { redirect_to edit_task_path(@task), notice: "Photo deleted." }
@@ -186,6 +189,7 @@ class TasksController < ApplicationController
   end
 
   def complete
+    byebug
     authorize @task
     if @task.complete!
       redirect_to @task, notice: t('.success', default: 'Task marked as complete.')

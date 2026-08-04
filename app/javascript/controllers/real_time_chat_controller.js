@@ -304,7 +304,7 @@ class GeminiLiveAPI {
           if (part.inlineData || part.inline_data) {
             const audioData = part.inlineData || part.inline_data;
             if (audioData.data) {
-              console.log("Received Audio Chunk, size:", audioData.data.length);
+              // console.log("Received Audio Chunk, size:", audioData.data.length);
               if (this.onMessage) this.onMessage({ type: MultimodalLiveResponseType.AUDIO, data: audioData.data });
             }
           }
@@ -385,22 +385,22 @@ export default class extends Controller {
       Start communicating in the '${currentLocale}' language.
       Greet the user with name ${userName}!
       Introduce yourself as SewaLink, a helpful assistant for managing service tasks on the SewaLink platform. Always be friendly and engaging in your responses.
-      
+
       Capabilities:
       1. Help create tasks. Call 'create_task_draft' IMMEDIATELY every time the user provides or updates any information (title, description, budget, or location).
       2. Publish tasks. Call 'publish_task' ONLY when the user explicitly asks to 'publish', 'post', or 'finish' their task.
       3. Query status/history. Call 'query_tasks' when the user asks about their pending tasks, status of a job, or a summary of their activity.
-      
+
       Always confirm to the user when you have performed an action or found the information they requested.`;
 
       this.client = new GeminiLiveAPI(tokenData, instructions);
       this.client.onMessage = this._handleMessage.bind(this);
       this.client.onOpen = () => console.log("Gemini API Connected");
-      this.client.onClose = () => { 
-        console.log("Gemini API Closed"); 
+      this.client.onClose = () => {
+        console.log("Gemini API Closed");
         if (this.isRecording) {
           this._updateStatus(this.connectionLostLabelValue, false);
-          this.stopChat(); 
+          this.stopChat();
         }
       };
 
@@ -427,6 +427,7 @@ export default class extends Controller {
   }
 
   async _handleMessage(message) {
+    // console.log("Received message:", message);
     switch (message.type) {
       case MultimodalLiveResponseType.SETUP_COMPLETE:
         this._updateStatus(this.readyLabelValue, true);
@@ -455,6 +456,7 @@ export default class extends Controller {
   }
 
   async _handleToolCall(toolCall) {
+    console.log("Handling tool call:", toolCall);
     const calls = toolCall.functionCalls || toolCall.function_calls;
     if (!calls) return;
 

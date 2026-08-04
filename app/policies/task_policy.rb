@@ -33,7 +33,7 @@ class TaskPolicy < ApplicationPolicy
 
   def raise_dispute?
     (record.user == user || record.tasker == user) &&
-      [:open, :assigned, :in_progress, :pending_payment, :payment_completed].include?(record.status.to_sym)
+      [:open, :assigned, :in_progress, :pending_payment, :payment_completed].include?(record.status&.to_sym)
   end
 
   def toggle_draft?

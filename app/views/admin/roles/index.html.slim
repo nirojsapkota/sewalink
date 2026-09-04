@@ -1,0 +1,28 @@
+.mb-8
+  h1.text-3xl.font-bold
+    | Admin Roles
+.bg-white.rounded-lg.shadow.overflow-hidden
+  table.min-w-full.divide-y.divide-gray-200
+    thead.bg-gray-50
+      tr
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Phone
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Name
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Roles
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Actions
+    tbody.bg-white.divide-y.divide-gray-200
+      - @admin_users.each do |user|
+        tr
+          td.px-6.py-4.whitespace-nowrap.text-sm.font-medium.text-gray-900
+            = user.phone
+          td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+            = user.name || "N/A"
+          td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+            - user.roles.pluck(:name).each do |role_name|
+              span.px-2.mr-1.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-purple-100.text-purple-800
+                = role_name
+          td.px-6.py-4.whitespace-nowrap.text-sm.font-medium
+            = link_to "Manage Roles", edit_admin_user_path(user), class: "text-blue-600 hover:text-blue-900"

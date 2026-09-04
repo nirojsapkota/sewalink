@@ -1,0 +1,35 @@
+= render "admin/accounting/subnav"
+h1.text-2xl.font-bold.mb-4 Transaction Ledger
+= form_with url: admin_accounting_ledger_index_path, method: :get, local: true, class: "grid grid-cols-2 md:grid-cols-5 gap-3 mb-6" do
+  input type="date" name="from" value=@from.to_s class="border rounded px-2 py-1"
+  input type="date" name="to" value=@to.to_s class="border rounded px-2 py-1"
+  select name="account" class="border rounded px-2 py-1"
+    option value="" All Accounts
+    - ledger_account_options.each do |acc|
+      option value=acc selected=(@account == acc) = acc
+  select name="code" class="border rounded px-2 py-1"
+    option value="" All Types
+    - ledger_code_options.each do |c|
+      option value=c selected=(@code == c) = c
+  input type="text" name="user_id" placeholder="User ID" value=@user_id class="border rounded px-2 py-1"
+  button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded col-span-2 md:col-span-1" Filter
+table.min-w-full.bg-white.rounded.shadow
+  thead.bg-gray-50
+    tr
+      th.px-4.py-2.text-left Date
+      th.px-4.py-2.text-left Account
+      th.px-4.py-2.text-left Scope
+      th.px-4.py-2.text-left Code
+      th.px-4.py-2.text-right Amount
+      th.px-4.py-2
+  tbody
+    - @lines.each do |line|
+      tr.border-t
+        td.px-4.py-2 = line.created_at.strftime("%Y-%m-%d %H:%M")
+        td.px-4.py-2 = line[:account]
+        td.px-4.py-2 = line[:scope]
+        td.px-4.py-2 = line[:code]
+        td.px-4.py-2.text-right = money_from_cents(line[:amount])
+        td.px-4.py-2 = link_to "View", admin_accounting_ledger_path(line.id), class: "text-blue-600"
+.mt-4
+  = paginate @lines

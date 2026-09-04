@@ -22,6 +22,7 @@ RSpec.describe Accounting::CashFlowCategorizer do
   after(:each) do
     DoubleEntry::Line.delete_all
     DoubleEntry::AccountBalance.delete_all
+    Conversation.delete_all
     Bid.delete_all
     Task.delete_all
     Category.delete_all

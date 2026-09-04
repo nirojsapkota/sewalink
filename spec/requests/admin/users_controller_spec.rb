@@ -66,34 +66,49 @@ RSpec.describe "Admin::Users", type: :request do
     end
   end
 
-  describe "PATCH /admin/users/:id/change_role" do
-    it "grants admin access and logs a distinct audit action" do
-      patch change_role_admin_user_path(target_user), params: { admin: true }
+  describe "PATCH /admin/users/:id/roles" do
+    it "grants a role and logs a distinct audit action" do
+      patch roles_admin_user_path(target_user), params: { roles: ["super_admin"] }
 
       target_user.reload
-      expect(target_user.admin?).to eq(true)
+      expect(target_user.has_role?(:super_admin)).to eq(true)
 
       log = AdminActivityLog.last
-      expect(log.action).to eq("change_admin_role")
+      expect(log.action).to eq("update_roles")
       expect(log.target_id).to eq(target_user.id)
-      expect(JSON.parse(log.details)["to"]).to eq(true)
+      expect(JSON.parse(log.details)["to"]).to eq(["super_admin"])
     end
 
-    it "revokes admin access" do
-      target_user.update!(admin: true)
+    it "revokes all admin-capable roles when none are submitted" do
+      target_user.add_role(:accountant)
 
-      patch change_role_admin_user_path(target_user), params: { admin: false }
+      patch roles_admin_user_path(target_user), params: { roles: [] }
 
       target_user.reload
-      expect(target_user.admin?).to eq(false)
+      expect(target_user.has_role?(:accountant)).to eq(false)
+      expect(target_user.has_role?(:super_admin)).to eq(false)
     end
 
-    it "does not allow an admin to change their own admin access" do
-      patch change_role_admin_user_path(admin), params: { admin: false }
+    it "does not allow a super admin to change their own roles" do
+      patch roles_admin_user_path(admin), params: { roles: [] }
 
       admin.reload
-      expect(admin.admin?).to eq(true)
+      expect(admin.has_role?(:super_admin)).to eq(true)
       expect(response).to redirect_to(admin_user_path(admin))
+      expect(flash[:alert]).to eq("You cannot change your own roles.")
+    end
+
+    it "denies an accountant-only user attempting to change another user's roles" do
+      accountant_user = create(:user, :accountant)
+      sign_out admin
+      sign_in accountant_user
+
+      patch roles_admin_user_path(target_user), params: { roles: ["super_admin"] }
+
+      target_user.reload
+      expect(target_user.has_role?(:super_admin)).to eq(false)
+      expect(response).to redirect_to(admin_root_path)
+      expect(flash[:alert]).to eq("Access denied. Super admin only.")
     end
   end
 

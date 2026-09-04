@@ -1,0 +1,13 @@
+= render "admin/accounting/subnav"
+h1.text-2xl.font-bold.mb-4 Settlement ##{@settlement.transaction_ref}
+.bg-white.p-4.rounded.shadow
+  p Amount: = money_from_cents(@settlement.amount_cents)
+  p Settled On: = @settlement.settled_on
+  p Status: = @settlement.status
+  - if @matched_line
+    h2.font-semibold.mt-4 Matched Ledger Line
+    p Account: = @matched_line[:account]
+    p Amount: = money_from_cents(@matched_line[:amount])
+    p Created: = @matched_line.created_at.strftime("%Y-%m-%d %H:%M")
+  - else
+    p.text-red-600.mt-4 No matching internal ledger line found for this settlement.

@@ -1,0 +1,7 @@
+= render "admin/accounting/subnav"
+h1.text-2xl.font-bold.mb-4 Import eSewa Settlement CSV
+p.text-sm.text-gray-500.mb-4
+  | Expected columns (case-insensitive): transaction_ref (or ref/reference), amount, date. Max file size 5MB, max 5000 rows.
+= form_with url: admin_accounting_settlements_path, method: :post, local: true, multipart: true, class: "space-y-4 max-w-md" do
+  input type="file" name="file" accept=".csv,text/csv" required=true
+  button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded" Upload

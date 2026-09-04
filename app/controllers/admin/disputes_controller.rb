@@ -36,6 +36,8 @@ class Admin::DisputesController < Admin::BaseController
     else
       flash[:alert] = "Failed to release funds."
     end
+  rescue AASM::InvalidTransition
+    flash[:alert] = "Task could not be resolved (release) from its current status."
   end
 
   def resolve_refund
@@ -46,6 +48,8 @@ class Admin::DisputesController < Admin::BaseController
     else
       flash[:alert] = "Failed to refund funds."
     end
+  rescue AASM::InvalidTransition
+    flash[:alert] = "Task could not be resolved (refund) from its current status."
   end
 
   def resolve_split
@@ -60,6 +64,8 @@ class Admin::DisputesController < Admin::BaseController
     @task.release_payment!
     log_admin_action!("resolve_dispute", @task, details: { decision: "split", tasker_percentage: percentage.to_i })
     flash[:notice] = "Dispute resolved: Funds split #{percentage}% tasker / #{100 - percentage.to_i}% poster."
+  rescue AASM::InvalidTransition
+    flash[:alert] = "Task could not be resolved (split) from its current status."
   end
 
   def resolve_reopen

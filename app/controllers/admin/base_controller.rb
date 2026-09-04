@@ -8,4 +8,8 @@ class Admin::BaseController < ApplicationController
   def ensure_admin!
     redirect_to root_path, alert: "Access denied. Admin only." unless current_user&.admin?
   end
+
+  def log_admin_action!(action, target = nil, details: {})
+    AdminActivityLog.record!(admin: current_user, action: action, target: target, details: details)
+  end
 end

@@ -1,5 +1,6 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:show, :edit, :update, :suspend, :reactivate, :change_role]
+  before_action :set_user, only: [:show, :edit, :update, :suspend, :reactivate, :update_roles]
+  before_action :require_super_admin!, only: [:update_roles]
 
   def index
     @users = User.order(created_at: :desc)
@@ -43,20 +44,19 @@ class Admin::UsersController < Admin::BaseController
     redirect_to admin_user_path(@user), notice: "User reactivated."
   end
 
-  def change_role
+  def update_roles
     if @user == current_user
-      redirect_to admin_user_path(@user), alert: "You cannot change your own admin access." and return
+      redirect_to admin_user_path(@user), alert: "You cannot change your own roles." and return
     end
 
-    new_admin_value = ActiveModel::Type::Boolean.new.cast(params[:admin])
-    previous_admin_value = @user.admin?
+    requested_roles = Array(params[:roles]).map(&:to_sym) & [:super_admin, :accountant]
+    previous_roles = @user.roles.pluck(:name)
 
-    if @user.update(admin: new_admin_value)
-      log_admin_action!("change_admin_role", @user, details: { from: previous_admin_value, to: new_admin_value })
-      redirect_to admin_user_path(@user), notice: new_admin_value ? "Admin access granted." : "Admin access revoked."
-    else
-      redirect_to admin_user_path(@user), alert: "Failed to change admin access: #{@user.errors.full_messages.join(', ')}"
-    end
+    @user.roles.where(name: %w[super_admin accountant]).destroy_all
+    requested_roles.each { |role| @user.add_role(role) }
+
+    log_admin_action!("update_roles", @user, details: { from: previous_roles, to: requested_roles.map(&:to_s) })
+    redirect_to admin_user_path(@user), notice: "Roles updated for #{@user.phone}."
   end
 
   private

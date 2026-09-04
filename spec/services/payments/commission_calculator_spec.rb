@@ -31,5 +31,20 @@ RSpec.describe Payments::CommissionCalculator do
         expect(subject[:total]).to eq(budget)
       end
     end
+
+    context "with no PlatformSetting row" do
+      it "defaults to the 10% commission rate" do
+        expect(subject[:commission]).to eq(Money.new(10000, "NPR"))
+      end
+    end
+
+    context "when PlatformSetting.commission_rate has been changed" do
+      before { PlatformSetting.set_commission_rate(0.20) }
+
+      it "uses the configured rate instead of the default" do
+        expect(subject[:commission]).to eq(Money.new(20000, "NPR"))
+        expect(subject[:tasker_share]).to eq(Money.new(80000, "NPR"))
+      end
+    end
   end
 end

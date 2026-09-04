@@ -1,7 +1,5 @@
 module Payments
   class CommissionCalculator
-    COMMISSION_PERCENTAGE = 0.10 # 10%
-
     def self.call(budget)
       new(budget).call
     end
@@ -11,7 +9,8 @@ module Payments
     end
 
     def call
-      commission = @budget * COMMISSION_PERCENTAGE
+      rate = PlatformSetting.commission_rate
+      commission = @budget * rate
       tasker_share = @budget - commission
 
       {

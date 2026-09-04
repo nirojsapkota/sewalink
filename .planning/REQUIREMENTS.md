@@ -52,6 +52,28 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 
 ---
 
+## v1.1 Requirements (Milestone: Admin Accounting & Cash Flow Visibility)
+
+### Access Control (ADMIN)
+- [ ] **ADMIN-12**: Replace boolean `admin` flag with role-based access (via `rolify`) — roles: `super_admin`, `accountant`. Only users with an admin-capable role can access `/admin`.
+- [ ] **ADMIN-13**: Super admin can assign/revoke roles for other admin users.
+
+### Cash Flow Dashboard (ACCT)
+- [ ] **ACCT-01**: Admin can view a cash flow dashboard summarizing inflows/outflows by type (escrow deposits, releases, commission revenue, refunds, cash-on-completion) for a selected period.
+- [ ] **ACCT-02**: Admin can drill into a summary category to see the contributing transactions.
+
+### Transaction Ledger (ACCT)
+- [ ] **ACCT-03**: Admin can view a searchable/filterable ledger of all DoubleEntry transactions (by date range, user, account type, transaction type).
+- [ ] **ACCT-04**: Admin can view details of a single ledger transaction, including linked task/dispute/user.
+
+### Period Reports (ACCT)
+- [ ] **ACCT-05**: Admin can view daily/monthly summary reports (revenue, commission earned, refunds issued, net platform revenue).
+
+### Reconciliation (ACCT)
+- [ ] **ACCT-06**: Admin can view/flag discrepancies between eSewa settlement records and internal escrow ledger balances.
+
+---
+
 ## v2 Requirements (Deferred)
 - [ ] **AUTH-06**: Social Vouching (Community verification).
 - [ ] **AUTH-07**: Government ID (Nagarpalika/National ID) vetting.
@@ -92,10 +114,18 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | ADMIN-02 | Phase 7 | Complete |
 | ADMIN-03 | Phase 7 | Complete |
 | ADMIN-04 | Phase 7 | Complete |
-| ADMIN-05 | Phase 9 | Planned |
-| ADMIN-06 | Phase 9 | Planned |
-| ADMIN-07 | Phase 9 | Planned |
-| ADMIN-08 | Phase 9 | Planned |
-| ADMIN-09 | Phase 9 | Planned |
-| ADMIN-10 | Phase 9 | Planned |
-| ADMIN-11 | Phase 9 | Planned |
+| ADMIN-05 | Phase 9 | Complete |
+| ADMIN-06 | Phase 9 | Complete |
+| ADMIN-07 | Phase 9 | Complete |
+| ADMIN-08 | Phase 9 | Complete |
+| ADMIN-09 | Phase 9 | Complete |
+| ADMIN-10 | Phase 9 | Complete |
+| ADMIN-11 | Phase 9 | Complete |
+| ADMIN-12 | Phase 10 | Planned |
+| ADMIN-13 | Phase 10 | Planned |
+| ACCT-01 | Phase 10 | Planned |
+| ACCT-02 | Phase 10 | Planned |
+| ACCT-03 | Phase 10 | Planned |
+| ACCT-04 | Phase 10 | Planned |
+| ACCT-05 | Phase 10 | Planned |
+| ACCT-06 | Phase 10 | Planned |

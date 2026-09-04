@@ -19,15 +19,20 @@
       = f.select :active_role, User.active_roles.keys.map { |r| [r.humanize, r] }, {}, class: "mt-1 block w-full border rounded px-3 py-2"
     .pt-4
       = f.submit "Save Changes", class: "bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"
-- unless @user == current_user
-  .bg-white.p-6.rounded-lg.shadow.max-w-2xl.mt-6.border.border-amber-300
-    h2.text-lg.font-semibold.mb-2 Admin Access
-    p.text-sm.text-gray-600.mb-4
-      | Granting or revoking admin access is a sensitive action, tracked separately from profile edits.
-    = form_with url: change_role_admin_user_path(@user), method: :patch, local: true do |f|
-      - if @user.admin?
-        = hidden_field_tag :admin, false
-        = submit_tag "Revoke Admin Access", class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer", data: { confirm: "Revoke admin access for #{@user.phone}?" }
-      - else
-        = hidden_field_tag :admin, true
-        = submit_tag "Grant Admin Access", class: "bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 cursor-pointer", data: { confirm: "Grant admin access to #{@user.phone}?" }
+.bg-white.p-6.rounded-lg.shadow.max-w-2xl.mt-6.border.border-amber-300
+  h2.text-lg.font-semibold.mb-2 Admin Roles
+  p.text-sm.text-gray-600.mb-4
+    | Assigning super_admin or accountant grants admin-panel access. Only super admins can manage roles.
+  - if @user == current_user
+    p.text-sm.text-red-600 You cannot change your own roles.
+  - elsif current_user.super_admin?
+    = form_with url: roles_admin_user_path(@user), method: :patch, local: true, class: "space-y-3" do |f|
+      label.flex.items-center.gap-2
+        = check_box_tag "roles[]", "super_admin", @user.has_role?(:super_admin)
+        | Super Admin
+      label.flex.items-center.gap-2
+        = check_box_tag "roles[]", "accountant", @user.has_role?(:accountant)
+        | Accountant
+      = submit_tag "Update Roles", class: "bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 cursor-pointer", data: { confirm: "Update roles for #{@user.phone}?" }
+  - else
+    p.text-sm.text-gray-500 Only super admins can view or change roles.

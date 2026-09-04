@@ -9,6 +9,17 @@ To provide a reliable, culturally-adapted, and AI-enhanced platform where Nepali
 ## Context
 The platform is inspired by Airtasker but adapted for Nepal's unique infrastructure, including eSewa integration, bilingual support (Nepali/English), and AI voice assistance to lower the barrier to entry for users with varying levels of tech literacy.
 
+## Current Milestone: v1.1 Admin Accounting & Cash Flow Visibility
+
+**Goal:** Give super admin full visibility into platform cash flows (escrow, commission, cash-on-completion, refunds, payouts) using the existing double_entry ledger, and formalize role-based admin access control.
+
+**Target features:**
+- Admin accounting dashboard: cash flow overview (inflows/outflows by type — escrow deposits, releases, commission revenue, refunds, cash-on-completion)
+- Detailed transaction ledger view (searchable/filterable by date, user, account, transaction type) built on existing DoubleEntry lines
+- Period-based summary reports (daily/monthly revenue, commission earned, refunds issued, net platform revenue)
+- eSewa vs internal ledger reconciliation (flag mismatches between eSewa settlement records and internal escrow balances)
+- Role-based access control: replace the boolean `admin` flag with role management (via `rolify`) so `/admin` access and finer-grained permissions (e.g. an `accountant` role scoped to accounting views) can be assigned per user
+
 ## Requirements
 
 ### Validated
@@ -36,6 +47,7 @@ The platform is inspired by Airtasker but adapted for Nepal's unique infrastruct
 | eSewa Primary Payment | Most widely used digital wallet in Nepal. | — Pending |
 | Tasker-only Commission | Encourages users to post tasks without friction. | — Pending |
 | Geofencing for Completion | Prevents fraudulent "completed" marks when taskers aren't on-site. | — Pending |
+| Rolify for role-based access | User-requested; standard, actively-used Rails gem for many-roles-per-resource, pairs with existing Pundit authorization. | — Pending |
 
 ## Evolution
 This document evolves at phase transitions and milestone boundaries.
@@ -54,4 +66,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: April 13, 2026 after initialization*
+*Last updated: milestone v1.1 kickoff (Admin Accounting & Cash Flow Visibility)*

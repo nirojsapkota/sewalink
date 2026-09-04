@@ -78,6 +78,7 @@ RSpec.describe "Admin::Users", type: :request do
       patch admin_user_path(target_user), params: { user: { first_name: "New" } }
       expect(response).to redirect_to(root_path)
       follow_redirect!
+      follow_redirect! while response.redirect?
       expect(response.body).to include("Access denied. Admin only.")
     end
   end

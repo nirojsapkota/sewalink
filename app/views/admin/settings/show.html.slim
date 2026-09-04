@@ -1,0 +1,32 @@
+.mb-8
+  h1.text-3xl.font-bold
+    | Platform Settings
+.grid.grid-cols-1.md:grid-cols-3.gap-6.mb-8
+  .p-4.bg-blue-50.border.border-blue-200.rounded-lg
+    span.text-blue-800.font-medium.block Current Commission Rate
+    span.text-2xl.font-bold.text-blue-900
+      = number_to_percentage(@commission_rate.to_f * 100, precision: 2)
+  .p-4.bg-green-50.border.border-green-200.rounded-lg
+    span.text-green-800.font-medium.block Platform Revenue Balance
+    span.text-2xl.font-bold.text-green-900
+      = @platform_revenue_balance.format
+  .p-4.bg-purple-50.border.border-purple-200.rounded-lg
+    span.text-purple-800.font-medium.block Total Escrow Held
+    span.text-2xl.font-bold.text-purple-900
+      = humanized_money_with_symbol Money.new(@total_escrow_held, 'NPR')
+
+.bg-white.p-6.rounded-lg.shadow.max-w-lg.mb-8
+  h2.text-xl.font-semibold.mb-4.border-b.pb-2
+    | Update Commission Rate
+  = form_with url: admin_settings_path, method: :patch, local: true, class: "space-y-4" do |f|
+    div
+      = label_tag :commission_rate, "Commission Rate (decimal, e.g. 0.10 = 10%)", class: "block text-sm font-medium text-gray-700"
+      = number_field_tag :commission_rate, @commission_rate, step: 0.01, min: 0, max: 1, class: "mt-1 block w-full border rounded px-3 py-2"
+    .pt-2
+      = f.submit "Update Rate", class: "bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"
+
+.bg-gray-50.p-6.rounded-lg.border.border-dashed.border-gray-300
+  h2.text-lg.font-semibold.mb-2.text-gray-700
+    | Payment Gateway Configuration
+  p.text-sm.text-gray-500
+    | eSewa merchant credentials are configured via environment variables (ENV-managed, not database-backed) and are intentionally not editable here to avoid storing payment secrets in the application database. Contact the platform operator to rotate these via the hosting provider's secret manager.

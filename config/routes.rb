@@ -64,9 +64,10 @@ Rails.application.routes.draw do
       member do
         patch :suspend
         patch :reactivate
-        patch :change_role
+        patch :roles, action: :update_roles
       end
     end
+    resources :roles, only: [:index]
     resources :payouts, only: [:index] do
       member do
         patch :process_payout

@@ -85,6 +85,23 @@
                                     class: "w-full bg-white text-[#7C3AED] hover:bg-[#F3E8FF] font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
                                     data: { confirm: "Are you sure you want to refund the poster?" }
 
+        .pt-6.border-t.border-white/10
+          h3.font-bold.mb-2 Option 3: Split Payment
+          p class="text-xs text-white/70 mb-4" Splits the escrowed amount between Tasker and Poster by percentage. Marks the task "Completed".
+          = form_with url: resolve_admin_dispute_path(@task), method: :patch, local: true, class: "space-y-2" do |f|
+            = hidden_field_tag :decision, 'split'
+            = label_tag :tasker_percentage, "Tasker %", class: "text-xs text-white/80"
+            = number_field_tag :tasker_percentage, 60, min: 0, max: 100, class: "w-full rounded px-3 py-2 text-gray-900"
+            = f.submit "Split Funds", class: "w-full bg-[#F59E0B] hover:bg-[#d97706] text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95 cursor-pointer", data: { confirm: "Split escrow funds between tasker and poster by this percentage?" }
+
+        .pt-6.border-t.border-white/10
+          h3.font-bold.mb-2 Option 4: Reopen Task
+          p class="text-xs text-white/70 mb-4" Unassigns the current tasker and reopens the task for new bids. No funds move.
+          = button_to "Reopen Task", resolve_admin_dispute_path(@task, decision: 'reopen'),
+                                    method: :patch,
+                                    class: "w-full bg-gray-200 text-gray-900 hover:bg-gray-300 font-bold py-3 rounded-xl transition-all shadow-md active:scale-95",
+                                    data: { confirm: "Reopen this task? The current tasker will be unassigned." }
+
     section class="bg-white p-6 rounded-2xl shadow-sm border border-[#7C3AED]/10"
       h2 class="text-lg font-bold mb-4" Task Details
       .space-y-4.text-sm

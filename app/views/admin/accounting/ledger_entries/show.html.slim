@@ -1,0 +1,34 @@
+= render "admin/accounting/subnav"
+h1.text-2xl.font-bold.mb-4 Transaction ##{@line.id}
+.grid.grid-cols-1.md:grid-cols-2.gap-6
+  .bg-white.p-4.rounded.shadow
+    h2.font-semibold.mb-2 This Line
+    p Account: = @line[:account]
+    p Scope: = @line[:scope]
+    p Code: = @line[:code]
+    p Amount: = money_from_cents(@line[:amount])
+    p Created: = @line.created_at.strftime("%Y-%m-%d %H:%M")
+  .bg-white.p-4.rounded.shadow
+    h2.font-semibold.mb-2 Paired Line
+    - if @partner_line
+      p Account: = @partner_line[:account]
+      p Scope: = @partner_line[:scope]
+      p Amount: = money_from_cents(@partner_line[:amount])
+    - else
+      p.text-gray-400 No paired line found.
+- if @linked_task
+  .bg-white.p-4.rounded.shadow.mt-6
+    h2.font-semibold.mb-2 Linked Task
+    p = link_to @linked_task.title, admin_task_path(@linked_task), class: "text-blue-600"
+    p Poster: = @linked_task.user&.first_name
+    p Tasker: = @linked_task.tasker&.first_name
+    p Status: = @linked_task.status
+    - if @dispute_logs.present?
+      h3.font-semibold.mt-4.mb-1 Dispute Resolution History
+      ul
+        - @dispute_logs.each do |log|
+          li = "#{log.created_at.strftime('%Y-%m-%d')} — #{log.action} by #{log.admin.first_name}: #{JSON.parse(log.details)['decision']}"
+- if @linked_user
+  .bg-white.p-4.rounded.shadow.mt-6
+    h2.font-semibold.mb-2 Linked User
+    p = link_to "#{@linked_user.first_name} #{@linked_user.last_name}", admin_user_path(@linked_user), class: "text-blue-600"

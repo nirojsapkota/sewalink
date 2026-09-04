@@ -12,4 +12,24 @@ class Admin::Accounting::LedgerEntriesController < Admin::BaseController
   rescue ArgumentError
     redirect_to admin_accounting_ledger_index_path, alert: "Invalid date format."
   end
+
+  def show
+    @line = DoubleEntry::Line.find(params[:id])
+    @partner_line = @line.partner
+    resolve_linked_context
+  rescue ActiveRecord::RecordNotFound
+    redirect_to admin_accounting_ledger_index_path, alert: "Transaction not found."
+  end
+
+  private
+
+  def resolve_linked_context
+    case @line[:account]
+    when "escrow"
+      @linked_task = Task.find_by(id: @line[:scope])
+      @dispute_logs = AdminActivityLog.where(target_type: "Task", target_id: @linked_task.id).order(created_at: :desc) if @linked_task
+    when "tasker_balance"
+      @linked_user = User.find_by(id: @line[:scope])
+    end
+  end
 end

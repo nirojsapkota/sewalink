@@ -121,4 +121,53 @@ RSpec.describe "Admin::Accounting::LedgerEntries", type: :request do
     end
   end
 
+  describe "GET /admin/accounting/ledger/:id" do
+    let(:accountant) { create(:user, :accountant) }
+
+    before { sign_in accountant }
+
+    it "shows the line, its paired line, and linked task context" do
+      Payments::LedgerManager.deposit_to_escrow(task)
+      line = DoubleEntry::Line.where(account: "escrow", scope: task.id.to_s).first
+
+      get admin_accounting_ledger_path(line.id)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(task.title)
+      expect(response.body).to include(task.status)
+    end
+
+    it "shows dispute resolution decision for a task with resolution history" do
+      Payments::LedgerManager.deposit_to_escrow(task)
+      task.update!(status: :dispute)
+      Payments::LedgerManager.refund_poster(task)
+      AdminActivityLog.record!(admin: accountant, action: "resolve_dispute", target: task, details: { decision: "refund" })
+
+      line = DoubleEntry::Line.where(account: "escrow", scope: task.id.to_s, code: "refund").first
+
+      get admin_accounting_ledger_path(line.id)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("refund")
+    end
+
+    it "shows the linked user for a tasker_balance line" do
+      Payments::LedgerManager.deposit_to_escrow(task)
+      Payments::LedgerManager.release_from_escrow(task)
+      line = DoubleEntry::Line.where(account: "tasker_balance", scope: tasker.id.to_s).first
+
+      get admin_accounting_ledger_path(line.id)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(tasker.first_name)
+    end
+
+    it "redirects to the index with an alert for a non-existent id" do
+      get admin_accounting_ledger_path(999_999_999)
+
+      expect(response).to redirect_to(admin_accounting_ledger_index_path)
+      follow_redirect!
+      expect(response.body).to include("Transaction not found.")
+    end
+  end
 end

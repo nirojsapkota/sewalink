@@ -97,6 +97,14 @@ Rails.application.routes.draw do
       end
     end
     resource :settings, only: [:show, :update]
+
+    namespace :accounting do
+      get 'dashboard', to: 'dashboards#show', as: :dashboard
+      get 'dashboard/:category', to: 'dashboards#category', as: :dashboard_category
+      resources :ledger, only: [:index, :show], controller: 'ledger_entries'
+      get 'reports', to: 'reports#show', as: :reports
+      resources :settlements, only: [:index, :new, :create, :show]
+    end
   end
 
   namespace :api do

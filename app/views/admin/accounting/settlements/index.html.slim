@@ -1,0 +1,34 @@
+= render "admin/accounting/subnav"
+h1.text-2xl.font-bold.mb-4 eSewa Reconciliation
+= form_with url: admin_accounting_settlements_path, method: :get, local: true, class: "flex gap-3 items-end mb-6" do
+  input type="date" name="from" value=@from.to_s class="border rounded px-2 py-1"
+  input type="date" name="to" value=@to.to_s class="border rounded px-2 py-1"
+  button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded" Filter
+  = link_to "Import CSV", new_admin_accounting_settlement_path, class: "bg-green-600 text-white px-4 py-1 rounded"
+.grid.grid-cols-1.md:grid-cols-3.gap-6.mb-8
+  .p-4.bg-blue-50.border.rounded
+    span.block.text-blue-800 Settlement Total
+    span.text-xl.font-bold = money_from_cents(@settlement_total_cents)
+  .p-4.bg-purple-50.border.rounded
+    span.block.text-purple-800 Internal Escrow Deposits
+    span.text-xl.font-bold = money_from_cents(@escrow_deposit_total_cents)
+  .p-4.border.rounded class=(@discrepancy_cents.zero? ? "bg-green-50" : "bg-red-50")
+    span.block class=(@discrepancy_cents.zero? ? "text-green-800" : "text-red-800") Discrepancy
+    span.text-xl.font-bold = money_from_cents(@discrepancy_cents)
+table.min-w-full.bg-white.rounded.shadow
+  thead.bg-gray-50
+    tr
+      th.px-4.py-2.text-left Ref
+      th.px-4.py-2.text-left Date
+      th.px-4.py-2.text-right Amount
+      th.px-4.py-2.text-left Status
+      th.px-4.py-2
+  tbody
+    - @settlements.each do |s|
+      tr.border-t
+        td.px-4.py-2 = s.transaction_ref
+        td.px-4.py-2 = s.settled_on
+        td.px-4.py-2.text-right = money_from_cents(s.amount_cents)
+        td.px-4.py-2
+          span class=(s.matched? ? "text-green-700" : "text-red-700") = s.status
+        td.px-4.py-2 = link_to "View", admin_accounting_settlement_path(s), class: "text-blue-600"

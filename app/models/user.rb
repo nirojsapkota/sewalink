@@ -1,4 +1,18 @@
 class User < ApplicationRecord
+  rolify
+
+  def admin_access?
+    has_role?(:super_admin) || has_role?(:accountant)
+  end
+
+  def super_admin?
+    has_role?(:super_admin)
+  end
+
+  def accountant?
+    has_role?(:accountant)
+  end
+
   devise :two_factor_authenticatable,
          :registerable,
          :recoverable, :rememberable, :validatable,

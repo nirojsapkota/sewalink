@@ -87,6 +87,7 @@ gem "image_processing", "~> 1.14"
 
 gem "geocoder", "~> 1.8"
 gem "pundit", "~> 2.3"
+gem "rolify"
 gem "kaminari", "~> 1.2"
 
 gem "double_entry"

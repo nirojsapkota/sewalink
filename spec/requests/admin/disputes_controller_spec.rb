@@ -67,6 +67,18 @@ RSpec.describe "Admin::Disputes", type: :request do
         expect(flash[:alert]).to match(/valid.*percentage/i)
         expect(task.reload.status).to eq("dispute")
       end
+
+      it "rescues an invalid transition instead of raising a 500" do
+        allow(Payments::LedgerManager).to receive(:split_escrow)
+        task.update!(status: :completed)
+
+        expect {
+          patch resolve_admin_dispute_path(task), params: { decision: "split", tasker_percentage: "60" }
+        }.not_to raise_error
+
+        expect(response).to redirect_to(admin_disputes_path)
+        expect(flash[:alert]).to match(/could not be resolved/i)
+      end
     end
 
     context "with decision: reopen" do

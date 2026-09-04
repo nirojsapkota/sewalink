@@ -27,9 +27,12 @@
       dd.col-span-2.text-gray-900
         = @user.locale || "N/A"
       dt.font-medium.text-gray-500
-        | Admin
+        | Admin Roles
       dd.col-span-2.text-gray-900
-        = @user.admin? ? "Yes" : "No"
+        - if @user.roles.any?
+          = @user.roles.map(&:name).map(&:titleize).join(", ")
+        - else
+          | None
       dt.font-medium.text-gray-500
         | Onboarded
       dd.col-span-2.text-gray-900

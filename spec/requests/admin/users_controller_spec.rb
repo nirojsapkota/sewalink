@@ -52,17 +52,48 @@ RSpec.describe "Admin::Users", type: :request do
   end
 
   describe "PATCH /admin/users/:id" do
-    it "updates the user and logs the action" do
+    it "updates the user and logs the action, without allowing admin flag mass-assignment" do
       patch admin_user_path(target_user), params: { user: { admin: true, active_role: "tasker", first_name: "New" } }
 
       target_user.reload
-      expect(target_user.admin?).to eq(true)
+      expect(target_user.admin?).to eq(false)
       expect(target_user.active_role).to eq("tasker")
       expect(target_user.first_name).to eq("New")
 
       log = AdminActivityLog.last
       expect(log.action).to eq("update_user")
       expect(log.target_id).to eq(target_user.id)
+    end
+  end
+
+  describe "PATCH /admin/users/:id/change_role" do
+    it "grants admin access and logs a distinct audit action" do
+      patch change_role_admin_user_path(target_user), params: { admin: true }
+
+      target_user.reload
+      expect(target_user.admin?).to eq(true)
+
+      log = AdminActivityLog.last
+      expect(log.action).to eq("change_admin_role")
+      expect(log.target_id).to eq(target_user.id)
+      expect(JSON.parse(log.details)["to"]).to eq(true)
+    end
+
+    it "revokes admin access" do
+      target_user.update!(admin: true)
+
+      patch change_role_admin_user_path(target_user), params: { admin: false }
+
+      target_user.reload
+      expect(target_user.admin?).to eq(false)
+    end
+
+    it "does not allow an admin to change their own admin access" do
+      patch change_role_admin_user_path(admin), params: { admin: false }
+
+      admin.reload
+      expect(admin.admin?).to eq(true)
+      expect(response).to redirect_to(admin_user_path(admin))
     end
   end
 

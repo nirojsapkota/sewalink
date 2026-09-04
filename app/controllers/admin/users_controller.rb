@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:show, :edit, :update, :suspend, :reactivate]
+  before_action :set_user, only: [:show, :edit, :update, :suspend, :reactivate, :change_role]
 
   def index
     @users = User.order(created_at: :desc)
@@ -43,6 +43,22 @@ class Admin::UsersController < Admin::BaseController
     redirect_to admin_user_path(@user), notice: "User reactivated."
   end
 
+  def change_role
+    if @user == current_user
+      redirect_to admin_user_path(@user), alert: "You cannot change your own admin access." and return
+    end
+
+    new_admin_value = ActiveModel::Type::Boolean.new.cast(params[:admin])
+    previous_admin_value = @user.admin?
+
+    if @user.update(admin: new_admin_value)
+      log_admin_action!("change_admin_role", @user, details: { from: previous_admin_value, to: new_admin_value })
+      redirect_to admin_user_path(@user), notice: new_admin_value ? "Admin access granted." : "Admin access revoked."
+    else
+      redirect_to admin_user_path(@user), alert: "Failed to change admin access: #{@user.errors.full_messages.join(', ')}"
+    end
+  end
+
   private
 
   def set_user
@@ -50,6 +66,6 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :bio, :locale, :admin, :active_role)
+    params.require(:user).permit(:first_name, :last_name, :bio, :locale, :active_role)
   end
 end

@@ -42,13 +42,13 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 - [x] **ADMIN-02**: Admin can view all users and their activity stats.
 - [x] **ADMIN-03**: Admin can oversee all task lifecycles.
 - [x] **ADMIN-04**: Admin can resolve disputes by releasing/refunding escrow funds.
-- [ ] **ADMIN-05**: Admin can manage full user lifecycle: edit profile fields, suspend/reactivate accounts, and change role/admin status.
-- [ ] **ADMIN-06**: Admin can override task management: edit task details and force-cancel tasks outside normal lifecycle.
-- [ ] **ADMIN-07**: Admin can view all bids platform-wide and manually accept/reject/cancel bids for dispute resolution.
-- [ ] **ADMIN-08**: Admin has full CRUD over task categories including reordering and safe deletion.
-- [ ] **ADMIN-09**: Admin can moderate users via suspension tooling (basic moderation; no separate content-flagging system exists).
-- [ ] **ADMIN-10**: Admin can view escrow/revenue balances and configure the platform commission rate without console access.
-- [ ] **ADMIN-11**: Admin can resolve disputes with split-payment or reopen-task options in addition to release/refund.
+- [x] **ADMIN-05**: Admin can manage full user lifecycle: edit profile fields, suspend/reactivate accounts, and change role/admin status.
+- [x] **ADMIN-06**: Admin can override task management: edit task details and force-cancel tasks outside normal lifecycle.
+- [x] **ADMIN-07**: Admin can view all bids platform-wide and manually accept/reject/cancel bids for dispute resolution.
+- [x] **ADMIN-08**: Admin has full CRUD over task categories including reordering and safe deletion.
+- [x] **ADMIN-09**: Admin can moderate users via suspension tooling (basic moderation; no separate content-flagging system exists).
+- [x] **ADMIN-10**: Admin can view escrow/revenue balances and configure the platform commission rate without console access.
+- [x] **ADMIN-11**: Admin can resolve disputes with split-payment or reopen-task options in addition to release/refund.
 
 ---
 

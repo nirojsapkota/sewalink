@@ -31,6 +31,9 @@ Rails.application.reloader.to_prepare do
       # Transfer: Escrow -> Platform (Commission for digital payments)
       transfers.define(from: :escrow, to: :platform_revenue, code: :commission)
 
+      # Transfer: Escrow -> External (Refund to poster, full or partial split)
+      transfers.define(from: :escrow, to: :user_external, code: :refund)
+
       # Transfer: Tasker -> Platform (Commission for Cash-on-Completion)
       transfers.define(from: :tasker_balance, to: :platform_revenue, code: :cash_commission)
 

@@ -353,6 +353,7 @@ GEM
       actionpack (>= 7.0)
       railties (>= 7.0)
     rexml (3.4.4)
+    rolify (6.0.1)
     rotp (6.3.0)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
@@ -488,6 +489,7 @@ DEPENDENCIES
   rails (~> 7.1.2)
   rails-controller-testing
   rails-i18n (~> 7.0)
+  rolify
   rotp (~> 6.3)
   rspec-rails
   ruby-openai (~> 8.3)

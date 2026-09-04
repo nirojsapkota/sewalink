@@ -1,0 +1,17 @@
+= form_with model: [:admin, category], local: true, class: "space-y-4" do |f|
+  - if category.errors.any?
+    .bg-red-50.border.border-red-200.text-red-700.p-3.rounded
+      ul
+        - category.errors.full_messages.each do |msg|
+          li = msg
+  div
+    = f.label :name_en, "Name (English)", class: "block text-sm font-medium text-gray-700"
+    = f.text_field :name_en, class: "mt-1 block w-full border rounded px-3 py-2"
+  div
+    = f.label :name_ne, "Name (Nepali)", class: "block text-sm font-medium text-gray-700"
+    = f.text_field :name_ne, class: "mt-1 block w-full border rounded px-3 py-2"
+  div.flex.items-center.gap-2
+    = f.check_box :active
+    = f.label :active, class: "text-sm font-medium text-gray-700"
+  .pt-4
+    = f.submit "Save Category", class: "bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"

@@ -1,0 +1,41 @@
+.mb-8.flex.justify-between.items-center
+  h1.text-3xl.font-bold
+    | Categories
+  = link_to "New Category", new_admin_category_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+.bg-white.rounded-lg.shadow.overflow-hidden
+  table.min-w-full.divide-y.divide-gray-200
+    thead.bg-gray-50
+      tr
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Order
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Name (EN)
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Name (NE)
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Active
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Actions
+    tbody.bg-white.divide-y.divide-gray-200
+      - @categories.each do |category|
+        tr
+          td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500.flex.gap-1
+            = button_to "↑", move_up_admin_category_path(category), method: :patch, class: "px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
+            = button_to "↓", move_down_admin_category_path(category), method: :patch, class: "px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
+          td.px-6.py-4.whitespace-nowrap.text-sm.font-medium.text-gray-900
+            = category.name_en
+          td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+            = category.name_ne
+          td.px-6.py-4.whitespace-nowrap
+            span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{category.active? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}"
+              = category.active? ? "Active" : "Inactive"
+          td.px-6.py-4.whitespace-nowrap.text-sm.font-medium.flex.gap-2
+            = link_to 'Edit', edit_admin_category_path(category), class: "text-blue-600 hover:text-blue-900"
+            - if category.destroyable?
+              = button_to 'Delete', admin_category_path(category), method: :delete, class: "text-red-600 hover:text-red-900 bg-transparent", data: { confirm: "Delete this category?" }
+            - else
+              span.text-gray-400.text-xs.italic In use
+      - if @categories.empty?
+        tr
+          td.px-6.py-10.text-center.text-gray-500[colspan="5"]
+            | No categories yet.

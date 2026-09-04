@@ -43,11 +43,11 @@ class Admin::CategoriesController < Admin::BaseController
   end
 
   def move_up
-    swap_with(Category.where("position < ?", @category.position).order(position: :desc).first)
+    swap_with(Category.where("position < ?", @category.position).reorder(position: :desc).first)
   end
 
   def move_down
-    swap_with(Category.where("position > ?", @category.position).order(position: :asc).first)
+    swap_with(Category.where("position > ?", @category.position).reorder(position: :asc).first)
   end
 
   private

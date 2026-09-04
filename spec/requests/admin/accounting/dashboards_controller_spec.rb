@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Admin::Accounting::Dashboards", type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   self.use_transactional_tests = false
 
   let(:poster) { create(:user) }
@@ -80,8 +82,7 @@ RSpec.describe "Admin::Accounting::Dashboards", type: :request do
       it "redirects to root path" do
         get admin_accounting_dashboard_path
         expect(response).to redirect_to(root_path)
-        follow_redirect!
-        expect(response.body).to include("Access denied. Admin only.")
+        expect(flash[:alert]).to eq("Access denied. Admin only.")
       end
     end
 
@@ -104,7 +105,7 @@ RSpec.describe "Admin::Accounting::Dashboards", type: :request do
       get admin_accounting_dashboard_category_path(category: "escrow_deposits", from: Date.current.to_s, to: Date.current.to_s)
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include(humanized_money_with_symbol(task.budget))
+      expect(response.body).to include(ApplicationController.helpers.humanized_money_with_symbol(task.budget))
     end
 
     it "redirects to the dashboard with an alert for an unknown category" do

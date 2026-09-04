@@ -97,13 +97,13 @@
   4. Admin has full CRUD (create/edit/delete/reorder) over task categories, protected against deleting in-use categories.
   5. Admin can resolve disputes via release, refund, split-by-percentage, or reopen — all four options.
   6. Admin can view escrow/revenue balances and edit the platform commission rate from the UI.
-**Plans:** 7 plans
+**Plans:** 7/7 plans complete
 
 Plans:
 - [x] 09-01-PLAN.md — Foundation: schema, Task state-machine additions, PlatformSetting/AdminActivityLog models, all new admin routes, nav links.
-- [ ] 09-02-PLAN.md — User management: edit/suspend/reactivate/role-change (moderation via suspension).
-- [ ] 09-03-PLAN.md — Task management override: admin edit + force-cancel with escrow refund.
-- [ ] 09-04-PLAN.md — Bid management: platform-wide bid oversight with accept/reject/cancel.
-- [ ] 09-05-PLAN.md — Category management: full CRUD + reordering with FK-safety.
-- [ ] 09-06-PLAN.md — Settings & financial oversight: commission rate config, escrow/revenue visibility.
-- [ ] 09-07-PLAN.md — Dispute resolution enhancements: split-payment and reopen-task options.
+- [x] 09-02-PLAN.md — User management: edit/suspend/reactivate/role-change (moderation via suspension).
+- [x] 09-03-PLAN.md — Task management override: admin edit + force-cancel with escrow refund.
+- [x] 09-04-PLAN.md — Bid management: platform-wide bid oversight with accept/reject/cancel.
+- [x] 09-05-PLAN.md — Category management: full CRUD + reordering with FK-safety.
+- [x] 09-06-PLAN.md — Settings & financial oversight: commission rate config, escrow/revenue visibility.
+- [x] 09-07-PLAN.md — Dispute resolution enhancements: split-payment and reopen-task options.

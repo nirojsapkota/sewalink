@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Admin User Management", type: :system do
   let!(:admin) { create(:user, :admin, phone: "9812345678") }
-  let!(:regular_user) { create(:user, phone: "9800000000", name: "Regular User") }
+  let!(:regular_user) { create(:user, phone: "9800000000", first_name: "Regular", last_name: "User") }
 
   before do
     driven_by(:rack_test)

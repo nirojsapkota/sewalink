@@ -2,7 +2,13 @@
   h1.text-3xl.font-bold
     | User: 
     = @user.phone
-  = link_to "Back to Users", admin_users_path, class: "text-blue-600 hover:text-blue-900"
+  .flex.gap-2
+    = link_to "Edit", edit_admin_user_path(@user), class: "bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+    - if @user.suspended?
+      = button_to "Reactivate", reactivate_admin_user_path(@user), method: :patch, class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+    - else
+      = button_to "Suspend", suspend_admin_user_path(@user), method: :patch, params: { suspension_reason: "Manual suspension by admin" }, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700", data: { confirm: "Suspend this user? They will be unable to sign in." }
+    = link_to "Back to Users", admin_users_path, class: "text-blue-600 hover:text-blue-900"
 .grid.grid-cols-1.md:grid-cols-2.gap-8
   .bg-white.p-6.rounded-lg.shadow
     h2.text-xl.font-semibold.mb-4.border-b.pb-2
@@ -32,6 +38,15 @@
         | Bio
       dd.col-span-2.text-gray-900
         = @user.bio || "N/A"
+      dt.font-medium.text-gray-500
+        | Status
+      dd.col-span-2.text-gray-900
+        - if @user.suspended?
+          span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-100.text-red-800
+            | Suspended (#{@user.suspension_reason})
+        - else
+          span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-green-100.text-green-800
+            | Active
       dt.font-medium.text-gray-500
         | Joined
       dd.col-span-2.text-gray-900

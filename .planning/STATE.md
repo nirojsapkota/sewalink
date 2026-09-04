@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: admin-accounting-cash-flow-visibility
-status: Defining requirements
-last_updated: "2026-09-04T00:00:00.000Z"
+status: Roadmap defined
+last_updated: "2026-09-04T14:31:00.000Z"
 progress:
-  total_phases: 0
-  completed_phases: 0
+  total_phases: 11
+  completed_phases: 9
   total_plans: 0
   completed_plans: 0
   percent: 0
@@ -21,10 +21,10 @@ progress:
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: Phase 10 (not started)
 Plan: —
-Status: Defining requirements
-Last activity: Milestone v1.1 started
+Status: Roadmap defined, ready to plan
+Last activity: Roadmap created for v1.1 (Phase 10: RBAC, Phase 11: Cash Flow Accounting & Reconciliation)
 
 ## Performance Metrics
 
@@ -57,6 +57,8 @@ Last activity: Milestone v1.1 started
 ### Roadmap Evolution
 
 - Phase 9 added: Complete admin panel: full super admin operations beyond user listing (manage users, tasks, bids, categories, disputes, moderation, settings)
+- Phase 10 added: Admin Role-Based Access Control (rolify: super_admin/accountant roles, replacing boolean admin flag)
+- Phase 11 added: Cash Flow Accounting & Reconciliation (dashboard, ledger drill-down, period reports, eSewa reconciliation)
 
 ### Success Markers
 

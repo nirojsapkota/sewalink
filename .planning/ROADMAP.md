@@ -120,7 +120,10 @@ Plans:
   2. All users previously flagged `admin: true` are migrated to hold the `super_admin` role with no loss of existing access.
   3. A super admin can view all admin-role users and assign or revoke the `super_admin` or `accountant` role for any user via the admin UI.
   4. A user with only the `accountant` role cannot assign or revoke roles for other users (role management is `super_admin`-only).
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 10-01-PLAN.md — Install rolify, migrate schema, data-migrate admin:true users to super_admin, gate /admin access on roles.
+- [ ] 10-02-PLAN.md — Super-admin-only role management UI: view admin-role users, assign/revoke super_admin/accountant, replace legacy change_role.
 
 ### Phase 11: Cash Flow Accounting & Reconciliation
 **Goal**: Give admins (super admin and accountant) full visibility into platform cash flows using the existing double_entry ledger — dashboard summaries, transaction-level drill-down, period reports, and eSewa reconciliation.

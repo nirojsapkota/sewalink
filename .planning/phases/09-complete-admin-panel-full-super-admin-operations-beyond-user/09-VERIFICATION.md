@@ -1,16 +1,19 @@
 ---
 phase: 09-complete-admin-panel-full-super-admin-operations-beyond-user
 verified: 2026-09-04T13:40:00Z
-status: human_needed
-score: 26/26 must-haves verified (code-level); 2 items require human/visual confirmation
+resolved: 2026-09-04T03:54:30Z
+status: passed
+score: 27/27 must-haves verified
 overrides_applied: 0
 human_verification:
   - test: "As super admin, edit a user's admin flag via the Edit User form (bio+admin checkbox in same submit) and confirm intended UX for privilege escalation"
     expected: "Ideally a dedicated grant/revoke admin action with self-demotion guard and distinct audit action name — currently bundled into the generic update action (CR-01, already flagged in 09-REVIEW.md)"
     why_human: "This is a security/process design decision (accept current implementation vs. require a follow-up hardening plan) rather than a binary pass/fail of functionality — the feature works today but the review flagged it as risky. Needs a human decision on whether to accept or require a closure plan."
+    resolution: "User chose to fix now. Added PATCH /admin/users/:id/change_role with distinct change_admin_role audit action and self-demotion guard; removed :admin from user_params mass-assignment. See 09-HUMAN-UAT.md and commit 9b743d9."
   - test: "Trigger dispute resolution 'release', 'refund', and 'split' against a task NOT in a resolvable AASM state (e.g., already completed) via the admin UI"
     expected: "Graceful redirect with a flash alert, consistent with 'reopen' which already rescues AASM::InvalidTransition"
     why_human: "Confirmed via code read that 3 of 4 branches lack the rescue (WR-01 in 09-REVIEW.md) — an actual 500 error is a real risk for an admin tool driven by manually-typed/bookmarked URLs, but whether this blocks phase sign-off is a judgment call given the narrow trigger conditions (requires an invalid state to reach these routes)."
+    resolution: "User chose to fix now. Added rescue AASM::InvalidTransition to resolve_release, resolve_refund, and resolve_split, matching the existing resolve_reopen pattern. See 09-HUMAN-UAT.md and commit f9528a5."
 ---
 
 # Phase 9: Complete Admin Panel — Full Super Admin Operations Verification Report

@@ -2,6 +2,9 @@
   h1.text-3xl.font-bold
     | Task ##{@task.id}: #{@task.title}
   .flex.gap-2
+    = link_to 'Edit', edit_admin_task_path(@task), class: "bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+    - unless @task.cancelled? || @task.completed?
+      = button_to 'Force Cancel', force_cancel_admin_task_path(@task), method: :patch, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700", data: { confirm: "Force-cancel this task? Any escrowed funds will be refunded to the poster." }
     = link_to 'Back to List', admin_tasks_path, class: "bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
 
 .grid.grid-cols-1.md:grid-cols-3.gap-8

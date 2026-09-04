@@ -1,0 +1,24 @@
+= render "admin/accounting/subnav"
+.mb-6
+  h1.text-2xl.font-bold = @label
+  p.text-sm.text-gray-500 = "#{@from} to #{@to}"
+  = link_to "Back to dashboard", admin_accounting_dashboard_path(from: @from, to: @to), class: "text-blue-600 text-sm"
+table.min-w-full.bg-white.rounded.shadow.mt-4
+  thead.bg-gray-50
+    tr
+      th.px-4.py-2.text-left Date
+      th.px-4.py-2.text-left Account
+      th.px-4.py-2.text-left Code
+      th.px-4.py-2.text-right Amount
+      th.px-4.py-2.text-left
+  tbody
+    - @lines.each do |line|
+      tr.border-t
+        td.px-4.py-2 = line.created_at.strftime("%Y-%m-%d %H:%M")
+        td.px-4.py-2 = line[:account]
+        td.px-4.py-2 = line[:code]
+        td.px-4.py-2.text-right = money_from_cents(line[:amount].abs)
+        td.px-4.py-2
+          = link_to "View", admin_accounting_ledger_path(line.id), class: "text-blue-600"
+.mt-4
+  = paginate @lines

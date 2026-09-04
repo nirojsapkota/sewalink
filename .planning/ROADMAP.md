@@ -10,6 +10,9 @@
 - [x] **Phase 6: Task Status & Real-time Updates** - Add task statuses (draft/open) and Hotwire streams for real-time updates. (completed 2026-04-15)
 - [x] **Phase 7: Admin Panel and Analytics** - Admin dashboard for platform oversight and growth analytics. (completed 2026-04-20)
 - [x] **Phase 8: Real-time AI Chat (Gemini Live)** - Replace magic box with true streaming bidirectional AI chat for task creation. (completed 2026-04-20)
+- [x] **Phase 9: Complete Admin Panel** - Full super-admin operations across users, tasks, bids, categories, disputes, and settings. (completed 2026-05-XX)
+- [ ] **Phase 10: Admin Role-Based Access Control** - Replace boolean admin flag with rolify-based super_admin/accountant roles.
+- [ ] **Phase 11: Cash Flow Accounting & Reconciliation** - Cash flow dashboard, ledger drill-down, period reports, and eSewa reconciliation.
 
 ## Phase Details
 
@@ -107,3 +110,26 @@ Plans:
 - [x] 09-05-PLAN.md — Category management: full CRUD + reordering with FK-safety.
 - [x] 09-06-PLAN.md — Settings & financial oversight: commission rate config, escrow/revenue visibility.
 - [x] 09-07-PLAN.md — Dispute resolution enhancements: split-payment and reopen-task options.
+
+### Phase 10: Admin Role-Based Access Control
+**Goal**: Replace the boolean `admin` flag with granular, assignable roles (`super_admin`, `accountant`) via `rolify`, so admin-panel access and future permission scoping are role-driven instead of a single boolean.
+**Depends on**: Phase 9
+**Requirements**: ADMIN-12, ADMIN-13
+**Success Criteria** (what must be TRUE):
+  1. Only users holding an admin-capable role (`super_admin` or `accountant`) can access `/admin`; users without one of these roles are denied access.
+  2. All users previously flagged `admin: true` are migrated to hold the `super_admin` role with no loss of existing access.
+  3. A super admin can view all admin-role users and assign or revoke the `super_admin` or `accountant` role for any user via the admin UI.
+  4. A user with only the `accountant` role cannot assign or revoke roles for other users (role management is `super_admin`-only).
+**Plans**: TBD
+
+### Phase 11: Cash Flow Accounting & Reconciliation
+**Goal**: Give admins (super admin and accountant) full visibility into platform cash flows using the existing double_entry ledger — dashboard summaries, transaction-level drill-down, period reports, and eSewa reconciliation.
+**Depends on**: Phase 10
+**Requirements**: ACCT-01, ACCT-02, ACCT-03, ACCT-04, ACCT-05, ACCT-06
+**Success Criteria** (what must be TRUE):
+  1. Admin can view a cash flow dashboard summarizing inflows/outflows by type (escrow deposits, releases, commission revenue, refunds, cash-on-completion) for a selected date range, and drill into any category to see its contributing transactions.
+  2. Admin can search and filter the full DoubleEntry transaction ledger by date range, user, account type, and transaction type.
+  3. Admin can open a single ledger transaction and see its linked task, dispute, and user context.
+  4. Admin can view daily/monthly summary reports showing revenue, commission earned, refunds issued, and net platform revenue.
+  5. Admin can import/view an eSewa settlement record and see discrepancies flagged against the internal escrow ledger balance for the same period.
+**Plans**: TBD

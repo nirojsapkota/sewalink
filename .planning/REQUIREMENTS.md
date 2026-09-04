@@ -123,9 +123,9 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 | ADMIN-11 | Phase 9 | Complete |
 | ADMIN-12 | Phase 10 | Planned |
 | ADMIN-13 | Phase 10 | Planned |
-| ACCT-01 | Phase 10 | Planned |
-| ACCT-02 | Phase 10 | Planned |
-| ACCT-03 | Phase 10 | Planned |
-| ACCT-04 | Phase 10 | Planned |
-| ACCT-05 | Phase 10 | Planned |
-| ACCT-06 | Phase 10 | Planned |
+| ACCT-01 | Phase 11 | Planned |
+| ACCT-02 | Phase 11 | Planned |
+| ACCT-03 | Phase 11 | Planned |
+| ACCT-04 | Phase 11 | Planned |
+| ACCT-05 | Phase 11 | Planned |
+| ACCT-06 | Phase 11 | Planned |

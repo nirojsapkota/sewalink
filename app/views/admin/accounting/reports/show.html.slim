@@ -1,0 +1,22 @@
+= render "admin/accounting/subnav"
+h1.text-2xl.font-bold.mb-4 Period Reports
+.flex.gap-3.mb-6
+  = link_to "Daily", admin_accounting_reports_path(period: "day"), class: "px-4 py-2 rounded #{@period == 'day' ? 'bg-blue-600 text-white' : 'bg-gray-100'}"
+  = link_to "Monthly", admin_accounting_reports_path(period: "month"), class: "px-4 py-2 rounded #{@period == 'month' ? 'bg-blue-600 text-white' : 'bg-gray-100'}"
+.bg-white.p-6.rounded.shadow.mb-8
+  h2.text-lg.font-semibold.text-gray-700.mb-4 Net Platform Revenue
+  = line_chart @net_revenue_by_period, xtitle: "Period", ytitle: "NPR", prefix: "Rs. ", colors: ["#22C55E"]
+table.min-w-full.bg-white.rounded.shadow
+  thead.bg-gray-50
+    tr
+      th.px-4.py-2.text-left Period
+      th.px-4.py-2.text-right Commission Earned
+      th.px-4.py-2.text-right Refunds Issued
+      th.px-4.py-2.text-right Net Revenue
+  tbody
+    - @commission_by_period.each_key do |period_key|
+      tr.border-t
+        td.px-4.py-2 = period_key
+        td.px-4.py-2.text-right = number_to_currency(@commission_by_period[period_key], unit: "Rs. ")
+        td.px-4.py-2.text-right = number_to_currency(@refunds_by_period[period_key] || 0, unit: "Rs. ")
+        td.px-4.py-2.text-right = number_to_currency(@net_revenue_by_period[period_key], unit: "Rs. ")

@@ -135,4 +135,11 @@ Plans:
   3. Admin can open a single ledger transaction and see its linked task, dispute, and user context.
   4. Admin can view daily/monthly summary reports showing revenue, commission earned, refunds issued, and net platform revenue.
   5. Admin can import/view an eSewa settlement record and see discrepancies flagged against the internal escrow ledger balance for the same period.
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Foundation: routes, nav, subnav partial, shared CashFlowCategorizer/LedgerQuery services, AccountingHelper.
+- [ ] 11-02-PLAN.md — Cash flow dashboard + category drill-down.
+- [ ] 11-03-PLAN.md — Transaction ledger search/filter + single-transaction detail (task/user/dispute context).
+- [ ] 11-04-PLAN.md — Daily/monthly period reports (commission, refunds, net revenue).
+- [ ] 11-05-PLAN.md — eSewa settlement CSV import + reconciliation matching + final phase checkpoint.

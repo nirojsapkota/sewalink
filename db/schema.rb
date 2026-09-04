@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_21_110000) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_22_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_110000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "admin_activity_logs", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.string "action", null: false
+    t.string "target_type"
+    t.bigint "target_id"
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_admin_activity_logs_on_admin_id"
+    t.index ["target_type", "target_id"], name: "index_admin_activity_logs_on_target_type_and_target_id"
+  end
+
   create_table "bids", force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2, null: false
     t.text "message", null: false
@@ -61,8 +73,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_110000) do
     t.string "name_ne"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", default: 0, null: false
+    t.boolean "active", default: true, null: false
     t.index ["name_en"], name: "index_categories_on_name_en"
     t.index ["name_ne"], name: "index_categories_on_name_ne"
+    t.index ["position"], name: "index_categories_on_position"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -182,6 +197,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_110000) do
     t.index ["user_id"], name: "index_payout_requests_on_user_id"
   end
 
+  create_table "platform_settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_platform_settings_on_key", unique: true
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.bigint "task_id", null: false
     t.bigint "reviewer_id", null: false
@@ -235,6 +258,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_110000) do
     t.boolean "admin", default: false
     t.string "first_name"
     t.string "last_name"
+    t.datetime "suspended_at"
+    t.string "suspension_reason"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -242,6 +267,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_110000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admin_activity_logs", "users", column: "admin_id"
   add_foreign_key "bids", "tasks"
   add_foreign_key "bids", "users"
   add_foreign_key "conversations", "bids"

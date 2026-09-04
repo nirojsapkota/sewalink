@@ -1,0 +1,6 @@
+.mb-8.flex.justify-between.items-center
+  h1.text-3xl.font-bold
+    | New Category
+  = link_to "Back to Categories", admin_categories_path, class: "text-blue-600 hover:text-blue-900"
+.bg-white.p-6.rounded-lg.shadow.max-w-lg
+  = render 'form', category: @category

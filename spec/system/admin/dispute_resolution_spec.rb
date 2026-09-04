@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Admin Dispute Resolution", type: :system do
   let(:admin) { create(:user, :admin) }
-  let(:poster) { create(:user, name: "John Poster") }
-  let(:tasker) { create(:user, name: "Jane Tasker") }
+  let(:poster) { create(:user, first_name: "John", last_name: "Poster") }
+  let(:tasker) { create(:user, first_name: "Jane", last_name: "Tasker") }
   let(:task) { create(:task, :completed, user: poster, title: "Disputed Task") }
   let!(:bid) { create(:bid, task: task, user: tasker, status: :accepted) }
 

@@ -10,6 +10,15 @@ FactoryBot.define do
 
     trait :admin do
       admin { true }
+      after(:create) { |user| user.add_role(:super_admin) }
+    end
+
+    trait :super_admin do
+      after(:create) { |user| user.add_role(:super_admin) }
+    end
+
+    trait :accountant do
+      after(:create) { |user| user.add_role(:accountant) }
     end
   end
 end

@@ -59,18 +59,18 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 - [x] **ADMIN-13**: Super admin can assign/revoke roles for other admin users.
 
 ### Cash Flow Dashboard (ACCT)
-- [ ] **ACCT-01**: Admin can view a cash flow dashboard summarizing inflows/outflows by type (escrow deposits, releases, commission revenue, refunds, cash-on-completion) for a selected period.
-- [ ] **ACCT-02**: Admin can drill into a summary category to see the contributing transactions.
+- [x] **ACCT-01**: Admin can view a cash flow dashboard summarizing inflows/outflows by type (escrow deposits, releases, commission revenue, refunds, cash-on-completion) for a selected period.
+- [x] **ACCT-02**: Admin can drill into a summary category to see the contributing transactions.
 
 ### Transaction Ledger (ACCT)
-- [ ] **ACCT-03**: Admin can view a searchable/filterable ledger of all DoubleEntry transactions (by date range, user, account type, transaction type).
-- [ ] **ACCT-04**: Admin can view details of a single ledger transaction, including linked task/dispute/user.
+- [x] **ACCT-03**: Admin can view a searchable/filterable ledger of all DoubleEntry transactions (by date range, user, account type, transaction type).
+- [x] **ACCT-04**: Admin can view details of a single ledger transaction, including linked task/dispute/user.
 
 ### Period Reports (ACCT)
-- [ ] **ACCT-05**: Admin can view daily/monthly summary reports (revenue, commission earned, refunds issued, net platform revenue).
+- [x] **ACCT-05**: Admin can view daily/monthly summary reports (revenue, commission earned, refunds issued, net platform revenue).
 
 ### Reconciliation (ACCT)
-- [ ] **ACCT-06**: Admin can view/flag discrepancies between eSewa settlement records and internal escrow ledger balances.
+- [x] **ACCT-06**: Admin can view/flag discrepancies between eSewa settlement records and internal escrow ledger balances.
 
 ---
 

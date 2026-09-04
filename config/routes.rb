@@ -60,19 +60,41 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboards#show'
     get '/', to: 'dashboards#show' # Extra alias for clarity if needed, but root to: is enough
-    resources :users, only: [:index, :show]
+    resources :users, only: [:index, :show, :edit, :update] do
+      member do
+        patch :suspend
+        patch :reactivate
+      end
+    end
     resources :payouts, only: [:index] do
       member do
         patch :process_payout
         patch :reject_payout
       end
     end
-    resources :tasks, only: [:index, :show]
+    resources :tasks, only: [:index, :show, :edit, :update] do
+      member do
+        patch :force_cancel
+      end
+    end
+    resources :bids, only: [:index] do
+      member do
+        patch :accept
+        patch :reject
+      end
+    end
+    resources :categories, except: [:show] do
+      member do
+        patch :move_up
+        patch :move_down
+      end
+    end
     resources :disputes, only: [:index, :show] do
       member do
         patch :resolve
       end
     end
+    resource :settings, only: [:show, :update]
   end
 
   namespace :api do

@@ -19,6 +19,8 @@
         th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
           | Active Role
         th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+          | Status
+        th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
           | Created At
         th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
           | Actions
@@ -34,6 +36,13 @@
           td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
             span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{user.poster? ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}"
               = user.active_role.humanize
+          td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+            - if user.suspended?
+              span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-100.text-red-800
+                | Suspended
+            - else
+              span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-green-100.text-green-800
+                | Active
           td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
             = user.created_at.strftime("%Y-%m-%d %H:%M")
           td.px-6.py-4.whitespace-nowrap.text-sm.font-medium

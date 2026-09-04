@@ -1,0 +1,24 @@
+.mb-8.flex.justify-between.items-center
+  h1.text-3xl.font-bold
+    | Edit User: 
+    = @user.phone
+  = link_to "Back to User", admin_user_path(@user), class: "text-blue-600 hover:text-blue-900"
+.bg-white.p-6.rounded-lg.shadow.max-w-2xl
+  = form_with model: @user, url: admin_user_path(@user), method: :patch, local: true, class: "space-y-4" do |f|
+    div
+      = f.label :first_name, class: "block text-sm font-medium text-gray-700"
+      = f.text_field :first_name, class: "mt-1 block w-full border rounded px-3 py-2"
+    div
+      = f.label :last_name, class: "block text-sm font-medium text-gray-700"
+      = f.text_field :last_name, class: "mt-1 block w-full border rounded px-3 py-2"
+    div
+      = f.label :bio, class: "block text-sm font-medium text-gray-700"
+      = f.text_area :bio, rows: 3, class: "mt-1 block w-full border rounded px-3 py-2"
+    div
+      = f.label :active_role, class: "block text-sm font-medium text-gray-700"
+      = f.select :active_role, User.active_roles.keys.map { |r| [r.humanize, r] }, {}, class: "mt-1 block w-full border rounded px-3 py-2"
+    div.flex.items-center.gap-2
+      = f.check_box :admin
+      = f.label :admin, "Grant admin access", class: "text-sm font-medium text-gray-700"
+    .pt-4
+      = f.submit "Save Changes", class: "bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"

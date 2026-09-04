@@ -13,3 +13,16 @@ Not fixed here per scope boundary (unrelated to admin panel foundation work).
 - `spec/models/task_spec.rb:101,106` — `#check_in!` wrong number of arguments (2 given, 0 expected)
 - `spec/models/task_spec.rb:115,121` — completion guards not raising `AASM::InvalidTransition`
   (commented-out guards in `Task#complete` event — likely intentional per in-code TODO)
+
+## From 09-02 execution
+
+- `spec/system/admin/user_management_spec.rb:31` "can view user details and stats" — capybara
+  `have_content("Total Tasks Posted 2")` fails because the "Total Tasks Posted" and count spans
+  render with no whitespace between them ("...Posted2"). Pre-existing markup issue in
+  `admin/users/show.html.slim` Marketplace Activity card, unrelated to 09-02's edit/suspend changes.
+- `spec/system/admin/user_management_spec.rb:57` "as a regular user is redirected to root" — fails
+  because `HomeController#index` redirects a signed-in poster to `/poster_dashboard` before ever
+  rendering root, so `have_current_path(root_path)` never matches. Pre-existing double-redirect
+  behavior in `HomeController`, unrelated to `Admin::BaseController#ensure_admin!` (which itself
+  correctly redirects to `root_path` — confirmed via the equivalent regression test in
+  `spec/requests/admin/users_controller_spec.rb`).

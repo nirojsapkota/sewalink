@@ -55,7 +55,7 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 ## v1.1 Requirements (Milestone: Admin Accounting & Cash Flow Visibility)
 
 ### Access Control (ADMIN)
-- [ ] **ADMIN-12**: Replace boolean `admin` flag with role-based access (via `rolify`) — roles: `super_admin`, `accountant`. Only users with an admin-capable role can access `/admin`.
+- [x] **ADMIN-12**: Replace boolean `admin` flag with role-based access (via `rolify`) — roles: `super_admin`, `accountant`. Only users with an admin-capable role can access `/admin`.
 - [ ] **ADMIN-13**: Super admin can assign/revoke roles for other admin users.
 
 ### Cash Flow Dashboard (ACCT)

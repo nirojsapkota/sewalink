@@ -122,7 +122,7 @@ Plans:
   4. A user with only the `accountant` role cannot assign or revoke roles for other users (role management is `super_admin`-only).
 **Plans**: 2 plans
 Plans:
-- [ ] 10-01-PLAN.md — Install rolify, migrate schema, data-migrate admin:true users to super_admin, gate /admin access on roles.
+- [x] 10-01-PLAN.md — Install rolify, migrate schema, data-migrate admin:true users to super_admin, gate /admin access on roles.
 - [ ] 10-02-PLAN.md — Super-admin-only role management UI: view admin-role users, assign/revoke super_admin/accountant, replace legacy change_role.
 
 ### Phase 11: Cash Flow Accounting & Reconciliation

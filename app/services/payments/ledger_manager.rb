@@ -52,6 +52,31 @@ module Payments
         end
       end
 
+      def split_escrow(task, tasker_percentage)
+        tasker = task.tasker
+        perform_with_lock([DoubleEntry.account(:escrow, scope: task), DoubleEntry.account(:tasker_balance, scope: tasker), DoubleEntry.account(:user_external)]) do
+          total = escrow_balance(task)
+          return if total == 0
+
+          tasker_share = total * (tasker_percentage.to_f / 100.0)
+          poster_share = total - tasker_share
+
+          DoubleEntry.transfer(
+            tasker_share,
+            from: DoubleEntry.account(:escrow, scope: task),
+            to: DoubleEntry.account(:tasker_balance, scope: tasker),
+            code: :payout
+          ) if tasker_share > 0
+
+          DoubleEntry.transfer(
+            poster_share,
+            from: DoubleEntry.account(:escrow, scope: task),
+            to: DoubleEntry.account(:user_external),
+            code: :refund
+          ) if poster_share > 0
+        end
+      end
+
       def record_cash_commission(task)
         tasker = task.tasker
         perform_with_lock([DoubleEntry.account(:tasker_balance, scope: tasker), DoubleEntry.account(:platform_revenue)]) do

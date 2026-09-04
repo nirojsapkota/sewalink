@@ -11,7 +11,7 @@
 - [x] **Phase 7: Admin Panel and Analytics** - Admin dashboard for platform oversight and growth analytics. (completed 2026-04-20)
 - [x] **Phase 8: Real-time AI Chat (Gemini Live)** - Replace magic box with true streaming bidirectional AI chat for task creation. (completed 2026-04-20)
 - [x] **Phase 9: Complete Admin Panel** - Full super-admin operations across users, tasks, bids, categories, disputes, and settings. (completed 2026-05-XX)
-- [ ] **Phase 10: Admin Role-Based Access Control** - Replace boolean admin flag with rolify-based super_admin/accountant roles.
+- [x] **Phase 10: Admin Role-Based Access Control** - Replace boolean admin flag with rolify-based super_admin/accountant roles. (completed 2026-09-04)
 - [ ] **Phase 11: Cash Flow Accounting & Reconciliation** - Cash flow dashboard, ledger drill-down, period reports, and eSewa reconciliation.
 
 ## Phase Details
@@ -123,7 +123,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 10-01-PLAN.md — Install rolify, migrate schema, data-migrate admin:true users to super_admin, gate /admin access on roles.
-- [ ] 10-02-PLAN.md — Super-admin-only role management UI: view admin-role users, assign/revoke super_admin/accountant, replace legacy change_role.
+- [x] 10-02-PLAN.md — Super-admin-only role management UI: view admin-role users, assign/revoke super_admin/accountant, replace legacy change_role.
 
 ### Phase 11: Cash Flow Accounting & Reconciliation
 **Goal**: Give admins (super admin and accountant) full visibility into platform cash flows using the existing double_entry ledger — dashboard summaries, transaction-level drill-down, period reports, and eSewa reconciliation.

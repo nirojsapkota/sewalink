@@ -56,7 +56,7 @@ A mobile-first, trust-focused service marketplace for Nepal, lowering the tech b
 
 ### Access Control (ADMIN)
 - [x] **ADMIN-12**: Replace boolean `admin` flag with role-based access (via `rolify`) — roles: `super_admin`, `accountant`. Only users with an admin-capable role can access `/admin`.
-- [ ] **ADMIN-13**: Super admin can assign/revoke roles for other admin users.
+- [x] **ADMIN-13**: Super admin can assign/revoke roles for other admin users.
 
 ### Cash Flow Dashboard (ACCT)
 - [ ] **ACCT-01**: Admin can view a cash flow dashboard summarizing inflows/outflows by type (escrow deposits, releases, commission revenue, refunds, cash-on-completion) for a selected period.

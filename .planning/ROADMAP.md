@@ -84,3 +84,26 @@
 - [x] 08-01-PLAN.md — Bootstrap real-time AI infrastructure (Gemini Live Proxy).
 - [x] 08-02-PLAN.md — Implement tool execution and dynamic UI updates via Turbo Streams.
 - [x] 08-03-PLAN.md — Final polish: Fix bubble styling, secure real-time unmasking, and v1.0 state documentation.
+
+### Phase 9: Complete admin panel: full super admin operations beyond user listing (manage users, tasks, bids, categories, disputes, moderation, settings)
+
+**Goal**: Extend the admin panel from read-only user listing to full super-admin operations across users, tasks, bids, categories, disputes, and platform settings — no Rails console required for routine platform administration.
+**Requirements**: ADMIN-05, ADMIN-06, ADMIN-07, ADMIN-08, ADMIN-09, ADMIN-10, ADMIN-11
+**Depends on:** Phase 8
+**Success Criteria**:
+  1. Admin can edit, suspend/reactivate, and change the role of any user account.
+  2. Admin can override task details and force-cancel tasks outside their normal lifecycle, with safe escrow handling.
+  3. Admin can view and manually accept/reject/cancel bids platform-wide.
+  4. Admin has full CRUD (create/edit/delete/reorder) over task categories, protected against deleting in-use categories.
+  5. Admin can resolve disputes via release, refund, split-by-percentage, or reopen — all four options.
+  6. Admin can view escrow/revenue balances and edit the platform commission rate from the UI.
+**Plans:** 7 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Foundation: schema, Task state-machine additions, PlatformSetting/AdminActivityLog models, all new admin routes, nav links.
+- [ ] 09-02-PLAN.md — User management: edit/suspend/reactivate/role-change (moderation via suspension).
+- [ ] 09-03-PLAN.md — Task management override: admin edit + force-cancel with escrow refund.
+- [ ] 09-04-PLAN.md — Bid management: platform-wide bid oversight with accept/reject/cancel.
+- [ ] 09-05-PLAN.md — Category management: full CRUD + reordering with FK-safety.
+- [ ] 09-06-PLAN.md — Settings & financial oversight: commission rate config, escrow/revenue visibility.
+- [ ] 09-07-PLAN.md — Dispute resolution enhancements: split-payment and reopen-task options.

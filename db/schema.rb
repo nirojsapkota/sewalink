@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_04_045142) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_05_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -164,6 +164,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_04_045142) do
     t.index ["scope", "account", "id"], name: "lines_scope_account_id_idx"
   end
 
+  create_table "esewa_settlements", force: :cascade do |t|
+    t.string "transaction_ref", null: false
+    t.integer "amount_cents", null: false
+    t.date "settled_on", null: false
+    t.string "status", default: "unmatched", null: false
+    t.text "raw_row"
+    t.bigint "imported_by_id", null: false
+    t.integer "matched_line_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imported_by_id"], name: "index_esewa_settlements_on_imported_by_id"
+    t.index ["settled_on"], name: "index_esewa_settlements_on_settled_on"
+    t.index ["status"], name: "index_esewa_settlements_on_status"
+    t.index ["transaction_ref"], name: "index_esewa_settlements_on_transaction_ref"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.bigint "conversation_id", null: false
     t.bigint "sender_id", null: false
@@ -292,6 +308,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_04_045142) do
   add_foreign_key "conversations", "tasks"
   add_foreign_key "dispute_evidences", "tasks"
   add_foreign_key "dispute_evidences", "users"
+  add_foreign_key "esewa_settlements", "users", column: "imported_by_id"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "payment_transactions", "tasks"

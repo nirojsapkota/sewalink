@@ -100,7 +100,7 @@
 **Plans:** 7 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Foundation: schema, Task state-machine additions, PlatformSetting/AdminActivityLog models, all new admin routes, nav links.
+- [x] 09-01-PLAN.md — Foundation: schema, Task state-machine additions, PlatformSetting/AdminActivityLog models, all new admin routes, nav links.
 - [ ] 09-02-PLAN.md — User management: edit/suspend/reactivate/role-change (moderation via suspension).
 - [ ] 09-03-PLAN.md — Task management override: admin edit + force-cancel with escrow refund.
 - [ ] 09-04-PLAN.md — Bid management: platform-wide bid oversight with accept/reject/cancel.

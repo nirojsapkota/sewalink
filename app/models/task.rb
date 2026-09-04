@@ -67,6 +67,14 @@ class Task < ApplicationRecord
     event :cancel do
       transitions from: [:draft, :open, :assigned, :in_progress, :dispute], to: :cancelled
     end
+
+    event :unassign do
+      transitions from: :assigned, to: :open
+    end
+
+    event :reopen do
+      transitions from: :dispute, to: :open
+    end
   end
 
   geocoded_by :location

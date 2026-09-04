@@ -57,4 +57,24 @@ class User < ApplicationRecord
   def can_bid?
     balance >= Money.new(-500_00, 'NPR') # -500 NPR threshold
   end
+
+  def suspended?
+    suspended_at.present?
+  end
+
+  def suspend!(reason)
+    update!(suspended_at: Time.current, suspension_reason: reason)
+  end
+
+  def reactivate!
+    update!(suspended_at: nil, suspension_reason: nil)
+  end
+
+  def active_for_authentication?
+    super && !suspended?
+  end
+
+  def inactive_message
+    suspended? ? :suspended : super
+  end
 end

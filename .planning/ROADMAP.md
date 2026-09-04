@@ -140,6 +140,6 @@ Plans:
 Plans:
 - [x] 11-01-PLAN.md — Foundation: routes, nav, subnav partial, shared CashFlowCategorizer/LedgerQuery services, AccountingHelper.
 - [x] 11-02-PLAN.md — Cash flow dashboard + category drill-down.
-- [ ] 11-03-PLAN.md — Transaction ledger search/filter + single-transaction detail (task/user/dispute context).
+- [x] 11-03-PLAN.md — Transaction ledger search/filter + single-transaction detail (task/user/dispute context).
 - [ ] 11-04-PLAN.md — Daily/monthly period reports (commission, refunds, net revenue).
 - [ ] 11-05-PLAN.md — eSewa settlement CSV import + reconciliation matching + final phase checkpoint.

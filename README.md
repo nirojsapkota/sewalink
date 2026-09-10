@@ -23,6 +23,34 @@ Things you may want to cover:
 
 * ...
 
+## Configuration
+
+### Gemini API key
+
+The Gemini Live Chat feature (see below) needs a Gemini API key at runtime. It's read via:
+
+```ruby
+ENV['GEMINI_API_KEY'] || Rails.application.credentials.gemini_api_key || Rails.application.credentials.dig(:gemini, :api_key)
+```
+
+(`app/controllers/gemini/tokens_controller.rb`)
+
+To add it to Rails encrypted credentials (recommended for production):
+
+```bash
+EDITOR="vim" bin/rails credentials:edit
+```
+
+Then add:
+
+```yaml
+gemini_api_key: YOUR_GEMINI_API_KEY
+```
+
+This requires `config/master.key` to be present locally (it's gitignored — get it from your
+team's secret store, not from git). Alternatively, for local development you can skip
+credentials entirely and just set the `GEMINI_API_KEY` environment variable instead.
+
 ## Gemini Live Chat: Tool Calling
 
 The real-time voice assistant (`app/javascript/controllers/real_time_chat_controller.js`) lets

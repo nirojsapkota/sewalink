@@ -29,10 +29,8 @@ class Users::SessionsController < Devise::SessionsController
     if @phone.blank?
       redirect_to new_user_session_path
     else
-      if Rails.env.development? || Rails.env.test?
-        @user = User.find_by(phone: @phone)
-        @dev_otp = @user&.current_otp
-      end
+      @user = User.find_by(phone: @phone)
+      @dev_otp = @user&.current_otp
     end
   end
 

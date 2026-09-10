@@ -4,3 +4,4 @@
 *.pem
 terraform.tfvars
 crash.log
+*.sql

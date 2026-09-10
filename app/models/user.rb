@@ -35,6 +35,7 @@ class User < ApplicationRecord
 
   def send_two_factor_authentication_code(code)
     SmsService.send_otp(phone, code)
+    UserMailer.otp_code(self, code).deliver_later if email.present?
   end
 
   # Ensure otp_secret is generated if not present

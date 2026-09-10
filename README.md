@@ -51,6 +51,27 @@ This requires `config/master.key` to be present locally (it's gitignored — get
 team's secret store, not from git). Alternatively, for local development you can skip
 credentials entirely and just set the `GEMINI_API_KEY` environment variable instead.
 
+## Seed Data
+
+Running `bin/rails db:seed` creates demo categories plus three demo accounts (one per role)
+so you can log in and exercise each part of the app immediately:
+
+| Role        | Phone        | Password       |
+|-------------|--------------|----------------|
+| super_admin | 9800000001   | `Password123!` |
+| poster      | 9800000002   | `Password123!` |
+| tasker      | 9800000003   | `Password123!` |
+
+Login uses phone number, not email (see `User#email_required?`). The password can be
+overridden by setting `SEED_USER_PASSWORD` before seeding, e.g.:
+
+```bash
+SEED_USER_PASSWORD='MyOwnPassword1!' bin/rails db:seed
+```
+
+Seeding is idempotent — re-running it will not create duplicates or reset existing users'
+data (it looks users up by phone number first).
+
 ## Gemini Live Chat: Tool Calling
 
 The real-time voice assistant (`app/javascript/controllers/real_time_chat_controller.js`) lets

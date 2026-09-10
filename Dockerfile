@@ -18,7 +18,7 @@ ENV RAILS_ENV="production" \
 FROM base as build
 
 # Install packages needed to build gems
-RUN apt-get update -qq && \
+RUN apt-get update -qq -o Acquire::Check-Valid-Until=false && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
 
 # Install application gems
@@ -41,7 +41,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-RUN apt-get update -qq && \
+RUN apt-get update -qq -o Acquire::Check-Valid-Until=false && \
     apt-get install --no-install-recommends -y curl libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 

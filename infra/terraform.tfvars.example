@@ -1,0 +1,9 @@
+# Copy to terraform.tfvars and fill in real values. Do not commit terraform.tfvars.
+
+rails_master_key = "paste-contents-of-config/master.key-here"
+
+# Only needed if github.com/nirojsapkota/sewalink is private
+# github_pat = "ghp_xxxxxxxxxxxxxxxxxxxx"
+
+# Restrict SSH to your own IP instead of leaving it open to the world
+# ssh_allowed_cidr = "1.2.3.4/32"

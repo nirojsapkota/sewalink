@@ -28,8 +28,6 @@ class User < ApplicationRecord
   has_many :given_reviews, class_name: 'Review', foreign_key: 'reviewer_id', dependent: :destroy
 
   validates :phone, presence: true, uniqueness: true, format: { with: /\A9[678]\d{8}\z/ }
-  validates :first_name, presence: true
-  validates :last_name, presence: true
 
   def name
     [first_name, last_name].compact.join(' ').presence || "Unnamed User"

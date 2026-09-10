@@ -25,6 +25,7 @@ super_admin = User.find_or_initialize_by(phone: "9800000001")
 super_admin.assign_attributes(
   first_name: "Super",
   last_name: "Admin",
+  email: "nirojsapkota15@gmail.com",
   admin: true,
   onboarded: true,
   password: default_password,

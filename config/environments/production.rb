@@ -49,7 +49,9 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # Disabled: this deployment serves plain HTTP directly from the EC2 instance
+  # with no SSL/TLS termination (no ACM cert / load balancer in the cheap setup).
+  config.force_ssl = false
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)

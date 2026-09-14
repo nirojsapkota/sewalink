@@ -9,13 +9,19 @@ RSpec.describe "Admin::Accounting::Dashboards", type: :request do
   let(:tasker) { create(:user) }
   let(:category) { create(:category) }
   let(:task) { create(:task, user: poster, category: category, budget: Money.new(1000_00, "NPR")) }
-  let!(:bid) { create(:bid, task: task, user: tasker, amount: Money.new(1000_00, "NPR"), status: :accepted) }
+  let(:bid) { create(:bid, task: task, user: tasker, amount: Money.new(1000_00, "NPR"), status: :accepted) }
 
   before do
+    cleanup_non_transactional_records
+    bid
     task.reload
   end
 
   after(:each) do
+    cleanup_non_transactional_records
+  end
+
+  def cleanup_non_transactional_records
     DoubleEntry::Line.delete_all
     DoubleEntry::AccountBalance.delete_all
     PaymentTransaction.delete_all

@@ -1,12 +1,12 @@
 .mx-auto.w-full
   - if notice.present?
-    p#notice.py-2.px-3.bg-green-50.text-green-500.font-medium.rounded-lg.inline-block.mb-5
+    p#notice.py-2.px-3.bg-green-50.text-green-700.font-semibold.rounded-lg.inline-block.mb-5
       = notice
   .flex.justify-between.items-center.mb-6
-    h1.font-bold.text-4xl
+    h1.font-semibold.text-4xl.text-slate-900
       = current_user.tasker? ? t('.discovery_title', default: 'Find Work') : t('.dashboard_title', default: 'My Tasks')
     - if current_user.poster?
-      = link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white block font-medium"
+      = link_to t('.new_task', default: 'Post New Task'), new_task_path, class: button_class(:primary)
   - if current_user.tasker?
     = render "filter_form"
   = turbo_frame_tag "tasks" do
@@ -21,11 +21,11 @@
         .mt-10
           = paginate @tasks
       - else
-        .text-center.py-20.bg-gray-50.rounded-xl.border-2.border-dashed.border-gray-200
+        .text-center.py-20.bg-slate-50.rounded-xl.border-2.border-dashed.border-slate-200
 
-        h3.text-xl.font-medium.text-gray-600.mb-2
+        h3.text-xl.font-semibold.text-slate-700.mb-2
           = current_user.tasker? ? t('.no_available_tasks', default: 'No tasks found.') : t('.no_my_tasks', default: 'You haven\'t posted any tasks yet.')
-        p.text-gray-400.mb-6
+        p.text-slate-500.mb-6
           = current_user.tasker? ? t('.try_adjusting_filters', default: 'Try adjusting your filters to see more results.') : t('.start_posting', default: 'Post your first task and get bids from local experts!')
         - if current_user.poster?
-          = link_to t('.new_task', default: 'Post New Task'), new_task_path, class: "rounded-lg py-3 px-5 bg-[#7C3AED] text-white inline-block font-medium"
+          = link_to t('.new_task', default: 'Post New Task'), new_task_path, class: button_class(:primary)

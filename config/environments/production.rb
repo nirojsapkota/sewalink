@@ -53,8 +53,9 @@ Rails.application.configure do
   # with no SSL/TLS termination (no ACM cert / load balancer in the cheap setup).
   config.force_ssl = false
 
-  # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+  # Write to log/production.log (consistent with development/test, which already log to
+  # files by default) instead of STDOUT, so logs can be tailed directly on the host.
+  config.logger = ActiveSupport::Logger.new(Rails.root.join("log", "production.log"))
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
     .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 

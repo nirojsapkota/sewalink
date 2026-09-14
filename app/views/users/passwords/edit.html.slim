@@ -1,22 +1,21 @@
-h2
-  | Change your password
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "New password"
-  br
-  - if @minimum_password_length
-    em
-      | (
-      = @minimum_password_length
-      |  characters minimum)
-    br
-  = f.password_field :password, autofocus: true, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-  br
-  = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Change my password"
-= render "users/shared/links"
+.mx-auto.mt-10.max-w-md
+  div class=card_class
+    h2.mb-6.text-center.text-2xl.font-semibold.text-slate-900
+      | Change your password
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "space-y-4" }) do |f|
+      = render "users/shared/error_messages", resource: resource
+      = f.hidden_field :reset_password_token
+      .space-y-1.5
+        .flex.items-baseline.justify-between.gap-3
+          = f.label :password, "New password", class: "block text-sm font-semibold text-slate-700"
+          - if @minimum_password_length
+            span.text-xs.text-slate-500
+              = "#{@minimum_password_length} characters minimum"
+        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: input_class
+      .space-y-1.5
+        = f.label :password_confirmation, "Confirm new password", class: "block text-sm font-semibold text-slate-700"
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: input_class
+      .pt-2
+        = f.submit "Change my password", class: "#{button_class(:primary)} w-full"
+  .mt-6.text-center
+    = render "users/shared/links"

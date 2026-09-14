@@ -1,9 +1,9 @@
-nav[class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-[#7C3AED]/5"]
+nav.bg-white.border-b.border-slate-200.sticky.top-0.z-50
   .container.mx-auto.px-5.py-4.flex.items-center.justify-between
     .flex.items-center.space-x-6
-      = link_to root_path, class: "transition-all duration-300 hover:opacity-90 active:scale-95 transform" do
+      = link_to root_path, class: "transition-opacity duration-150 hover:opacity-80" do
         = render "shared/logo"
-      
+
       .hidden.md:flex.space-x-4.items-center
         - if user_signed_in?
           - if current_user.poster?
@@ -13,29 +13,29 @@ nav[class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b bor
           - else
             = link_to t("tasks.index.find_tasks"), tasks_path, class: nav_link_class(tasks_path)
             = link_to t("dashboards.tasker.title"), tasker_dashboard_path, class: nav_link_class(tasker_dashboard_path)
-          div[class="h-4 w-px bg-[#7C3AED]/20 mx-2"]
-        
+          .h-4.w-px.bg-slate-200.mx-2
+
         = link_to t('language.english'), url_for(locale: :en), class: language_link_class(url_for(locale: :en))
         = link_to t('language.nepali'), url_for(locale: :ne), class: language_link_class(url_for(locale: :ne))
 
     .flex.items-center.space-x-4
       - if user_signed_in?
         - target_role = current_user.poster? ? 'tasker' : 'poster'
-        = button_to toggle_role_profile_path, method: :patch, class: "flex items-center space-x-2 bg-[#F3E8FF] text-[#7C3AED] px-3 py-1.5 rounded-full text-xs font-bold hover:bg-[#E9D5FF] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shadow-sm hover:shadow-md" do
-          span[class="inline-block w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"]
+        = button_to toggle_role_profile_path, method: :patch, class: "flex items-center space-x-2 bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-slate-200 transition-colors duration-150 cursor-pointer" do
+          span.inline-block.w-2.h-2.rounded-full.bg-green-500
           span = t("profiles.roles.#{current_user.active_role}")
-          span[class="text-[#7C3AED]/40"] = "|"
+          span.text-slate-400 = "|"
           span.text-xs.opacity-70 = t("profiles.roles.toggle", role: t("profiles.roles.#{target_role}"))
-        
+
         .flex.items-center.space-x-3
           = link_to profile_path, class: nav_link_class(profile_path) do
             = t("profiles.show.title")
-          = button_to destroy_user_session_path, method: :delete, class: "text-sm font-bold text-red-500 hover:text-red-600 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" do
+          = button_to destroy_user_session_path, method: :delete, class: "text-sm font-semibold text-red-600 hover:text-red-700 transition-colors duration-150 cursor-pointer" do
             = t("logout")
       - else
-        = link_to t("login"), new_user_session_path, class: "text-sm font-bold text-[#7C3AED] hover:text-[#6D28D9] transition-all duration-200 hover:-translate-y-0.5"
-        = link_to t("register"), new_user_registration_path, class: "bg-[#7C3AED] text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-[#6D28D9] transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:shadow-md"
+        = link_to t("login"), new_user_session_path, class: "text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-150"
+        = link_to t("register"), new_user_registration_path, class: button_class(:primary)
 
-  div[class="md:hidden bg-[#FAF5FF] px-5 py-2 flex justify-center space-x-6 border-t border-[#7C3AED]/5"]
+  .md:hidden.bg-slate-50.px-5.py-2.flex.justify-center.space-x-6.border-t.border-slate-200
     = link_to t('language.english'), url_for(locale: :en), class: language_link_class(url_for(locale: :en))
     = link_to t('language.nepali'), url_for(locale: :ne), class: language_link_class(url_for(locale: :ne))

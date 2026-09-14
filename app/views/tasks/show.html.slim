@@ -1,107 +1,106 @@
-= turbo_frame_tag "tasks" do
-  div class="mx-auto md:w-2/3 w-full"
-    = turbo_stream_from @task
-    .mx-auto.space-y-8
-      - if notice.present?
-        p#notice class="py-2 px-3 bg-green-50 text-green-700 font-semibold rounded-lg inline-block"
-          = notice
-      = render 'task_actions', task: @task
-      = render @task
-      - if current_user.tasker? && @task.tasker == current_user && @task.assigned?
-        div class="mt-4 #{card_class}" data-controller="geolocation" data-geolocation-task-id-value=@task.id data-geolocation-task-latitude-value=@task.latitude data-geolocation-task-longitude-value=@task.longitude data-geolocation-on-site-value=@task.on_site
-          h4 class="text-sm font-semibold text-slate-900 mb-2" Start This Task
-          - if @task.on_site?
-            div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-sm text-slate-600" data-geolocation-target="geofenceStatus"
-              | Checking your location...
-            button type="button" disabled=true data-geolocation-target="checkInButton" data-action="click->geolocation#checkIn" class="mt-3 #{button_class(:primary)} opacity-50 cursor-not-allowed"
-              | Check In & Start Task
-            p class="mt-2 text-xs text-slate-500" You must be within 200m of the task location to check in.
-          - else
-            p class="text-sm text-slate-600 mb-3" This is a remote task, no location check is required.
-            button type="button" data-geolocation-target="checkInButton" data-action="click->geolocation#checkIn" class="#{button_class(:primary)}"
-              | Start Task
-
-      - if current_user.tasker? && @task.tasker == current_user && @task.in_progress?
-        - if policy(@task).complete?
-          = render 'tasks/completion_form', task: @task
-        - elsif @task.esewa?
-          p class="mt-4 text-sm text-slate-500 italic" Use "Request Payment" above once the work is done to release funds from escrow.
-
-
-    .mt-8 class=card_class
-      h3 class="text-xl font-semibold text-slate-900 mb-4" Posted By
-      = render 'profiles/profile_info', user: @task.user, task: @task
-
-    .mt-12 class="bg-slate-50 p-8 rounded-xl border border-slate-200"
-      - if current_user.poster? && @task.user == current_user
-        h3 class="text-2xl font-semibold text-slate-900 mb-6 flex items-center gap-2"
-          svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-          | Received Bids (#{@bids.count})
-
-        #bids.space-y-4
-          - if @bids.any?
-            = render partial: 'bids/bid', collection: @bids
-          - else
-            .text-center class="py-10 bg-white rounded-lg shadow-sm border border-dashed border-slate-300"
-              p.text-slate-500.italic No bids received yet. We'll notify you when a Tasker makes an offer.
-
-      - elsif current_user.tasker?
-        #bidding_section class=card_class
-          h3 class="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2"
-            svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            | Submit Your Offer
-
-          - if @user_bid&.persisted?
-            div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5"
-              .flex.justify-between.items-start.mb-2
-                span class="text-slate-900 font-semibold" Your Bid: NPR #{number_with_delimiter(@user_bid.amount)}
-                .flex.flex-col.items-end.gap-2
-                  span class="px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase #{status_badge_class(@user_bid.status)}" = @user_bid.status.titleize
-                  - if @user_bid.conversation
-                    = link_to "Open Chat", conversation_path(@user_bid.conversation), class: button_class(:ghost)
-
-              p class="text-slate-600 text-sm italic mb-3" "#{@user_bid.message}"
-              p class="text-xs text-slate-500 italic" You've already submitted a bid for this task. The Poster will review it soon.
-          - else
-            = render 'bids/form', task: @task, bid: @bid
-
-    - if (@task.completed? || @task.pending_payment?) && (current_user == @task.user || current_user == @task.tasker)
-      .mt-12 class="bg-slate-50 p-8 rounded-xl border border-slate-200"
-        h3 class="text-2xl font-semibold text-slate-900 mb-6" Leave a Review
-        - if @existing_review
-          .text-center class="py-10 bg-white rounded-lg shadow-sm border border-dashed border-slate-300"
-            p.text-slate-500.italic You have already submitted a review for this task. Thank you for your feedback!
+div class="mx-auto md:w-2/3 w-full"
+  = turbo_stream_from @task
+  .mx-auto.space-y-8
+    - if notice.present?
+      p#notice class="py-2 px-3 bg-green-50 text-green-700 font-semibold rounded-lg inline-block"
+        = notice
+    = render 'task_actions', task: @task
+    = render @task
+    - if current_user.tasker? && @task.tasker == current_user && @task.assigned?
+      div class="mt-4 #{card_class}" data-controller="geolocation" data-geolocation-task-id-value=@task.id data-geolocation-task-latitude-value=@task.latitude data-geolocation-task-longitude-value=@task.longitude data-geolocation-on-site-value=@task.on_site
+        h4 class="text-sm font-semibold text-slate-900 mb-2" Start This Task
+        - if @task.on_site?
+          div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-sm text-slate-600" data-geolocation-target="geofenceStatus"
+            | Checking your location...
+          button type="button" disabled=true data-geolocation-target="checkInButton" data-action="click->geolocation#checkIn" class="mt-3 #{button_class(:primary)} opacity-50 cursor-not-allowed"
+            | Check In & Start Task
+          p class="mt-2 text-xs text-slate-500" You must be within 200m of the task location to check in.
         - else
-          = render 'reviews/form', task: @task, review: @review
+          p class="text-sm text-slate-600 mb-3" This is a remote task, no location check is required.
+          button type="button" data-geolocation-target="checkInButton" data-action="click->geolocation#checkIn" class="#{button_class(:primary)}"
+            | Start Task
 
-    - if (@task.completed? || @task.dispute?) && (current_user == @task.user || current_user == @task.tasker)
-      .mt-12 class="bg-red-50 p-8 rounded-xl border border-red-100"
-        h3 class="text-2xl font-semibold text-red-900 mb-6" Dispute & Evidence
-        - if @task.dispute_evidences.any?
-          .space-y-4.mb-6
-            - @task.dispute_evidences.each do |evidence|
-              .bg-white.p-4.rounded-lg.shadow-sm.border.border-red-200
-                p class="text-sm font-semibold text-slate-500 mb-1"
-                  | Reported by #{evidence.user == current_user ? "you" : "the other party"} on #{evidence.created_at.strftime("%B %d, %Y")}
-                p.text-slate-800 = evidence.description
-                - if evidence.files.attached?
-                  .mt-3.flex.gap-2.flex-wrap
-                    - evidence.files.each do |file|
-                      - if file.image?
-                        = image_tag file, class: "h-20 w-20 object-cover rounded border border-red-200"
-                      - else
-                        = link_to "View Attachment", rails_blob_path(file, only_path: true), target: "_blank", class: "text-indigo-600 underline text-sm"
+    - if current_user.tasker? && @task.tasker == current_user && @task.in_progress?
+      - if policy(@task).complete?
+        = render 'tasks/completion_form', task: @task
+      - elsif @task.esewa?
+        p class="mt-4 text-sm text-slate-500 italic" Use "Request Payment" above once the work is done to release funds from escrow.
 
-        .bg-white.p-6.rounded-xl.shadow-sm.border.border-red-200
-          h4 class="text-lg font-semibold text-slate-900 mb-4" Report an Issue
-          = render 'dispute_evidences/form', task: @task
 
-    .mt-8.flex.flex-wrap.gap-3.border-t.border-slate-200.pt-8
-      - if policy(@task).edit?
-        = link_to t('.edit', default: 'Edit this task'), edit_task_path(@task), class: button_class(:secondary)
-      = link_to t('.back', default: 'Back to tasks'), tasks_path, class: button_class(:secondary)
-      - if policy(@task).destroy?
-        .inline-block
-          = button_to t('.destroy', default: 'Destroy this task'), @task, method: :delete, form: { data: { turbo_confirm: t('.confirm_destroy', default: 'Are you sure?') } }, class: button_class(:destructive)
+  .mt-8 class=card_class
+    h3 class="text-xl font-semibold text-slate-900 mb-4" Posted By
+    = render 'profiles/profile_info', user: @task.user, task: @task
+
+  .mt-12 class="bg-slate-50 p-8 rounded-xl border border-slate-200"
+    - if current_user.poster? && @task.user == current_user
+      h3 class="text-2xl font-semibold text-slate-900 mb-6 flex items-center gap-2"
+        svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+        | Received Bids (#{@bids.count})
+
+      #bids.space-y-4
+        - if @bids.any?
+          = render partial: 'bids/bid', collection: @bids
+        - else
+          .text-center class="py-10 bg-white rounded-lg shadow-sm border border-dashed border-slate-300"
+            p.text-slate-500.italic No bids received yet. We'll notify you when a Tasker makes an offer.
+
+    - elsif current_user.tasker?
+      #bidding_section class=card_class
+        h3 class="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2"
+          svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          | Submit Your Offer
+
+        - if @user_bid&.persisted?
+          div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5"
+            .flex.justify-between.items-start.mb-2
+              span class="text-slate-900 font-semibold" Your Bid: NPR #{number_with_delimiter(@user_bid.amount)}
+              .flex.flex-col.items-end.gap-2
+                span class="px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase #{status_badge_class(@user_bid.status)}" = @user_bid.status.titleize
+                - if @user_bid.conversation
+                  = link_to "Open Chat", conversation_path(@user_bid.conversation), class: button_class(:ghost)
+
+            p class="text-slate-600 text-sm italic mb-3" "#{@user_bid.message}"
+            p class="text-xs text-slate-500 italic" You've already submitted a bid for this task. The Poster will review it soon.
+        - else
+          = render 'bids/form', task: @task, bid: @bid
+
+  - if (@task.completed? || @task.pending_payment?) && (current_user == @task.user || current_user == @task.tasker)
+    .mt-12 class="bg-slate-50 p-8 rounded-xl border border-slate-200"
+      h3 class="text-2xl font-semibold text-slate-900 mb-6" Leave a Review
+      - if @existing_review
+        .text-center class="py-10 bg-white rounded-lg shadow-sm border border-dashed border-slate-300"
+          p.text-slate-500.italic You have already submitted a review for this task. Thank you for your feedback!
+      - else
+        = render 'reviews/form', task: @task, review: @review
+
+  - if (@task.completed? || @task.dispute?) && (current_user == @task.user || current_user == @task.tasker)
+    .mt-12 class="bg-red-50 p-8 rounded-xl border border-red-100"
+      h3 class="text-2xl font-semibold text-red-900 mb-6" Dispute & Evidence
+      - if @task.dispute_evidences.any?
+        .space-y-4.mb-6
+          - @task.dispute_evidences.each do |evidence|
+            .bg-white.p-4.rounded-lg.shadow-sm.border.border-red-200
+              p class="text-sm font-semibold text-slate-500 mb-1"
+                | Reported by #{evidence.user == current_user ? "you" : "the other party"} on #{evidence.created_at.strftime("%B %d, %Y")}
+              p.text-slate-800 = evidence.description
+              - if evidence.files.attached?
+                .mt-3.flex.gap-2.flex-wrap
+                  - evidence.files.each do |file|
+                    - if file.image?
+                      = image_tag file, class: "h-20 w-20 object-cover rounded border border-red-200"
+                    - else
+                      = link_to "View Attachment", rails_blob_path(file, only_path: true), target: "_blank", class: "text-indigo-600 underline text-sm"
+
+      .bg-white.p-6.rounded-xl.shadow-sm.border.border-red-200
+        h4 class="text-lg font-semibold text-slate-900 mb-4" Report an Issue
+        = render 'dispute_evidences/form', task: @task
+
+  .mt-8.flex.flex-wrap.gap-3.border-t.border-slate-200.pt-8
+    - if policy(@task).edit?
+      = link_to t('.edit', default: 'Edit this task'), edit_task_path(@task), class: button_class(:secondary)
+    = link_to t('.back', default: 'Back to tasks'), tasks_path, class: button_class(:secondary)
+    - if policy(@task).destroy?
+      .inline-block
+        = button_to t('.destroy', default: 'Destroy this task'), @task, method: :delete, form: { data: { turbo_confirm: t('.confirm_destroy', default: 'Are you sure?') } }, class: button_class(:destructive)

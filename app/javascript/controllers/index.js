@@ -18,6 +18,9 @@ application.register("image-preview", ImagePreviewController)
 import LightboxController from "controllers/lightbox_controller"
 application.register("lightbox", LightboxController)
 
+import MobileMenuController from "controllers/mobile_menu_controller"
+application.register("mobile-menu", MobileMenuController)
+
 import RealTimeChatController from "controllers/real_time_chat_controller"
 application.register("real-time-chat", RealTimeChatController)
 

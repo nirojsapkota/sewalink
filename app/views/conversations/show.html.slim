@@ -9,13 +9,9 @@ div class="mx-auto flex w-full flex-col overflow-hidden rounded-xl border border
         - else
           = mask_contact_info(@conversation.task.user.phone, visible: can_see_contact_info?(@conversation.task.user, task: @conversation.task))
     = link_to "Back", task_path(@conversation.task), class: button_class(:ghost)
-  
-  / Tailwind Safelist for Chat JS: 
-  / bg-indigo-600 text-white rounded-br-none justify-end
-  / bg-slate-100 text-slate-900 rounded-bl-none justify-start
-  
-  div#messages class="flex-grow space-y-4 overflow-y-auto bg-white p-4 md:p-6" data-controller="chat" data-chat-current-user-id-value=current_user.id
-    = turbo_stream_from @conversation
+
+
+  div#messages class="flex-grow space-y-4 overflow-y-auto bg-white p-4 md:p-6" data-controller="chat"
     = turbo_stream_from current_user
     = render partial: "messages/message", collection: @messages, as: :message, locals: { viewer: current_user }
 

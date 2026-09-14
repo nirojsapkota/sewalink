@@ -1,54 +1,71 @@
 module ApplicationHelper
   def status_badge_class(status)
     case status.to_sym
-    when :draft
-      'bg-gray-100 text-gray-800'
-    when :open
-      'bg-blue-100 text-blue-800'
-    when :assigned
-      'bg-indigo-100 text-indigo-800'
-    when :in_progress
-      'bg-yellow-100 text-yellow-800'
-    when :pending_payment
-      'bg-orange-100 text-orange-800'
-    when :payment_completed
-      'bg-green-100 text-green-800'
-    when :completed
-      'bg-green-100 text-green-800'
+    when :draft, :cancelled
+      'bg-slate-100 text-slate-700'
+    when :open, :assigned
+      'bg-indigo-50 text-indigo-700'
+    when :in_progress, :pending_payment
+      'bg-amber-50 text-amber-700'
+    when :payment_completed, :completed
+      'bg-green-50 text-green-700'
     when :dispute
-      'bg-red-100 text-red-800'
-    when :cancelled
-      'bg-gray-100 text-gray-800'
+      'bg-red-50 text-red-700'
     else
-      'bg-gray-100 text-gray-800'
+      'bg-slate-100 text-slate-700'
     end
   end
 
   def nav_link_class(path)
-    base_classes = "text-sm transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+    base_classes = "text-sm font-medium transition-colors duration-150"
     if current_page?(path)
-      "#{base_classes} font-semibold text-[#7C3AED]"
+      "#{base_classes} text-indigo-600 font-semibold"
     else
-      "#{base_classes} font-medium text-[#4C1D95]/70 hover:text-[#7C3AED]"
+      "#{base_classes} text-slate-600 hover:text-slate-900"
     end
   end
 
   def admin_nav_link_class(path)
-    base_classes = "transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+    base_classes = "transition-colors duration-150"
     if current_page?(path)
-      "#{base_classes} text-white font-bold"
+      "#{base_classes} text-white font-semibold"
     else
-      "#{base_classes} text-gray-300 hover:text-white"
+      "#{base_classes} text-slate-300 hover:text-white"
     end
   end
 
   def language_link_class(path)
-    base_classes = "text-xs transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+    base_classes = "text-xs font-semibold transition-colors duration-150"
     if current_page?(path)
-      "#{base_classes} font-bold text-[#7C3AED]"
+      "#{base_classes} text-indigo-600"
     else
-      "#{base_classes} font-bold text-[#4C1D95]/40 hover:text-[#7C3AED]"
+      "#{base_classes} text-slate-400 hover:text-indigo-600"
     end
+  end
+
+  def button_class(variant = :primary)
+    base = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 inline-flex items-center justify-center"
+    case variant.to_sym
+    when :primary
+      "#{base} bg-indigo-600 text-white hover:bg-indigo-700"
+    when :secondary
+      "#{base} bg-white text-slate-700 border border-slate-300 hover:bg-slate-50"
+    when :destructive
+      "#{base} bg-red-600 text-white hover:bg-red-700"
+    when :ghost
+      "text-slate-600 hover:text-slate-900 text-sm font-medium transition-colors duration-150 cursor-pointer"
+    else
+      "#{base} bg-indigo-600 text-white hover:bg-indigo-700"
+    end
+  end
+
+  def card_class(interactive: false)
+    base = "bg-white border border-slate-200 rounded-xl p-4 md:p-6 shadow-sm"
+    interactive ? "#{base} hover:border-slate-300 hover:shadow-md transition-shadow duration-150" : base
+  end
+
+  def input_class
+    "border border-slate-300 rounded-lg px-4 py-2.5 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 transition-colors duration-150 w-full"
   end
 
   def user_dashboard_path

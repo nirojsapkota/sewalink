@@ -1,9 +1,9 @@
 = form_with(model: [@task, DisputeEvidence.new], class: "contents") do |form|
-  .my-5
-    = form.label :description, "Describe the issue"
-    = form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: "Please provide details about the problem..."
-  .my-5
-    = form.label :files, "Upload evidence (Photos/Videos)"
-    = form.file_field :files, multiple: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+  .my-5.space-y-1.5
+    = form.label :description, "Describe the issue", class: "block text-sm font-semibold text-slate-700"
+    = form.text_area :description, rows: 4, class: input_class, placeholder: "Please provide details about the problem..."
+  .my-5.space-y-1.5
+    = form.label :files, "Upload evidence (Photos/Videos)", class: "block text-sm font-semibold text-slate-700"
+    = form.file_field :files, multiple: true, class: "#{input_class} text-sm file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200"
   .inline
-    = form.submit "Report Issue & Upload Evidence", class: "rounded-lg py-3 px-5 bg-red-600 text-white inline-block font-medium cursor-pointer"
+    = form.submit "Report Issue & Upload Evidence", class: button_class(:primary)

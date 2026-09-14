@@ -1,18 +1,18 @@
 .flex.flex-col.items-center
   - if user.avatar.attached?
-    = image_tag user.avatar.variant(resize_to_fill: [150, 150]), class: "w-32 h-32 rounded-full mb-4 object-cover"
+    = image_tag user.avatar.variant(resize_to_fill: [150, 150]), class: "mb-4 h-32 w-32 rounded-full object-cover ring-4 ring-slate-100"
   - else
-    .w-32.h-32.bg-gray-200.rounded-full.flex.items-center.justify-center.mb-4.text-4xl.text-gray-500
+    .mb-4.flex.h-32.w-32.items-center.justify-center.rounded-full.bg-slate-100.text-4xl.font-semibold.text-slate-500
       = user.first_name&.first || "U"
-  h2.text-2xl.font-bold.text-gray-800
+  h2.text-2xl.font-semibold.text-slate-900
     = user.name
-  p.text-sm.text-gray-500.mb-1
+  p.mb-1.text-sm.text-slate-500
     = mask_contact_info(user.phone, visible: can_see_contact_info?(user, task: local_assigns[:task]))
   - if user.email.present?
-    p.text-sm.text-gray-500.mb-4
+    p.mb-4.text-sm.text-slate-500
       = mask_contact_info(user.email, visible: can_see_contact_info?(user, task: local_assigns[:task]))
-  div[class="bg-[#F3E8FF] text-[#4C1D95] text-xs font-semibold px-2 5 py-0 5 rounded mb-4"]
+  div class="mb-4 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
     = t("profiles.roles.#{user.active_role}")
   - if user.bio.present?
-    p.text-gray-600.text-center.mb-6
+    p.mb-2.text-center.text-slate-600
       = user.bio

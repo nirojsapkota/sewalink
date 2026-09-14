@@ -218,14 +218,14 @@ Target replacement keeps the same method signature/call sites (zero changes need
 
 **If this table is empty:** N/A — see rows above; all other claims in this document were verified directly against the repository (`Gemfile.lock`, live file contents, `grep` counts) in this session.
 
-## Open Questions
+## Open Questions (RESOLVED — see planning output)
 
-1. **Should the phase be split into 4 separate PLAN.md waves matching D-10's priority order, or one large plan with 4 internal task-groups?**
+1. **(RESOLVED — split into 4 waves)** Should the phase be split into 4 separate PLAN.md waves matching D-10's priority order, or one large plan with 4 internal task-groups?
    - What we know: D-10 explicitly defines a 4-tier priority order (chrome → core flows → secondary flows → admin), and 28 files carry arbitrary-hex classes needing replacement, spread unevenly across those tiers (tokens+chrome: ~6 files; core flows — tasks/bids/dashboards: ~14 files; secondary — messaging/reviews/profile: ~5 files; admin: ~3 files touched, rest of admin's ~25 files get lighter/no hex-specific changes since admin currently uses mostly `gray-*` Tailwind defaults already, not purple hex — verified: `admin.html.slim` uses `bg-gray-100`/`bg-gray-800`, no arbitrary hex at all).
    - What's unclear: Whether the planner's granularity setting (`standard`, per config.json) implies one PLAN.md per wave (4 plans) or fewer, larger plans.
    - Recommendation: Given `parallelization: true` and `workflow.node_repair` in config, and that D-10 order is a *dependency* order (chrome cascades to every page, so must land first) rather than independent parallel work, recommend 4 sequential waves as separate plans (e.g. `12-01` chrome/tokens, `12-02` core flows, `12-03` secondary flows, `12-04` admin light pass), each independently reviewable/shippable per the phase's own "independently reviewable and shippable" goal.
 
-2. **Do the 6 Devise mailer views + `user_mailer/otp_code.html.slim` need visual updates in this phase?**
+2. **(RESOLVED — mailer views excluded)** Do the 6 Devise mailer views + `user_mailer/otp_code.html.slim` need visual updates in this phase?
    - What we know: They exist under `app/views/users/mailer/` and `app/views/user_mailer/`, use Slim, but email clients have very limited CSS support (no external stylesheets, often no `@theme`/Tailwind-class support depending on how they're compiled) — these were not in CONTEXT.md's explicit "4 layouts" list (`application`, `admin`, `landing`, and separately `mailer.html.slim`/`mailer.text.erb` are mentioned as a 4th layout in code_context but not deeply researched here).
    - What's unclear: Whether mailer styling is in-scope at all for "83 view files" count, and whether Tailwind classes even work in the mailer layout (`layouts/mailer.html.slim` wasn't inspected for whether it inlines a stylesheet or requires manual inline `style=` attributes, which is the email-safe convention).
    - Recommendation: Planner should explicitly scope-in or scope-out mailer templates in the first plan; if in-scope, expect to hand-write inline `style="..."` attributes (Tailwind classes typically do NOT survive in email HTML sent via most mail clients) rather than reusing Tailwind utility classes — this is a different, higher-effort task type than the rest of the phase and should not be estimated the same way.

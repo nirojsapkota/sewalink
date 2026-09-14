@@ -97,6 +97,13 @@ ne:
     statuses:
       draft: "मस्यौदा (Draft)"
       open: "प्रकाशित"
+      assigned: "जिम्मा लगाइयो"
+      in_progress: "काम जारी छ"
+      pending_payment: "भुक्तानी बाँकी"
+      payment_completed: "भुक्तानी सम्पन्न"
+      completed: "सम्पन्न"
+      dispute: "विवादमा"
+      cancelled: "रद्द गरियो"
   live_chats:
     show:
       title: "भ्वाइस असिस्टेन्ट"

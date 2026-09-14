@@ -379,6 +379,13 @@ export default class extends Controller {
       });
       const tokenData = await response.json();
 
+      if (!response.ok || tokenData.error) {
+        console.error("Failed to obtain Gemini token:", tokenData.error || response.status);
+        this._updateStatus(tokenData.error || "Voice chat is unavailable right now. Please try again shortly.", false);
+        this.stopChat();
+        return;
+      }
+
       const userName = this.hasUserNameValue ? this.userNameValue : "there";
       const currentLocale = this.hasLocaleValue ? this.localeValue : "en";
       const instructions = `

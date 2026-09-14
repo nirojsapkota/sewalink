@@ -484,11 +484,11 @@ export default class extends Controller {
   _updateUI(active) {
     if (active) {
       this.triggerTarget.textContent = this.stopChatLabelValue;
-      this.triggerTarget.className = "bg-red-500 hover:bg-red-600 text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-red-500/30 active:scale-95 animate-pulse";
+      this.triggerTarget.className = "inline-flex items-center justify-center rounded-full bg-red-600 px-10 py-4 text-xl font-semibold text-white transition-colors duration-150 hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2";
       this.statusTarget.classList.remove("hidden");
     } else {
       this.triggerTarget.textContent = this.tapToTalkLabelValue;
-      this.triggerTarget.className = "bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-10 py-4 rounded-full font-bold text-xl transition-all shadow-xl shadow-[#7C3AED]/30 active:scale-95";
+      this.triggerTarget.className = "inline-flex items-center justify-center rounded-full bg-indigo-600 px-10 py-4 text-xl font-semibold text-white transition-colors duration-150 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2";
       this.statusTarget.classList.add("hidden");
     }
   }

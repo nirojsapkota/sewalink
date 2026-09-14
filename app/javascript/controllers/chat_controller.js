@@ -44,14 +44,14 @@ export default class extends Controller {
       message.classList.add("justify-end");
       message.classList.remove("justify-start");
 
-      container.classList.add("bg-blue-600", "text-white", "rounded-br-none");
-      container.classList.remove("bg-gray-200", "text-gray-900", "rounded-bl-none");
+      container.classList.add("bg-indigo-600", "text-white", "rounded-br-none");
+      container.classList.remove("bg-slate-100", "text-slate-900", "rounded-bl-none");
     } else {
       message.classList.add("justify-start");
       message.classList.remove("justify-end");
 
-      container.classList.add("bg-gray-200", "text-gray-900", "rounded-bl-none");
-      container.classList.remove("bg-blue-600", "text-white", "rounded-br-none");
+      container.classList.add("bg-slate-100", "text-slate-900", "rounded-bl-none");
+      container.classList.remove("bg-indigo-600", "text-white", "rounded-br-none");
     }
   }
 }

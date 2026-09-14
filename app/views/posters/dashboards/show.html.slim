@@ -1,22 +1,35 @@
 div class="mx-auto w-full"
   .flex.justify-between.items-center.mb-8
-    h1 class="font-bold text-4xl text-[#4C1D95]" = t('dashboards.poster.title')
+    h1 class="font-semibold text-4xl text-slate-900" = t('dashboards.poster.title')
     .flex.gap-4
-      = link_to live_chat_path, class: "rounded-xl py-3 px-6 bg-white text-[#7C3AED] border-2 border-[#7C3AED] block font-bold shadow-lg hover:bg-gray-50 transition-all transform hover:-translate-y-0.5 flex items-center gap-2" do
+      = link_to live_chat_path, class: "#{button_class(:secondary)} flex items-center gap-2" do
         svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
           path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
         = t('live_chats.show.title')
-      = link_to t('tasks.index.new_task'), new_task_path, class: "rounded-xl py-3 px-6 bg-[#7C3AED] text-white block font-bold shadow-lg hover:bg-[#6D28D9] transition-all transform hover:-translate-y-0.5"
+      = link_to t('tasks.index.new_task'), new_task_path, class: button_class(:primary)
+
+  - if @tasks.any?
+    - anchor_task = @tasks.first
+    = link_to task_path(anchor_task), class: "block #{card_class(interactive: true)} mb-8 border-indigo-200" do
+      .flex.flex-col.gap-4.md:flex-row.md:items-center.md:justify-between
+        .space-y-2
+          p.text-sm.font-semibold.text-indigo-600 = t('dashboards.poster.title')
+          h2.text-2xl.font-semibold.text-slate-900 = anchor_task.title
+          p.text-slate-600.line-clamp-2 = anchor_task.description
+        .flex.flex-col.items-start.md:items-end.gap-2
+          span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold #{status_badge_class(anchor_task.status)}"
+            = t("tasks.statuses.#{anchor_task.status}")
+          span.text-sm.text-slate-500 = anchor_task.location
   
   / Status Tabs
-  .mb-8.border-b.border-gray-200
-    .flex.flex-wrap.-mb-px.text-sm.font-medium.text-center.text-gray-500
+  .mb-8.border-b.border-slate-200
+    .flex.flex-wrap.-mb-px.text-sm.font-medium.text-center.text-slate-500
       - tabs = [ { label: 'All', status: nil }, { label: 'Drafts', status: 'draft' }, { label: 'Active', status: 'active' }, { label: 'Pending Payment', status: 'pending_payment' }, { label: 'Completed', status: 'completed' }, { label: 'Dispute', status: 'dispute' } ]
       - tabs.each do |tab|
         - active = params[:status] == tab[:status]
         .mr-2
           = link_to poster_dashboard_path(status: tab[:status]), 
-                      class: "inline-block p-4 rounded-t-lg border-b-2 transition-colors #{active ? 'text-[#7C3AED] border-[#7C3AED] active' : 'border-transparent hover:text-gray-600 hover:border-gray-300'}",
+                      class: "inline-block p-4 rounded-t-lg border-b-2 transition-colors duration-150 #{active ? 'text-indigo-600 border-indigo-600 font-semibold' : 'border-transparent hover:text-slate-700 hover:border-slate-300'}",
                       data: { turbo_frame: "tasks_list", turbo_action: "advance" } do
             = tab[:label]
 

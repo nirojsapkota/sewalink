@@ -1,62 +1,62 @@
 .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8.py-10
   .mb-10.flex.justify-between.items-start
     div
-      h1.text-3xl.font-extrabold.text-gray-900.tracking-tight.sm:text-4xl Tasker Dashboard
-      p.mt-2.text-lg.text-gray-500 Track your active bids and assigned jobs in one place.
-    = link_to live_chat_path, class: "rounded-xl py-3 px-6 bg-white text-[#7C3AED] border-2 border-[#7C3AED] block font-bold shadow-lg hover:bg-gray-50 transition-all transform hover:-translate-y-0.5 flex items-center gap-2" do
+      h1.text-3xl.font-semibold.text-slate-900.tracking-tight.sm:text-4xl Tasker Dashboard
+      p.mt-2.text-lg.text-slate-500 Track your active bids and assigned jobs in one place.
+    = link_to live_chat_path, class: "#{button_class(:secondary)} flex items-center gap-2" do
       svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
         path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
       = t('live_chats.show.title')
 
   .grid.grid-cols-1.gap-10.lg:grid-cols-2
     section
-      .flex.items-center.gap-2.mb-6.border-b.border-gray-100.pb-4
+      .flex.items-center.gap-2.mb-6.border-b.border-slate-200.pb-4
         svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        h2.text-2xl.font-bold.text-gray-900 Assigned Jobs (#{@active_jobs.count})
+        h2.text-2xl.font-semibold.text-slate-900 Assigned Jobs (#{@active_jobs.count})
 
       .space-y-4
         - if @active_jobs.any?
-          - @active_jobs.each do |task|
-            = link_to task_path(task), class: "block bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 transition-all hover:shadow-md group" do
+          - @active_jobs.each_with_index do |task, index|
+            = link_to task_path(task), class: "block #{card_class(interactive: true)} #{'border-indigo-200' if index.zero?}" do
               .flex.justify-between.items-start.mb-2
-                h3.font-bold.text-gray-900.group-hover:text-green-700.transition-colors = task.title
-                span.px-3.py-1.bg-green-100.text-green-700.text-xs.font-bold.uppercase.tracking-wider.rounded Assigned
+                h3.font-semibold.text-slate-900 = task.title
+                span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full #{status_badge_class(:assigned)}" Assigned
               
-              p.text-gray-500.text-sm.line-clamp-2.mb-4 = task.description
+              p.text-slate-500.text-sm.line-clamp-2.mb-4 = task.description
               
               .flex.items-center.justify-between.text-sm
-                span.text-gray-900.font-medium NPR #{number_with_delimiter(task.budget)}
-                span.text-gray-400.flex.items-center.gap-1
+                span.text-slate-900.font-semibold NPR #{number_with_delimiter(task.budget)}
+                span.text-slate-400.flex.items-center.gap-1
                   svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                     path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   = task.location
         - else
-          .text-center.py-12.bg-white.rounded-xl.shadow-sm.border.border-dashed.border-gray-200
-            p.text-gray-500.italic No assigned jobs yet. Keep bidding!
+          div class="#{card_class} text-center py-12 border-dashed border-slate-200"
+            p.text-slate-500.italic No assigned jobs yet. Keep bidding!
 
     section
-      .flex.items-center.gap-2.mb-6.border-b.border-gray-100.pb-4
-        svg class="h-6 w-6 text-[#7C3AED]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+      .flex.items-center.gap-2.mb-6.border-b.border-slate-200.pb-4
+        svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        h2.text-2xl.font-bold.text-gray-900 Your Active Bids (#{@pending_bids.count})
+        h2.text-2xl.font-semibold.text-slate-900 Your Active Bids (#{@pending_bids.count})
 
       .space-y-4
         - if @pending_bids.any?
-          - @pending_bids.each do |bid|
-            = link_to task_path(bid.task), class: "block bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-[#7C3AED]/30 transition-all hover:shadow-md group" do
+          - @pending_bids.each_with_index do |bid, index|
+            = link_to task_path(bid.task), class: "block #{card_class(interactive: true)} #{'border-indigo-200' if @active_jobs.empty? && index.zero?}" do
               .flex.justify-between.items-start.mb-2
-                h3 class="font-bold text-gray-900 group-hover:text-[#7C3AED] transition-colors" = bid.task.title
-                span class="px-3 py-1 bg-[#F3E8FF] text-[#7C3AED] text-xs font-bold uppercase tracking-wider rounded" Pending
+                h3 class="font-semibold text-slate-900" = bid.task.title
+                span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full #{status_badge_class(:open)}" Pending
               
-              .bg-gray-50.p-3.rounded-lg.mb-4
-                p.text-gray-600.text-sm.italic.mb-1 Your Offer: NPR #{number_with_delimiter(bid.amount)}
-                p.text-gray-500.text-xs.line-clamp-1 "#{bid.message}"
+              .bg-slate-50.p-3.rounded-lg.mb-4
+                p.text-slate-600.text-sm.italic.mb-1 Your Offer: NPR #{number_with_delimiter(bid.amount)}
+                p.text-slate-500.text-xs.line-clamp-1 "#{bid.message}"
               
-              .flex.items-center.justify-between.text-sm.text-gray-400
+              .flex.items-center.justify-between.text-sm.text-slate-400
                 span Task Budget: NPR #{number_with_delimiter(bid.task.budget)}
                 span Submitted #{time_ago_in_words(bid.created_at)} ago
         - else
-          .text-center.py-12.bg-white.rounded-xl.shadow-sm.border.border-dashed.border-gray-200
-            p.text-gray-500.italic No active bids. Browse tasks and submit your offers!
+          div class="#{card_class} text-center py-12 border-dashed border-slate-200"
+            p.text-slate-500.italic No active bids. Browse tasks and submit your offers!

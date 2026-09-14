@@ -18,6 +18,7 @@ RSpec.describe "Admin::Accounting::Settlements", type: :request do
     DoubleEntry::AccountBalance.delete_all
     EsewaSettlement.delete_all
     AdminActivityLog.delete_all
+    PaymentTransaction.delete_all
     Conversation.delete_all
     Bid.delete_all
     Task.delete_all

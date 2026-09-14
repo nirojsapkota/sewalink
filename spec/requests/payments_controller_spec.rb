@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Payments", type: :request do
+  self.use_transactional_tests = false
+
   let(:user) { create(:user, onboarded: true) }
   let(:task) { create(:task, user: user, budget: 500) }
   let(:product_code) { 'EPAYTEST' }
@@ -15,6 +17,13 @@ RSpec.describe "Payments", type: :request do
     allow(Geocoder).to receive(:search).and_return([
       double('location', latitude: 27.7172, longitude: 85.3240, address: "Kathmandu, Nepal", coordinates: [27.7172, 85.3240])
     ])
+  end
+
+  after(:each) do
+    PaymentTransaction.delete_all
+    Task.delete_all
+    Category.delete_all
+    User.delete_all
   end
 
   describe "POST /payments" do
@@ -47,7 +56,7 @@ RSpec.describe "Payments", type: :request do
       get success_payments_path, params: { data: encoded_data }
 
       expect(payment.reload.status).to eq('completed')
-      expect(response).to redirect_to(task_path(task, locale: :en))
+      expect(response).to redirect_to(task_path(task))
       expect(flash[:notice]).to be_present
     end
 
@@ -59,7 +68,7 @@ RSpec.describe "Payments", type: :request do
       get success_payments_path, params: { data: encoded_data }
 
       expect(payment.reload.status).to eq('failed')
-      expect(response).to redirect_to(task_path(task, locale: :en))
+      expect(response).to redirect_to(task_path(task))
       expect(flash[:alert]).to be_present
     end
   end

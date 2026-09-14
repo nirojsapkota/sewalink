@@ -9,12 +9,12 @@ html
     = action_cable_meta_tag
     link[rel="preconnect" href="https://fonts.googleapis.com"]
     link[rel="preconnect" href="https://fonts.gstatic.com" crossorigin]
-    link[href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"]
+    link[href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"]
     = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
-  body class="bg-gray-100 font-['Mukta'] text-gray-900"
-    nav.bg-gray-800.text-white.p-4
+  body class="bg-slate-50 text-slate-900"
+    nav.bg-slate-900.text-white.p-4
       .container.mx-auto.flex.justify-between.items-center
         a.flex.items-center.gap-2 href=admin_root_path
           .bg-white.rounded-lg.p-1
@@ -32,10 +32,10 @@ html
           = link_to 'Payouts', admin_payouts_path, class: admin_nav_link_class(admin_payouts_path)
           = link_to 'Settings', admin_settings_path, class: admin_nav_link_class(admin_settings_path)
           = link_to 'Accounting', admin_accounting_dashboard_path, class: admin_nav_link_class(admin_accounting_dashboard_path)
-          = link_to 'Main Site', root_path, class: 'hover:text-gray-300'
-    
+          = link_to 'Main Site', root_path, class: 'text-slate-300 hover:text-white'
+
     #notifications.fixed.bottom-5.right-5.z-50.flex.flex-col.gap-3.pointer-events-none
       = render "shared/flash"
-    
+
     main.container.mx-auto.mt-8.px-5
       = yield

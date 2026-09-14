@@ -72,6 +72,23 @@ SEED_USER_PASSWORD='MyOwnPassword1!' bin/rails db:seed
 Seeding is idempotent — re-running it will not create duplicates or reset existing users'
 data (it looks users up by phone number first).
 
+## Deployment
+
+Infrastructure lives in `infra/` (Terraform: VPC, EC2 instance, Elastic IP — see that
+directory for `terraform apply`/`destroy`). Once the instance is provisioned, ship app code
+changes (Dockerfile, Rails code, `docker-compose.yml`, etc.) **without touching
+infrastructure** using:
+
+```bash
+cd infra
+./redeploy.sh
+```
+
+This SSHes into the running instance, `git pull`s the latest `main`, and runs
+`docker-compose up -d --build` to rebuild and restart the containers. `terraform
+plan`/`apply` will correctly show "no changes" for these updates — Terraform only manages
+infrastructure, not app deployments.
+
 ## Gemini Live Chat: Tool Calling
 
 The real-time voice assistant (`app/javascript/controllers/real_time_chat_controller.js`) lets

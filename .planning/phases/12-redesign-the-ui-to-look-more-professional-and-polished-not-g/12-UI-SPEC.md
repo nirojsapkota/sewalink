@@ -87,6 +87,16 @@ Accent reserved for: primary CTA buttons, active nav indicator, links, focus rin
 
 Concrete rules for the shared partials to introduce (D-09), replacing arbitrary hex-coded inline classes.
 
+### Primary Visual Anchor (per screen)
+Every screen should have exactly one clear focal point — the one element the eye lands on first. Do not let multiple cards/buttons compete for attention.
+- **Landing/home:** hero headline + single primary CTA button (e.g. "Post a Task" / "Find Tasks") is the anchor. Everything else (secondary links, feature highlights) is visually quieter (Body/Ghost styles).
+- **Poster/tasker dashboard:** the active task card or next-action banner (e.g. "You have 2 new bids") is the anchor — rendered first, using the Card pattern with a `border-indigo-200` or accent-left-bar treatment; other list items use the plain Card pattern.
+- **Task detail / bid pages:** the primary action button (Accept Bid / Submit Bid / Mark Complete) is the anchor, placed prominently (top-right or sticky footer on mobile), styled Primary button.
+- **Admin panel:** anchor is the primary data table or the page's main action button — no new anchor pattern introduced beyond token/primitive swaps (see Admin Panel scope below).
+
+### Icon-Only Elements — Accessibility
+Every icon-only interactive element (hamburger/mobile nav toggle, close buttons, icon-only nav/action buttons) MUST have an accessible name via `aria-label="..."` (or visually-hidden text, e.g. a `.sr-only` span) describing its action — never rely on the icon shape alone. This applies in addition to the existing 44×44px minimum tap-target rule.
+
 ### Buttons
 - **Primary** (`shared/_button_primary` or a `btn_classes(:primary)` helper): `bg-indigo-600 text-white hover:bg-indigo-700 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-150`. No shadow by default; no `hover:-translate-y-*`, no `active:scale-*`. Focus: `focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2`.
 - **Secondary/outline**: `bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-150`.

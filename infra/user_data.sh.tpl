@@ -28,29 +28,8 @@ SEWA_LINK_DATABASE_PASSWORD=${db_password}
 DATABASE_URL=postgresql://sewa_link:${db_password}@db:5432/sewa_link_production
 ENV
 
-cat > docker-compose.yml <<COMPOSE
-services:
-  db:
-    image: postgres:16-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: sewa_link
-      POSTGRES_PASSWORD: ${db_password}
-      POSTGRES_DB: sewa_link_production
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  web:
-    build: .
-    restart: always
-    env_file: .env
-    depends_on:
-      - db
-    ports:
-      - "80:3000"
-
-volumes:
-  pgdata:
-COMPOSE
+# docker-compose.yml is now a static, version-controlled file checked into the
+# repo (see /docker-compose.yml). docker-compose auto-loads .env from this same
+# directory for $${VAR} interpolation, so no need to regenerate the compose file here.
 
 docker-compose up -d --build

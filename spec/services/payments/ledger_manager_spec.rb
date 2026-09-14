@@ -16,6 +16,8 @@ RSpec.describe Payments::LedgerManager do
   after(:each) do
     DoubleEntry::Line.delete_all
     DoubleEntry::AccountBalance.delete_all
+    Message.delete_all
+    Conversation.delete_all
     Bid.delete_all
     Task.delete_all
     Category.delete_all

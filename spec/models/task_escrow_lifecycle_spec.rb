@@ -28,6 +28,7 @@ RSpec.describe "Task Escrow Lifecycle", type: :model, use_transactional_fixtures
     payment = create(:payment_transaction, task: task, amount: task.budget, status: :pending)
     expect {
       payment.update!(status: :completed)
+      perform_enqueued_jobs
     }.to change { DoubleEntry.account(:escrow, scope: task).balance.cents }.from(0).to(1000_00)
   end
 
@@ -51,12 +52,14 @@ RSpec.describe "Task Escrow Lifecycle", type: :model, use_transactional_fixtures
   it "automatically releases escrow when task is completed" do
     payment = create(:payment_transaction, task: task, amount: task.budget, status: :pending)
     payment.update!(status: :completed)
+    perform_enqueued_jobs
     task.update!(status: :in_progress)
-    
+
     commission_data = Payments::CommissionCalculator.call(task.budget)
-    
+
     expect {
       task.update!(status: :completed)
+      perform_enqueued_jobs
     }.to change { DoubleEntry.account(:escrow, scope: task).balance.cents }.from(1000_00).to(0)
      .and change { DoubleEntry.account(:tasker_balance, scope: tasker).balance.cents }.by(commission_data[:tasker_share].cents)
      .and change { DoubleEntry.account(:platform_revenue).balance.cents }.by(commission_data[:commission].cents)

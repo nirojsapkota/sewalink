@@ -12,6 +12,17 @@ require 'webmock/rspec'
 require 'pundit/rspec' # Corrected from pundit/matchers
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# DoubleEntry's account locking requires `lock_accounts`/`.transfer` to run in
+# the outermost DB transaction. In this test environment `open_transactions`
+# is always 1 at baseline (even for spec groups that opt out of RSpec's
+# transactional fixtures), so tell DoubleEntry to treat that as "outermost".
+# This mirrors DoubleEntry's own documented flag for transactional-fixture
+# test suites and only affects Rails.env.test.
+DoubleEntry::Locking.configure do |config|
+  config.running_inside_transactional_fixtures = true
+end
+
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

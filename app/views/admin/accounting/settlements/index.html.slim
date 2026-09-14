@@ -1,22 +1,22 @@
 = render "admin/accounting/subnav"
-h1.text-2xl.font-bold.mb-4 eSewa Reconciliation
+h1.text-2xl.font-semibold.text-slate-900.mb-4 eSewa Reconciliation
 = form_with url: admin_accounting_settlements_path, method: :get, local: true, class: "flex gap-3 items-end mb-6" do
-  input type="date" name="from" value=@from.to_s class="border rounded px-2 py-1"
-  input type="date" name="to" value=@to.to_s class="border rounded px-2 py-1"
-  button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded" Filter
-  = link_to "Import CSV", new_admin_accounting_settlement_path, class: "bg-green-600 text-white px-4 py-1 rounded"
+  input type="date" name="from" value=@from.to_s class="#{input_class} w-auto"
+  input type="date" name="to" value=@to.to_s class="#{input_class} w-auto"
+  button type="submit" class=button_class(:primary) Filter
+  = link_to "Import CSV", new_admin_accounting_settlement_path, class: button_class(:secondary)
 .grid.grid-cols-1.md:grid-cols-3.gap-6.mb-8
-  .p-4.bg-blue-50.border.rounded
-    span.block.text-blue-800 Settlement Total
-    span.text-xl.font-bold = money_from_cents(@settlement_total_cents)
-  .p-4.bg-purple-50.border.rounded
-    span.block.text-purple-800 Internal Escrow Deposits
-    span.text-xl.font-bold = money_from_cents(@escrow_deposit_total_cents)
-  .p-4.border.rounded class=(@discrepancy_cents.zero? ? "bg-green-50" : "bg-red-50")
-    span.block class=(@discrepancy_cents.zero? ? "text-green-800" : "text-red-800") Discrepancy
-    span.text-xl.font-bold = money_from_cents(@discrepancy_cents)
-table.min-w-full.bg-white.rounded.shadow
-  thead.bg-gray-50
+  .rounded-xl.border.border-indigo-100.bg-indigo-50.p-4
+    span.block.text-indigo-700 Settlement Total
+    span.text-xl.font-semibold.text-slate-900 = money_from_cents(@settlement_total_cents)
+  .rounded-xl.border.border-slate-200.bg-slate-50.p-4
+    span.block.text-slate-700 Internal Escrow Deposits
+    span.text-xl.font-semibold.text-slate-900 = money_from_cents(@escrow_deposit_total_cents)
+  .rounded-xl.border.p-4 class=(@discrepancy_cents.zero? ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50")
+    span.block class=(@discrepancy_cents.zero? ? "text-green-700" : "text-red-700") Discrepancy
+    span.text-xl.font-semibold.text-slate-900 = money_from_cents(@discrepancy_cents)
+table.min-w-full.overflow-hidden.rounded-xl.bg-white.shadow-sm
+  thead.bg-slate-50
     tr
       th.px-4.py-2.text-left Ref
       th.px-4.py-2.text-left Date
@@ -25,10 +25,11 @@ table.min-w-full.bg-white.rounded.shadow
       th.px-4.py-2
   tbody
     - @settlements.each do |s|
-      tr.border-t
+      tr.border-t.border-slate-200
         td.px-4.py-2 = s.transaction_ref
         td.px-4.py-2 = s.settled_on
         td.px-4.py-2.text-right = money_from_cents(s.amount_cents)
         td.px-4.py-2
-          span class=(s.matched? ? "text-green-700" : "text-red-700") = s.status
-        td.px-4.py-2 = link_to "View", admin_accounting_settlement_path(s), class: "text-blue-600"
+          span.inline-flex.items-center.rounded-full.px-2.5.py-0.5.text-xs.font-semibold class=status_badge_class(s.matched? ? :payment_completed : :dispute)
+            = s.status
+        td.px-4.py-2 = link_to "View", admin_accounting_settlement_path(s), class: "text-sm font-medium text-indigo-600 hover:text-indigo-700"

@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: sewa_link
+      POSTGRES_PASSWORD: ${SEWA_LINK_DATABASE_PASSWORD}
+      POSTGRES_DB: sewa_link_production
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  web:
+    build: .
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+    ports:
+      - "80:3000"
+
+volumes:
+  pgdata:

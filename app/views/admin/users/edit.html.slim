@@ -1,27 +1,27 @@
-.mb-8.flex.justify-between.items-center
-  h1.text-3xl.font-bold
-    | Edit User: 
+.mb-8.flex.items-center.justify-between
+  h1.text-3xl.font-semibold.text-slate-900
+    | Edit User:
     = @user.phone
-  = link_to "Back to User", admin_user_path(@user), class: "text-blue-600 hover:text-blue-900"
-.bg-white.p-6.rounded-lg.shadow.max-w-2xl
+  = link_to "Back to User", admin_user_path(@user), class: button_class(:secondary)
+div class="#{card_class} max-w-2xl"
   = form_with model: @user, url: admin_user_path(@user), method: :patch, local: true, class: "space-y-4" do |f|
     div
-      = f.label :first_name, class: "block text-sm font-medium text-gray-700"
-      = f.text_field :first_name, class: "mt-1 block w-full border rounded px-3 py-2"
+      = f.label :first_name, class: "block text-sm font-medium text-slate-700"
+      = f.text_field :first_name, class: input_class
     div
-      = f.label :last_name, class: "block text-sm font-medium text-gray-700"
-      = f.text_field :last_name, class: "mt-1 block w-full border rounded px-3 py-2"
+      = f.label :last_name, class: "block text-sm font-medium text-slate-700"
+      = f.text_field :last_name, class: input_class
     div
-      = f.label :bio, class: "block text-sm font-medium text-gray-700"
-      = f.text_area :bio, rows: 3, class: "mt-1 block w-full border rounded px-3 py-2"
+      = f.label :bio, class: "block text-sm font-medium text-slate-700"
+      = f.text_area :bio, rows: 3, class: input_class
     div
-      = f.label :active_role, class: "block text-sm font-medium text-gray-700"
-      = f.select :active_role, User.active_roles.keys.map { |r| [r.humanize, r] }, {}, class: "mt-1 block w-full border rounded px-3 py-2"
+      = f.label :active_role, class: "block text-sm font-medium text-slate-700"
+      = f.select :active_role, User.active_roles.keys.map { |r| [r.humanize, r] }, {}, class: input_class
     .pt-4
-      = f.submit "Save Changes", class: "bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"
-.bg-white.p-6.rounded-lg.shadow.max-w-2xl.mt-6.border.border-amber-300
-  h2.text-lg.font-semibold.mb-2 Admin Roles
-  p.text-sm.text-gray-600.mb-4
+      = f.submit "Save Changes", class: button_class(:primary)
+div class="#{card_class} max-w-2xl mt-6 border-amber-300"
+  h2.text-lg.font-semibold.mb-2.text-slate-900 Admin Roles
+  p.text-sm.text-slate-600.mb-4
     | Assigning super_admin or accountant grants admin-panel access. Only super admins can manage roles.
   - if @user == current_user
     p.text-sm.text-red-600 You cannot change your own roles.
@@ -33,6 +33,6 @@
       label.flex.items-center.gap-2
         = check_box_tag "roles[]", "accountant", @user.has_role?(:accountant)
         | Accountant
-      = submit_tag "Update Roles", class: "bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 cursor-pointer", data: { confirm: "Update roles for #{@user.phone}?" }
+      = submit_tag "Update Roles", class: button_class(:primary), data: { confirm: "Update roles for #{@user.phone}?" }
   - else
-    p.text-sm.text-gray-500 Only super admins can view or change roles.
+    p.text-sm.text-slate-500 Only super admins can view or change roles.

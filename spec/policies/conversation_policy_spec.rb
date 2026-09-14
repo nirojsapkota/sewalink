@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe ConversationPolicy, type: :policy do
   # Skip geocoding callback for Task model within this spec to prevent external HTTP calls
   before(:all) do
-    Task.skip_callback(:validation, :after, :geocode, if: ->(obj){ obj.location.present? && obj.location_changed? })
+    Task.skip_callback(:save, :before, :safe_geocode, if: ->(obj){ obj.location.present? && obj.location_changed? })
   end
 
   after(:all) do
-    Task.set_callback(:validation, :after, :geocode, if: ->(obj){ obj.location.present? && obj.location_changed? })
+    Task.set_callback(:save, :before, :safe_geocode, if: ->(obj){ obj.location.present? && obj.location_changed? })
   end
 
   # Users can be reused across examples

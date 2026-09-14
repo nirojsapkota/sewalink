@@ -1,7 +1,8 @@
 = turbo_frame_tag "tasks" do
   div[class="mx-auto md:w-2/3 w-full"]
-    h1.font-bold.text-4xl
+    h1.font-semibold.text-4xl.text-slate-900
       = t('.title', default: 'Editing Task')
     = render "form", task: @task
-    = link_to t('.show', default: 'Show this task'), @task, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"
-    = link_to t('.back', default: 'Back to tasks'), tasks_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"
+    .mt-4.flex.flex-wrap.gap-3
+      = link_to t('.show', default: 'Show this task'), @task, class: button_class(:secondary)
+      = link_to t('.back', default: 'Back to tasks'), tasks_path, class: button_class(:secondary)

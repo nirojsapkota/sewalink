@@ -1,18 +1,18 @@
 = render "admin/accounting/subnav"
 .mb-8
-  h1.text-3xl.font-bold
+  h1.text-3xl.font-semibold.text-slate-900
     | Cash Flow Dashboard
 = form_with url: admin_accounting_dashboard_path, method: :get, local: true, class: "flex gap-3 items-end mb-6" do
   div
-    label.block.text-sm.font-medium.text-gray-700 From
-    input type="date" name="from" value=@from.to_s class="border rounded px-3 py-2"
+    label.block.text-sm.font-medium.text-slate-700 From
+    input type="date" name="from" value=@from.to_s class="#{input_class} w-auto"
   div
-    label.block.text-sm.font-medium.text-gray-700 To
-    input type="date" name="to" value=@to.to_s class="border rounded px-3 py-2"
-  button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded" Apply
+    label.block.text-sm.font-medium.text-slate-700 To
+    input type="date" name="to" value=@to.to_s class="#{input_class} w-auto"
+  button type="submit" class=button_class(:primary) Apply
 .grid.grid-cols-1.md:grid-cols-3.gap-6
   - @summary.each do |key, data|
-    = link_to admin_accounting_dashboard_category_path(category: key, from: @from, to: @to), class: "block p-4 bg-white border rounded-lg shadow hover:shadow-md" do
-      span.text-gray-600.font-medium.block = data[:label]
-      span.text-2xl.font-bold.block = money_from_cents(data[:total_cents])
-      span.text-xs.text-gray-400 = "#{data[:count]} transactions"
+    = link_to admin_accounting_dashboard_category_path(category: key, from: @from, to: @to), class: "block rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow duration-150 hover:shadow-md" do
+      span.text-slate-600.font-medium.block = data[:label]
+      span.text-2xl.font-semibold.text-slate-900.block = money_from_cents(data[:total_cents])
+      span.text-xs.text-slate-400 = "#{data[:count]} transactions"

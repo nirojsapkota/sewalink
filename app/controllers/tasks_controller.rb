@@ -160,37 +160,52 @@ class TasksController < ApplicationController
   end
 
   def perform_check_in
-    authorize @task, :check_in? # Assuming a policy for check_in
-    current_latitude = params[:current_latitude].to_f
-    current_longitude = params[:current_longitude].to_f
+    authorize @task, :check_in?
 
-    if @task.latitude.present? && @task.longitude.present?
-      distance = Geocoder::Calculations.distance_between(
-        [current_latitude, current_longitude],
-        [@task.latitude, @task.longitude],
-        units: :km
-      ) * 1000
+    if @task.on_site?
+      current_latitude = params[:current_latitude].to_f
+      current_longitude = params[:current_longitude].to_f
 
-      if distance <= 200 # D-04: 200m radius
-        if @task.may_check_in?
-          @task.check_in!
-          render json: { success: true, message: "Checked in successfully.", task_status: @task.status }
-        else
-          render json: { success: false, message: "Task cannot be checked in at its current status.", task_status: @task.status }, status: :unprocessable_entity
-        end
-      else
-        render json: { success: false, message: "You are outside the geofence.", task_status: @task.status }, status: :forbidden
+      if @task.latitude.blank? || @task.longitude.blank?
+        return render json: { success: false, message: "Task location not defined." }, status: :unprocessable_entity
       end
+
+      @task.current_lat = current_latitude
+      @task.current_lng = current_longitude
+    end
+
+    unless @task.may_start_work?
+      return render json: { success: false, message: "Task cannot be checked in at its current status.", task_status: @task.status }, status: :unprocessable_entity
+    end
+
+    if @task.check_in!
+      render json: { success: true, message: "Checked in successfully.", task_status: @task.status }
     else
-      render json: { error: "Task location not defined." }, status: :unprocessable_entity
+      render json: { success: false, message: "You are outside the task location. Move closer and try again.", task_status: @task.status }, status: :forbidden
     end
   rescue AASM::InvalidTransition => e
     render json: { success: false, message: "Invalid transition for check-in: #{e.message}", task_status: @task.status }, status: :unprocessable_entity
   end
 
   def complete
-    byebug
     authorize @task
+
+    if @task.on_site?
+      if params[:current_latitude].blank? || params[:current_longitude].blank?
+        return redirect_to @task, alert: "Location is required to mark this task as complete."
+      end
+      @task.current_lat = params[:current_latitude].to_f
+      @task.current_lng = params[:current_longitude].to_f
+    end
+
+    if params[:completion_photo].present?
+      @task.completion_photo.attach(params[:completion_photo])
+    end
+
+    unless @task.completion_photo.attached?
+      return redirect_to @task, alert: "A completion photo is required to mark this task as complete."
+    end
+
     if @task.complete!
       redirect_to @task, notice: t('.success', default: 'Task marked as complete.')
     else

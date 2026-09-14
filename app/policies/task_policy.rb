@@ -50,12 +50,11 @@ class TaskPolicy < ApplicationPolicy
 
   def complete?
     return false unless record.tasker == user
-    
-    if record.cash?
-      record.in_progress?
-    else
-      record.payment_completed?
-    end
+
+    # eSewa (escrow) tasks are completed automatically when the Poster
+    # releases payment (see #release_payment). Manual completion only
+    # applies to cash tasks, which have no escrow to release.
+    record.cash? && record.in_progress?
   end
 
   def edit?

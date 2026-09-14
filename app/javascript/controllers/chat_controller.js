@@ -1,21 +1,14 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static values = { currentUserId: Number };
-  static targets = ["message"];
-
   connect() {
-    console.log("ChatController is connected");
-
     this.scrollToBottom();
-    this.processMessages();
 
-    // Watch for new messages added via Turbo Streams
-    this.observer = new MutationObserver(() => {
-      this.processMessages();
-      this.scrollToBottom();
-    });
-
+    // Keep the conversation scrolled to the latest message as new ones
+    // arrive via Turbo Streams. Bubble styling (sender vs. recipient) is
+    // rendered server-side in messages/_message, so no JS styling pass is
+    // needed here.
+    this.observer = new MutationObserver(() => this.scrollToBottom());
     this.observer.observe(this.element, { childList: true });
   }
 
@@ -27,31 +20,5 @@ export default class extends Controller {
 
   scrollToBottom() {
     this.element.scrollTop = this.element.scrollHeight;
-  }
-
-  processMessages() {
-    this.messageTargets.forEach((message) => {
-      this.styleMessage(message);
-    });
-  }
-
-  styleMessage(message) {
-    const senderId = parseInt(message.dataset.messageSenderId);
-    const container = message.querySelector(".message-bubble-content");
-    if (!container) return;
-
-    if (senderId === this.currentUserIdValue) {
-      message.classList.add("justify-end");
-      message.classList.remove("justify-start");
-
-      container.classList.add("bg-indigo-600", "text-white", "rounded-br-none");
-      container.classList.remove("bg-slate-100", "text-slate-900", "rounded-bl-none");
-    } else {
-      message.classList.add("justify-start");
-      message.classList.remove("justify-end");
-
-      container.classList.add("bg-slate-100", "text-slate-900", "rounded-bl-none");
-      container.classList.remove("bg-indigo-600", "text-white", "rounded-br-none");
-    }
   }
 }

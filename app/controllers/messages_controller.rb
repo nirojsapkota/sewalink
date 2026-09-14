@@ -8,31 +8,19 @@ class MessagesController < ApplicationController
     @message.sender = current_user
 
     if @message.save
-      # Broadcast masked version to everyone in the conversation (publicly)
+      # Broadcast to the other participant only, rendering exactly the view
+      # they're authorized to see. The sender already gets their own message
+      # via the direct turbo_stream response below, so there's no need for a
+      # separate masked broadcast to be corrected afterwards - avoids a race
+      # where the sender's own bubble would flash masked before flipping to
+      # unmasked content.
+      other_user = @conversation.other_participant(current_user)
       @message.broadcast_append_to(
-        @conversation,
+        other_user,
         target: "messages",
         partial: "messages/message",
-        locals: { viewer: nil }
+        locals: { viewer: other_user }
       )
-
-      # Securely broadcast unmasked content to authorized participants privately
-      # 1. To Sender (always authorized)
-      @message.broadcast_update_to(
-        current_user,
-        target: "#{ActionView::RecordIdentifier.dom_id(@message)}_text",
-        html: @message.content
-      )
-
-      # 2. To Recipient (only if authorized)
-      other_user = @conversation.other_participant(current_user)
-      if @message.viewer_aware_content(other_user) == @message.content
-        @message.broadcast_update_to(
-          other_user,
-          target: "#{ActionView::RecordIdentifier.dom_id(@message)}_text",
-          html: @message.content
-        )
-      end
 
       respond_to do |format|
         format.turbo_stream

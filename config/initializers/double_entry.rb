@@ -4,20 +4,22 @@ DoubleEntry.configure do |config|
     accounts.define(
       identifier: :escrow,
       scope_identifier: ->(task) { task.id },
-      positive_only: true
+      positive_only: true,
+      currency: :npr
     )
 
     # Account :tasker_balance (scope: User) - can be negative for CoC (debt)
     accounts.define(
       identifier: :tasker_balance,
-      scope_identifier: ->(user) { user.id }
+      scope_identifier: ->(user) { user.id },
+      currency: :npr
     )
 
     # Account :platform_revenue (positive_only: true)
-    accounts.define(identifier: :platform_revenue, positive_only: true)
+    accounts.define(identifier: :platform_revenue, positive_only: true, currency: :npr)
 
     # Account :user_external - global source for incoming payments
-    accounts.define(identifier: :user_external)
+    accounts.define(identifier: :user_external, currency: :npr)
   end
 
   config.define_transfers do |transfers|

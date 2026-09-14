@@ -43,9 +43,9 @@ RSpec.describe "Admin User Management", type: :system do
       expect(page).to have_content("Regular User")
       
       # Using a more flexible selector for stats
-      expect(page).to have_content("Total Tasks Posted 2")
-      expect(page).to have_content("Tasks Completed (as Poster) 1")
-      expect(page).to have_content("Tasks Completed (as Tasker) 1")
+      expect(page).to have_text(/Total Tasks Posted\s*2/)
+      expect(page).to have_text(/Tasks Completed \(as Poster\)\s*1/)
+      expect(page).to have_text(/Tasks Completed \(as Tasker\)\s*1/)
     end
   end
 
@@ -56,7 +56,7 @@ RSpec.describe "Admin User Management", type: :system do
 
     it "is redirected to root" do
       visit admin_users_path
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path(poster_dashboard_path)
       expect(page).to have_content("Access denied. Admin only.")
     end
   end

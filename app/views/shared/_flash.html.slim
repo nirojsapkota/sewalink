@@ -1,7 +1,8 @@
 - flash.each do |type, message|
   - unique_id = "flash_#{type}_#{SecureRandom.hex(4)}"
-  div[id=unique_id data-controller="toast" data-toast-target="container" class="pointer-events-auto w-full max-w-sm bg-white border rounded-xl shadow-2xl overflow-hidden transform transition-all duration-500 #{type == 'alert' ? 'border-red-100' : 'border-green-100'}"]
-    .p-4.flex.items-start.gap-3
+  div[id=unique_id data-controller="toast" data-toast-target="container" class="pointer-events-auto w-full max-w-sm bg-white border border-slate-200 rounded-lg shadow-md overflow-hidden transition-opacity duration-150 flex"]
+    div[class="w-1 flex-shrink-0 #{type == 'alert' ? 'bg-red-600' : 'bg-green-600'}"]
+    .p-4.flex.items-start.gap-3.flex-1
       div[class="p-2 rounded-lg #{type == 'alert' ? 'bg-red-50' : 'bg-green-50'}"]
         - if type == 'alert'
           svg class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -9,13 +10,11 @@
         - else
           svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-      
+
       .flex-1
-        p class="text-sm font-medium #{type == 'alert' ? 'text-red-800' : 'text-green-800'}"
+        p class="text-sm font-medium #{type == 'alert' ? 'text-red-700' : 'text-green-700'}"
           = message
-          
-      button.text-gray-400.hover:text-gray-600.transition-colors data-action="click->toast#close"
+
+      button.text-slate-400.hover:text-slate-600.transition-colors.duration-150.min-w-11.min-h-11.flex.items-center.justify-center data-action="click->toast#close" aria-label=t('.dismiss', default: 'Dismiss notification')
         svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
-    
-    div[class="h-1 animate-shrink #{type == 'alert' ? 'bg-red-600' : 'bg-green-600'}" style="animation-duration: 5000ms;"]

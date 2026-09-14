@@ -43,6 +43,8 @@ RSpec.describe "Admin::Accounting::Dashboards", type: :request do
           create(:bid, task: old_task, user: old_tasker, amount: Money.new(300_00, "NPR"), status: :accepted)
           old_task.reload
           Payments::LedgerManager.deposit_to_escrow(old_task)
+          DoubleEntry::Line.where(account: "escrow", scope: old_task.id.to_s)
+                           .update_all(created_at: 2.days.ago, updated_at: 2.days.ago)
         end
 
         get admin_accounting_dashboard_path(from: Date.current.to_s, to: Date.current.to_s)

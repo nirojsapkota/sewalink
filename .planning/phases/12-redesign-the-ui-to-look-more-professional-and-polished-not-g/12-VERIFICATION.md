@@ -1,8 +1,8 @@
 ---
 phase: 12-redesign-the-ui-to-look-more-professional-and-polished-not-g
 verified: 2026-09-14T20:00:00+10:00
-status: human_needed
-score: 8/8 must-haves verified (automated); 3 items require human visual verification
+status: human_verified
+score: 8/8 must-haves verified (automated); 3/3 human verification items approved (see 12-HUMAN-UAT.md)
 overrides_applied: 0
 human_verification:
   - test: "Load home, tasks index/show, poster/tasker dashboards, messaging, profile, checkout, and Devise auth pages in a browser at mobile and desktop widths"

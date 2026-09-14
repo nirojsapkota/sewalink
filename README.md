@@ -89,6 +89,16 @@ This SSHes into the running instance, `git pull`s the latest `main`, and runs
 plan`/`apply` will correctly show "no changes" for these updates — Terraform only manages
 infrastructure, not app deployments.
 
+## TODO
+
+* **Enable SSL/TLS.** The production instance currently serves plain `http://` (no domain,
+  no cert — `config.force_ssl = false`). Browsers only expose `navigator.mediaDevices`
+  (microphone access) in a secure context (`https://` or `localhost`), so the **voice
+  assistant feature is currently broken** on the deployed instance (`Cannot read properties
+  of undefined (reading 'getUserMedia')`). Fixing this requires a domain name pointed at the
+  instance's IP plus a reverse proxy (e.g. Caddy) for automatic Let's Encrypt certs — Let's
+  Encrypt won't issue certs for bare IPs.
+
 ## Gemini Live Chat: Tool Calling
 
 The real-time voice assistant (`app/javascript/controllers/real_time_chat_controller.js`) lets

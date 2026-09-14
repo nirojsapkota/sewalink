@@ -5,7 +5,9 @@ class Message < ApplicationRecord
   validates :content, presence: true
 
   def viewer_aware_content(viewer)
-    return content if viewer && (viewer.id == sender_id || authorized_participant?(viewer))
+    return content if viewer&.id == sender_id
+    return filtered_content unless viewer && conversation.task.assigned?
+    return content if authorized_participant?(viewer)
     # Server-side public broadcasts will have viewer: nil, so they get masked.
     # Private broadcasts will provide the viewer, allowing unmasked content.
     filtered_content

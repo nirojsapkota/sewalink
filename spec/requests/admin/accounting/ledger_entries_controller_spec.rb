@@ -24,6 +24,7 @@ RSpec.describe "Admin::Accounting::LedgerEntries", type: :request do
     DoubleEntry::Line.delete_all
     DoubleEntry::AccountBalance.delete_all
     AdminActivityLog.delete_all
+    PaymentTransaction.delete_all
     Conversation.delete_all
     Bid.delete_all
     Task.delete_all

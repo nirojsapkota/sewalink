@@ -36,8 +36,7 @@ RSpec.describe "Admin::Dashboards", type: :request do
       it "redirects to root path" do
         get admin_root_path
         expect(response).to redirect_to(root_path)
-        follow_redirect!
-        expect(response.body).to include("Access denied. Admin only.")
+        expect(flash[:alert]).to eq("Access denied. Admin only.")
       end
     end
 

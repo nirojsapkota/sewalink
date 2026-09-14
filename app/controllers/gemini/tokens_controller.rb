@@ -50,11 +50,7 @@ class Gemini::TokensController < ApplicationController
       }
     else
       Rails.logger.error "[GeminiTokens] Error: #{response.code} - #{response.body}"
-      # Fallback to direct key if token creation fails
-      render json: {
-        api_key: api_key,
-        tools: camel_tools
-      }
+      render json: { error: "Unable to start voice chat right now. Please try again shortly." }, status: :service_unavailable
     end
   end
 end

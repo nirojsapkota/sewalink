@@ -143,3 +143,16 @@ Plans:
 - [x] 11-03-PLAN.md — Transaction ledger search/filter + single-transaction detail (task/user/dispute context).
 - [x] 11-04-PLAN.md — Daily/monthly period reports (commission, refunds, net revenue).
 - [ ] 11-05-PLAN.md — eSewa settlement CSV import + reconciliation matching + final phase checkpoint.
+
+### Phase 12: Redesign the UI to look more professional and polished, not generic AI-generated
+
+**Goal:** Redesign sewaLink's Rails/Slim/Tailwind frontend to a calm "Modern Neutral SaaS" visual direction (slate neutrals + single indigo accent, Inter font, restrained motion) replacing the current purple/glow/bounce "generic AI-generated" look — visual-only, no new features.
+**Requirements**: N/A — net-new visual redesign phase, no formal REQUIREMENTS.md IDs (see 12-RESEARCH.md phase_requirements; verification is against 12-UI-SPEC.md's checker dimensions)
+**Depends on:** Phase 11
+**Plans:** 4 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — Design tokens (Inter font, ApplicationHelper button/card/input helpers) + shared chrome (navbar, footer, flash/toast, all 3 non-mailer layouts).
+- [ ] 12-02-PLAN.md — Core user-facing flows: home/landing, task listing/creation/detail, bids, poster/tasker dashboards, tasker wallet.
+- [ ] 12-03-PLAN.md — Secondary flows: messaging (conversations/live chats), profile, reviews, onboarding, payments, dispute evidence, Devise auth views.
+- [ ] 12-04-PLAN.md — Admin panel tokens-and-primitives-only light pass (D-10 priority 4, no structural redesign).

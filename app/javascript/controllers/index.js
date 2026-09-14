@@ -3,6 +3,9 @@ import { application } from "controllers/application"
 import ChatController from "controllers/chat_controller"
 application.register("chat", ChatController)
 
+import CompletionController from "controllers/completion_controller"
+application.register("completion", CompletionController)
+
 import ConfirmationController from "controllers/confirmation_controller"
 application.register("confirmation", ConfirmationController)
 

@@ -11,12 +11,13 @@ class Admin::BidsController < Admin::BaseController
     task = @bid.task
     ActiveRecord::Base.transaction do
       @bid.update!(status: :accepted)
-      task.update!(status: :assigned, payment_type: @bid.payment_method)
+      task.payment_type = @bid.payment_method
+      task.assign!
       task.bids.where.not(id: @bid.id).update_all(status: :rejected)
     end
     log_admin_action!("accept_bid", @bid, details: { task_id: task.id })
     redirect_to admin_bids_path, notice: "Bid ##{@bid.id} accepted; task ##{task.id} assigned."
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, AASM::InvalidTransition => e
     redirect_to admin_bids_path, alert: "Could not accept bid: #{e.message}"
   end
 

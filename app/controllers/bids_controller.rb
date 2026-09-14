@@ -25,12 +25,13 @@ class BidsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @bid.update!(status: :accepted)
-      @task.update!(status: :assigned, payment_type: @bid.payment_method)
+      @task.payment_type = @bid.payment_method
+      @task.assign!
       @task.bids.where.not(id: @bid.id).update_all(status: :rejected)
     end
 
     redirect_to @task, notice: t('.success_assign', default: 'Tasker assigned successfully.')
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, AASM::InvalidTransition => e
     redirect_to @task, alert: "Failed to assign tasker: #{e.message}"
   end
 

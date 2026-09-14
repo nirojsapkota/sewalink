@@ -54,10 +54,8 @@ class Task < ApplicationRecord
     end
 
     event :complete do
-      transitions from: :in_progress, to: :completed
-                  # TODO: Re-enable geolocation check once the Google API key is fixed.
-                  # guard: [:within_geofence?, :completion_photo_attached?]
-                  # guard: [:completion_photo_attached?]
+      transitions from: :in_progress, to: :completed,
+                  guard: [:within_geofence?, :completion_photo_attached?]
     end
 
     event :raise_dispute do
@@ -119,7 +117,9 @@ class Task < ApplicationRecord
     completion_photo.attached?
   end
 
-  def check_in!
+  def check_in!(lat = current_lat, lng = current_lng)
+    self.current_lat = lat
+    self.current_lng = lng
     start_work!
   rescue AASM::InvalidTransition => e
     Rails.logger.warn "Task #{id} could not transition to in_progress: #{e.message}"
@@ -157,9 +157,9 @@ class Task < ApplicationRecord
     return unless saved_change_to_status? && completed?
 
     if esewa?
-      Payments::LedgerManager.release_from_escrow(self)
+      Payments::ReleaseEscrowJob.perform_later(id)
     elsif cash?
-      Payments::LedgerManager.record_cash_commission(self)
+      Payments::RecordCashCommissionJob.perform_later(id)
     end
   end
 

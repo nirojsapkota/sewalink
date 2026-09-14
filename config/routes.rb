@@ -31,8 +31,6 @@ Rails.application.routes.draw do
       patch :complete     # New route for marking task as complete
       delete :delete_photo
     end
-    resource :completion, only: [:create], module: :tasks
-    resource :start, only: [:create], module: :tasks
     resources :bids, only: [:create] do
       member do
         patch :accept

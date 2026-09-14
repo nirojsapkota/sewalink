@@ -1,11 +1,13 @@
-h2
-  | Forgot your password?
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-  br
-  = f.email_field :email, autofocus: true, autocomplete: "email"
-  .actions
-    = f.submit "Send me reset password instructions"
-= render "users/shared/links"
+.mx-auto.mt-10.max-w-md
+  div class=card_class
+    h2.mb-6.text-center.text-2xl.font-semibold.text-slate-900
+      | Forgot your password?
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f|
+      = render "users/shared/error_messages", resource: resource
+      .space-y-1.5
+        = f.label :email, class: "block text-sm font-semibold text-slate-700"
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: input_class
+      .pt-2
+        = f.submit "Send me reset password instructions", class: "#{button_class(:primary)} w-full"
+  .mt-6.text-center
+    = render "users/shared/links"

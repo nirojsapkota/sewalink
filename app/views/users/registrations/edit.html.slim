@@ -1,42 +1,43 @@
-h2
-  | Edit 
-  = resource_name.to_s.humanize
-= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-  br
-  = f.email_field :email, autofocus: true, autocomplete: "email"
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    div
-      | Currently waiting confirmation for: 
-      = resource.unconfirmed_email
-  .field
-    = f.label :password
-    i
-      | (leave blank if you don't want to change it)
-  br
-  = f.password_field :password, autocomplete: "new-password"
-  - if @minimum_password_length
-    br
-    em
-      = @minimum_password_length
-      |  characters minimum
-  .field
-    = f.label :password_confirmation
-  br
-  = f.password_field :password_confirmation, autocomplete: "new-password"
-  .field
-    = f.label :current_password
-    i
-      | (we need your current password to confirm your changes)
-  br
-  = f.password_field :current_password, autocomplete: "current-password"
-  .actions
-    = f.submit "Update"
-h3
-  | Cancel my account
-div
-  | Unhappy? 
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete
-= link_to "Back", :back
+.mx-auto.mt-10.max-w-md
+  div class=card_class
+    h2.mb-6.text-center.text-2xl.font-semibold.text-slate-900
+      | Edit
+      = " #{resource_name.to_s.humanize}"
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-4" }) do |f|
+      = render "users/shared/error_messages", resource: resource
+      .space-y-1.5
+        = f.label :email, class: "block text-sm font-semibold text-slate-700"
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: input_class
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        .rounded-lg.border.border-amber-200.bg-amber-50.p-3.text-sm.text-amber-700
+          | Currently waiting confirmation for:
+          = " #{resource.unconfirmed_email}"
+      .space-y-1.5
+        = f.label :password, class: "block text-sm font-semibold text-slate-700"
+        p.text-xs.text-slate-500
+          | Leave blank if you don't want to change it.
+        = f.password_field :password, autocomplete: "new-password", class: input_class
+        - if @minimum_password_length
+          p.text-xs.text-slate-500
+            = "#{@minimum_password_length} characters minimum"
+      .space-y-1.5
+        = f.label :password_confirmation, class: "block text-sm font-semibold text-slate-700"
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: input_class
+      .space-y-1.5
+        = f.label :current_password, class: "block text-sm font-semibold text-slate-700"
+        p.text-xs.text-slate-500
+          | We need your current password to confirm your changes.
+        = f.password_field :current_password, autocomplete: "current-password", class: input_class
+      .pt-2
+        = f.submit "Update", class: "#{button_class(:primary)} w-full"
+
+    .mt-8.border-t.border-slate-200.pt-6
+      h3.text-lg.font-semibold.text-slate-900
+        | Cancel my account
+      p.mt-2.text-sm.text-slate-500
+        | Unhappy? You can close your account here.
+      .mt-4.flex.flex-col.gap-3.sm:flex-row
+        = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: button_class(:destructive)
+        = link_to "Back", :back, class: button_class(:ghost)
+  .mt-6.text-center
+    = render "users/shared/links"

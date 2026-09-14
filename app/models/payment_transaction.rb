@@ -31,7 +31,7 @@ class PaymentTransaction < ApplicationRecord
   def deposit_to_escrow_if_completed
     return unless saved_change_to_status? && completed?
 
-    Payments::LedgerManager.deposit_to_escrow(task)
+    Payments::DepositToEscrowJob.perform_later(task_id)
   end
 
   def generate_transaction_uuid

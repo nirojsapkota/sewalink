@@ -63,13 +63,14 @@ RSpec.describe "Task Status Transitions", type: :request do
     end
 
     it "transitions task to completed and releases escrow" do
-      # Mock LedgerManager to avoid DoubleEntry issues in request spec
-      allow(Payments::LedgerManager).to receive(:release_from_escrow)
-      
-      post release_payment_task_path(task)
+      # Escrow release now happens via a background job (see Payments::ReleaseEscrowJob)
+      # so that DoubleEntry's locking isn't nested inside the request's own transaction.
+      expect {
+        post release_payment_task_path(task)
+      }.to have_enqueued_job(Payments::ReleaseEscrowJob).with(task.id)
+
       expect(task.reload.status).to eq("completed")
       expect(response).to redirect_to(task_path(task))
-      expect(Payments::LedgerManager).to have_received(:release_from_escrow).with(task)
     end
 
     it "prevents tasker from releasing payment" do

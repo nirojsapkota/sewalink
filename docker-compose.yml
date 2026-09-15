@@ -19,6 +19,8 @@ services:
       - "80:3000"
     volumes:
       - ./log:/rails/log
+      - storage:/rails/storage
 
 volumes:
   pgdata:
+  storage:

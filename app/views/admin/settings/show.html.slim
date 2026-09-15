@@ -25,6 +25,23 @@ div class="#{card_class} max-w-lg mb-8"
     .pt-2
       = f.submit "Update Rate", class: button_class(:primary)
 
+div class="#{card_class} max-w-lg mb-8"
+  h2.text-xl.font-semibold.mb-4.border-b.border-slate-200.pb-2
+    | Location-Based Check-In
+  p.text-sm.text-slate-500.mb-4
+    | When enabled, taskers must grant location access and be within 200m
+      of an on-site task to start or complete it. Disable this to let
+      taskers start and complete on-site tasks without any location
+      verification (e.g. for demos, or in areas with unreliable GPS).
+  = form_with url: admin_settings_path, method: :patch, local: true, class: "space-y-4" do |f|
+    label class="flex items-center gap-3 cursor-pointer"
+      = hidden_field_tag :geofence_check_in_enabled, "0"
+      = check_box_tag :geofence_check_in_enabled, "1", @geofence_check_in_enabled, class: "h-5 w-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600"
+      span class="text-sm font-medium text-slate-700"
+        | Require location-based check-in for on-site tasks
+    .pt-2
+      = f.submit "Save Setting", class: button_class(:primary)
+
 .bg-slate-50.p-6.rounded-lg.border.border-dashed.border-slate-300
   h2.text-lg.font-semibold.mb-2.text-slate-700
     | Payment Gateway Configuration

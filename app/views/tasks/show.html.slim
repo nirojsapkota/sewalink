@@ -7,9 +7,9 @@ div class="mx-auto md:w-2/3 w-full"
     = render 'task_actions', task: @task
     = render @task
     - if current_user.tasker? && @task.tasker == current_user && @task.assigned?
-      div class="mt-4 #{card_class}" data-controller="geolocation" data-geolocation-task-id-value=@task.id data-geolocation-task-latitude-value=@task.latitude data-geolocation-task-longitude-value=@task.longitude data-geolocation-on-site-value=@task.on_site
+      div class="mt-4 #{card_class}" data-controller="geolocation" data-geolocation-task-id-value=@task.id data-geolocation-task-latitude-value=@task.latitude data-geolocation-task-longitude-value=@task.longitude data-geolocation-on-site-value=@task.geofence_required?
         h4 class="text-sm font-semibold text-slate-900 mb-2" Start This Task
-        - if @task.on_site?
+        - if @task.geofence_required?
           div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-sm text-slate-600" data-geolocation-target="geofenceStatus"
             | Checking your location...
           button type="button" disabled=true data-geolocation-target="checkInButton" data-action="click->geolocation#checkIn" class="mt-3 #{button_class(:primary)} opacity-50 cursor-not-allowed"

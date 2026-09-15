@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :request_payment, :release_payment, :raise_dispute, :toggle_draft, :check_geofence, :complete]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :request_payment, :release_payment, :raise_dispute, :toggle_draft, :check_geofence, :perform_check_in, :complete]
 
   def index
     if current_user.tasker?
@@ -136,6 +136,11 @@ class TasksController < ApplicationController
 
   def check_geofence
     authorize @task
+
+    unless @task.geofence_required?
+      return render json: { within_geofence: true, distance: 0, task_status: @task.status }
+    end
+
     current_latitude = params[:current_latitude].to_f
     current_longitude = params[:current_longitude].to_f
 
@@ -162,7 +167,7 @@ class TasksController < ApplicationController
   def perform_check_in
     authorize @task, :check_in?
 
-    if @task.on_site?
+    if @task.geofence_required?
       current_latitude = params[:current_latitude].to_f
       current_longitude = params[:current_longitude].to_f
 
@@ -190,7 +195,7 @@ class TasksController < ApplicationController
   def complete
     authorize @task
 
-    if @task.on_site?
+    if @task.geofence_required?
       if params[:current_latitude].blank? || params[:current_longitude].blank?
         return redirect_to @task, alert: "Location is required to mark this task as complete."
       end

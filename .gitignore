@@ -34,6 +34,10 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Never commit plaintext credentials - only the encrypted config/credentials.yml.enc
+# should be tracked. This previously leaked a live API key in plaintext.
+/config/credentials.yml
+
 /app/assets/builds/*
 !/app/assets/builds/.keep
 

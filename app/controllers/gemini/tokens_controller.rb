@@ -8,23 +8,30 @@ class Gemini::TokensController < ApplicationController
       return render json: { error: "GEMINI_API_KEY is not configured" }, status: :internal_server_error
     end
 
-    uri = URI("https://generativelanguage.googleapis.com/v1alpha/authTokens:create?key=#{api_key}")
-    
+    # NOTE: Google's ephemeral-token provisioning endpoint moved from
+    # v1alpha `authTokens:create` (query-param key auth) to v1beta
+    # `auth_tokens` (header-based `x-goog-api-key` auth). The old
+    # endpoint now 404s. The token itself is still only valid against
+    # the v1alpha `BidiGenerateContentConstrained` WebSocket endpoint
+    # (see real_time_chat_controller.js), so only the provisioning
+    # call below changes.
+    uri = URI("https://generativelanguage.googleapis.com/v1beta/auth_tokens")
+
     payload = {
-      config: {
-        model: "models/gemini-3.1-flash-live-preview",
-        uses: 1,
-        expireTime: (Time.now.utc + 30.minutes).iso8601
-      }
+      uses: 1,
+      expireTime: (Time.now.utc + 30.minutes).iso8601
     }
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-    
-    request = Net::HTTP::Post.new(uri.request_uri, { 'Content-Type' => 'application/json' })
+
+    request = Net::HTTP::Post.new(uri.request_uri, {
+      'Content-Type' => 'application/json',
+      'x-goog-api-key' => api_key
+    })
     request.body = payload.to_json
 
-    Rails.logger.info "[GeminiTokens] Requesting token for model: #{payload[:config][:model]}"
+    Rails.logger.info "[GeminiTokens] Requesting ephemeral token for live voice session"
     
     response = http.request(request)
     

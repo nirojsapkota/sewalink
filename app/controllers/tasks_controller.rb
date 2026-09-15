@@ -186,7 +186,8 @@ class TasksController < ApplicationController
     if @task.check_in!
       render json: { success: true, message: "Checked in successfully.", task_status: @task.status }
     else
-      render json: { success: false, message: "You are outside the task location. Move closer and try again.", task_status: @task.status }, status: :forbidden
+      message = @task.errors.full_messages.to_sentence.presence || "Could not check in. Please try again."
+      render json: { success: false, message: message, task_status: @task.status }, status: :forbidden
     end
   rescue AASM::InvalidTransition => e
     render json: { success: false, message: "Invalid transition for check-in: #{e.message}", task_status: @task.status }, status: :unprocessable_entity

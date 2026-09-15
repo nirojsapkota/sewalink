@@ -37,7 +37,7 @@ RSpec.describe "Task Escrow Lifecycle", type: :model, use_transactional_fixtures
       task.update(status: :in_progress)
     }.not_to change { task.reload.status }
     
-    expect(task.errors[:status]).to include("cannot be changed to in_progress or completed without a verified payment for eSewa tasks.")
+    expect(task.errors[:status]).to include("cannot start or complete this task until the poster's eSewa payment is verified. Please ask the poster to complete payment first.")
   end
 
   it "allows moving to in_progress after payment" do

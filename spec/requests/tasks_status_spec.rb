@@ -93,4 +93,45 @@ RSpec.describe "Task Status Transitions", type: :request do
       expect(task.reload.status).to eq("dispute")
     end
   end
+
+  describe "POST /tasks/:id/perform_check_in" do
+    let(:on_site_task) do
+      create(:task, user: poster, category: category, status: :assigned, on_site: true,
+                    location: "Kathmandu", latitude: 27.7172, longitude: 85.3240)
+    end
+
+    before do
+      create(:bid, task: on_site_task, user: tasker, status: :accepted)
+      sign_in tasker
+    end
+
+    context "when platform-wide geofence check-in is enabled (default)" do
+      it "requires the tasker to be within the geofence to start the task" do
+        post perform_check_in_task_path(on_site_task),
+             params: { current_latitude: 27.8, current_longitude: 85.4 }, as: :json
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(on_site_task.reload.status).to eq("assigned")
+      end
+
+      it "starts the task when within the geofence" do
+        post perform_check_in_task_path(on_site_task),
+             params: { current_latitude: 27.7173, current_longitude: 85.3241 }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(on_site_task.reload.status).to eq("in_progress")
+      end
+    end
+
+    context "when platform-wide geofence check-in is disabled" do
+      before { PlatformSetting.set_geofence_check_in_enabled(false) }
+
+      it "starts the task without needing location data" do
+        post perform_check_in_task_path(on_site_task), params: {}, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(on_site_task.reload.status).to eq("in_progress")
+      end
+    end
+  end
 end

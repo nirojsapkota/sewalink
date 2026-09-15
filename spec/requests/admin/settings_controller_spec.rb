@@ -11,6 +11,7 @@ RSpec.describe "Admin::Settings", type: :request do
 
       expect(response).to have_http_status(:success)
       expect(controller.instance_variable_get(:@commission_rate)).to eq(PlatformSetting::DEFAULT_COMMISSION_RATE)
+      expect(controller.instance_variable_get(:@geofence_check_in_enabled)).to be true
       expect(controller.instance_variable_get(:@platform_revenue_balance)).to be_present
       expect(controller.instance_variable_get(:@total_escrow_held)).to be_present
     end
@@ -39,6 +40,27 @@ RSpec.describe "Admin::Settings", type: :request do
         follow_redirect!
         expect(response.body).to include("valid commission rate between 0 and 1")
       end
+    end
+  end
+
+  describe "PATCH /admin/settings with geofence_check_in_enabled" do
+    it "disables the setting and logs the admin action" do
+      patch admin_settings_path, params: { geofence_check_in_enabled: "0" }
+
+      expect(PlatformSetting.geofence_check_in_enabled?).to be false
+      expect(response).to redirect_to(admin_settings_path)
+
+      log = AdminActivityLog.last
+      expect(log.admin).to eq(admin)
+      expect(log.action).to eq("update_geofence_check_in_enabled")
+    end
+
+    it "re-enables the setting" do
+      PlatformSetting.set_geofence_check_in_enabled(false)
+
+      patch admin_settings_path, params: { geofence_check_in_enabled: "1" }
+
+      expect(PlatformSetting.geofence_check_in_enabled?).to be true
     end
   end
 end

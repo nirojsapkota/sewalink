@@ -105,12 +105,19 @@ class Task < ApplicationRecord
   end
 
   def within_geofence?
-    return true unless on_site # D-01: Geofencing logic applies strictly to tasks where on_site is true.
+    return true unless geofence_required? # D-01: Geofencing logic applies strictly to tasks where on_site is true.
     return false if current_lat.blank? || current_lng.blank?
 
     distance = distance_from([current_lat, current_lng], :km)
     # D-04: Default radius is set to 200m (0.2km)
     distance.present? && distance <= 0.2
+  end
+
+  # Whether this task actually needs a location-verified check-in/completion:
+  # both the per-task on_site flag AND the platform-wide toggle must be set.
+  # Admins can disable location checks platform-wide via PlatformSetting.
+  def geofence_required?
+    on_site? && PlatformSetting.geofence_check_in_enabled?
   end
 
   def completion_photo_attached?

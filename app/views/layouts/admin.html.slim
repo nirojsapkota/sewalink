@@ -34,6 +34,8 @@ html
           = link_to 'Accounting', admin_accounting_dashboard_path, class: admin_nav_link_class(admin_accounting_dashboard_path)
           = link_to 'Main Site', root_path, class: 'text-slate-300 hover:text-white'
 
+    = turbo_stream_from current_user, :notifications
+
     #notifications.fixed.bottom-5.right-5.z-50.flex.flex-col.gap-3.pointer-events-none
       = render "shared/flash"
 

@@ -16,7 +16,10 @@ div class="mx-auto md:w-2/3 w-full"
             | Check In & Start Task
           p class="mt-2 text-xs text-slate-500" You must be within 200m of the task location to check in.
         - else
-          p class="text-sm text-slate-600 mb-3" This is a remote task, no location check is required.
+          - if @task.on_site?
+            p class="text-sm text-slate-600 mb-3" Location check-in is currently disabled for this platform. You can start this task without sharing your location.
+          - else
+            p class="text-sm text-slate-600 mb-3" This is a remote task, no location check is required.
           button type="button" data-geolocation-target="checkInButton" data-action="click->geolocation#checkIn" class="#{button_class(:primary)}"
             | Start Task
 

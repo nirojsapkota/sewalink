@@ -127,6 +127,12 @@ class Task < ApplicationRecord
   def check_in!(lat = current_lat, lng = current_lng)
     self.current_lat = lat
     self.current_lng = lng
+
+    unless within_geofence?
+      errors.add(:base, "You are outside the task location. Move closer and try again.")
+      return false
+    end
+
     start_work!
   rescue AASM::InvalidTransition => e
     Rails.logger.warn "Task #{id} could not transition to in_progress: #{e.message}"
@@ -172,7 +178,7 @@ class Task < ApplicationRecord
 
   def must_have_payment_for_digital_task
     if !paid?
-      errors.add(:status, "cannot be changed to in_progress or completed without a verified payment for eSewa tasks.")
+      errors.add(:status, "cannot start or complete this task until the poster's eSewa payment is verified. Please ask the poster to complete payment first.")
     end
   end
 

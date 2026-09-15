@@ -1,7 +1,7 @@
-div class="mt-4 #{card_class}" data-controller="completion" data-completion-on-site-value=task.on_site
+div class="mt-4 #{card_class}" data-controller="completion" data-completion-on-site-value=task.geofence_required?
   h4 class="text-sm font-semibold text-slate-900 mb-2" Complete This Task
   = form_with url: complete_task_path(task), method: :patch, multipart: true, data: { completion_target: "form", turbo_confirm: "Are you sure you want to mark this task as complete?" } do |f|
-    - if task.on_site?
+    - if task.geofence_required?
       div class="mb-3 rounded-lg bg-slate-50 border border-slate-200 p-3 text-sm text-slate-600" data-completion-target="geofenceStatus"
         | Checking your location...
       = hidden_field_tag :current_latitude, nil, data: { completion_target: "latitude" }
@@ -14,4 +14,4 @@ div class="mt-4 #{card_class}" data-controller="completion" data-completion-on-s
       input type="file" name="completion_photo" id="completion_photo" accept="image/*" required=true class=input_class
       p class="mt-1 text-xs text-slate-500" Upload a photo showing the completed work as proof for the Poster.
 
-    = f.submit "Mark as Done", disabled: task.on_site?, data: { completion_target: "submitButton" }, class: "#{button_class(:primary)} #{'opacity-50 cursor-not-allowed' if task.on_site?}"
+    = f.submit "Mark as Done", disabled: task.geofence_required?, data: { completion_target: "submitButton" }, class: "#{button_class(:primary)} #{'opacity-50 cursor-not-allowed' if task.geofence_required?}"

@@ -13,4 +13,23 @@ RSpec.describe PlatformSetting, type: :model do
       expect(PlatformSetting.commission_rate).to eq(BigDecimal("0.15"))
     end
   end
+
+  describe '.geofence_check_in_enabled?' do
+    it 'defaults to true when no row exists' do
+      expect(PlatformSetting.geofence_check_in_enabled?).to be true
+    end
+  end
+
+  describe '.set_geofence_check_in_enabled' do
+    it 'persists false and returns it via .geofence_check_in_enabled?' do
+      PlatformSetting.set_geofence_check_in_enabled(false)
+      expect(PlatformSetting.geofence_check_in_enabled?).to be false
+    end
+
+    it 'persists true and returns it via .geofence_check_in_enabled?' do
+      PlatformSetting.set_geofence_check_in_enabled(false)
+      PlatformSetting.set_geofence_check_in_enabled(true)
+      expect(PlatformSetting.geofence_check_in_enabled?).to be true
+    end
+  end
 end

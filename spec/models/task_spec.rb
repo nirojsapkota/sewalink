@@ -93,6 +93,29 @@ RSpec.describe Task, type: :model do
         task.current_lng = 85.4
         expect(task.within_geofence?).to be true
       end
+
+      it 'returns true when platform-wide geofence check-in is disabled, even if on_site' do
+        PlatformSetting.set_geofence_check_in_enabled(false)
+        task.current_lat = 27.8
+        task.current_lng = 85.4
+        expect(task.within_geofence?).to be true
+      end
+    end
+
+    describe '#geofence_required?' do
+      it 'is true when on_site and the platform setting is enabled (default)' do
+        expect(task.geofence_required?).to be true
+      end
+
+      it 'is false when on_site but the platform setting is disabled' do
+        PlatformSetting.set_geofence_check_in_enabled(false)
+        expect(task.geofence_required?).to be false
+      end
+
+      it 'is false when the platform setting is enabled but the task is not on_site' do
+        task.update!(on_site: false)
+        expect(task.geofence_required?).to be false
+      end
     end
 
     describe '#check_in!' do

@@ -3,13 +3,13 @@ class PaymentsController < ApplicationController
 
   def create
     @task = Task.find(params[:task_id])
-    # For now, we pay the full task budget.
-    # In a more complex scenario, this could be partial or include fees.
-    @payment = PaymentTransaction.create!(
-      task: @task,
-      amount: @task.budget,
-      status: :pending
-    )
+    authorize @task, :pay?
+
+    # Reuse an existing pending transaction instead of creating a new row
+    # every time the poster reloads/retries the checkout page.
+    @payment = @task.payment_transactions.pending.first_or_initialize
+    @payment.amount = @task.budget if @payment.new_record?
+    @payment.save!
 
     @esewa_data = {
       amount: @payment.amount.to_f,
@@ -39,9 +39,13 @@ class PaymentsController < ApplicationController
   def success
     encoded_data = params[:data]
     decoded_data = JSON.parse(Base64.decode64(encoded_data))
-    
+
     @payment = PaymentTransaction.find_by!(transaction_uuid: decoded_data['transaction_uuid'])
-    
+
+    unless @payment.task.user == current_user
+      return redirect_to root_path, alert: "You are not authorized to view this payment."
+    end
+
     if @payment.completed?
       return redirect_to task_path(@payment.task), notice: "Payment already processed."
     end

@@ -48,6 +48,10 @@ class TaskPolicy < ApplicationPolicy
     record.tasker == user && record.assigned?
   end
 
+  def pay?
+    record.user == user && record.esewa? && record.assigned? && !record.paid?
+  end
+
   def complete?
     return false unless record.tasker == user
 

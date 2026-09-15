@@ -243,7 +243,7 @@ class GeminiLiveAPI {
   sendInitialSetup() {
     const setup = {
       setup: {
-        model: "models/gemini-3.1-flash-live-preview",
+        model: "models/gemini-2.5-flash-native-audio-latest",
         generationConfig: {
           responseModalities: ["AUDIO"],
           speechConfig: {

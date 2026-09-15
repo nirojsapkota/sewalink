@@ -24,6 +24,7 @@ class User < ApplicationRecord
   has_many :tasks, dependent: :destroy
   has_many :bids, dependent: :destroy
   has_many :dispute_evidences, dependent: :destroy
+  has_many :payout_requests, dependent: :destroy
   has_many :received_reviews, class_name: 'Review', foreign_key: 'reviewee_id', dependent: :destroy
   has_many :given_reviews, class_name: 'Review', foreign_key: 'reviewer_id', dependent: :destroy
 

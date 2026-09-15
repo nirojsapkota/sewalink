@@ -1,15 +1,20 @@
 import { Controller } from "@hotwired/stimulus";
 
+// Manages the conversation panel: keeps the message list scrolled to the
+// latest message, and keeps focus on the composer input so replies can be
+// sent back-to-back without re-clicking into the field. Bubble styling
+// (sender vs. recipient) is rendered server-side in messages/_message.
 export default class extends Controller {
+  static targets = ["messages", "input"];
+
   connect() {
     this.scrollToBottom();
 
-    // Keep the conversation scrolled to the latest message as new ones
-    // arrive via Turbo Streams. Bubble styling (sender vs. recipient) is
-    // rendered server-side in messages/_message, so no JS styling pass is
-    // needed here.
-    this.observer = new MutationObserver(() => this.scrollToBottom());
-    this.observer.observe(this.element, { childList: true });
+    this.observer = new MutationObserver(() => {
+      this.scrollToBottom();
+      this.focusInput();
+    });
+    this.observer.observe(this.messagesTarget, { childList: true });
   }
 
   disconnect() {
@@ -19,6 +24,12 @@ export default class extends Controller {
   }
 
   scrollToBottom() {
-    this.element.scrollTop = this.element.scrollHeight;
+    this.messagesTarget.scrollTop = this.messagesTarget.scrollHeight;
+  }
+
+  focusInput() {
+    if (this.hasInputTarget && document.activeElement !== this.inputTarget) {
+      this.inputTarget.focus();
+    }
   }
 }

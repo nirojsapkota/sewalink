@@ -77,4 +77,18 @@ module ApplicationHelper
       tasker_dashboard_path
     end
   end
+
+  # Renders a small circular avatar image if the user has one attached,
+  # otherwise falls back to an initials badge. Used anywhere we show a
+  # compact identity marker (chat bubbles, conversation header, etc.).
+  def avatar_for(user, size: 8)
+    dimension = "h-#{size} w-#{size}"
+    if user&.avatar&.attached?
+      image_tag user.avatar.variant(resize_to_fill: [size * 8, size * 8]),
+                class: "#{dimension} shrink-0 rounded-full object-cover ring-2 ring-white"
+    else
+      content_tag :div, (user&.first_name&.first || "U").upcase,
+                  class: "#{dimension} shrink-0 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-700 font-semibold ring-2 ring-white text-xs"
+    end
+  end
 end

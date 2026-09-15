@@ -54,6 +54,38 @@ RSpec.describe "Task Status System", type: :system do
       expect(page).to have_content("Dispute raised successfully")
       expect(task.reload.status).to eq("dispute")
     end
+
+    it "sees a Pay Now button and can initiate eSewa checkout when the task is assigned and unpaid" do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('ESEWA_PRODUCT_CODE', any_args).and_return('EPAYTEST')
+      allow(ENV).to receive(:fetch).with('ESEWA_SECRET_KEY').and_return('8g8M898P8Go8atD8')
+
+      task.update!(status: :assigned)
+
+      visit task_path(task)
+
+      expect(page).to have_content("Pay Now")
+
+      click_on "Pay Now"
+
+      # The checkout page auto-submits to the real eSewa domain via JS, which
+      # isn't reachable in the test environment, so we can't assert on final
+      # page content. Instead, wait for navigation away from the task page
+      # (proving Turbo didn't silently swallow the request) before checking
+      # that our own PaymentsController#create endpoint recorded a transaction.
+      expect(page).to have_no_content("Pay Now (eSewa)")
+      expect(PaymentTransaction.where(task: task).count).to eq(1)
+    end
+
+    it "does not see the Pay Now button once payment is completed" do
+      task.update!(status: :assigned)
+      create(:payment_transaction, task: task, amount: task.budget, status: :completed)
+
+      visit task_path(task)
+
+      expect(page).not_to have_content("Pay Now")
+      expect(page).to have_content("Payment confirmed")
+    end
   end
 
   describe "Tasker interactions" do

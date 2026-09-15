@@ -133,5 +133,34 @@ RSpec.describe "Task Status Transitions", type: :request do
         expect(on_site_task.reload.status).to eq("in_progress")
       end
     end
+
+    context "when the task is an unpaid eSewa (escrow) task" do
+      let(:on_site_task) do
+        create(:task, user: poster, category: category, status: :assigned, on_site: true,
+                      payment_type: :esewa, location: "Kathmandu", latitude: 27.7172, longitude: 85.3240)
+      end
+
+      before { PlatformSetting.set_geofence_check_in_enabled(false) }
+
+      it "fails with a payment-specific message rather than a misleading location error" do
+        post perform_check_in_task_path(on_site_task),
+             params: { current_latitude: 27.7173, current_longitude: 85.3241 }, as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(on_site_task.reload.status).to eq("assigned")
+        expect(response.parsed_body["message"]).to include("eSewa payment is verified")
+        expect(response.parsed_body["message"]).not_to include("outside the task location")
+      end
+
+      it "succeeds once payment is completed" do
+        create(:payment_transaction, task: on_site_task, amount: on_site_task.budget, status: :completed)
+
+        post perform_check_in_task_path(on_site_task),
+             params: { current_latitude: 27.7173, current_longitude: 85.3241 }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(on_site_task.reload.status).to eq("in_progress")
+      end
+    end
   end
 end

@@ -1,8 +1,10 @@
 - viewer = local_assigns[:viewer]
 - own_message = viewer && message.sender_id == viewer.id
-div id="#{dom_id message}" class="message-bubble flex #{own_message ? 'justify-end' : 'justify-start'}"
-  div[class="message-bubble-content max-w-[75%] rounded-2xl px-4 py-3 text-sm shadow-sm #{own_message ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-slate-100 text-slate-900 rounded-bl-none'}"]
-    p id="#{dom_id message}_text" class="message-text whitespace-pre-wrap"
+div id="#{dom_id message}" class="message-bubble flex items-end gap-2 #{own_message ? 'justify-end' : 'justify-start'}"
+  - unless own_message
+    = avatar_for(message.sender, size: 6)
+  div[class="message-bubble-content max-w-[75%] rounded-2xl px-4 py-3 text-sm shadow-sm #{own_message ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-white border border-slate-200 text-slate-900 rounded-bl-none'}"]
+    p id="#{dom_id message}_text" class="message-text whitespace-pre-wrap break-words"
       = message.viewer_aware_content(viewer)
-      span[class="mt-1 block text-right text-[10px] opacity-70"]
-        = message.created_at.strftime("%I:%M %p")
+    span[class="mt-1 block text-right text-[10px] #{own_message ? 'text-indigo-100' : 'text-slate-400'}"]
+      = message.created_at.strftime("%I:%M %p")

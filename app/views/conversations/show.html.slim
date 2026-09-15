@@ -1,19 +1,39 @@
-div class="mx-auto flex w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm md:w-2/3"
-  .flex.items-center.justify-between.border-b.border-slate-200.bg-slate-50.p-4
-    div
-      h2.text-lg.font-semibold.text-slate-900 = @conversation.task.title
-      p.text-xs.text-slate-500
-        | Chatting with 
-        - if current_user == @conversation.task.user
-          = mask_contact_info(@conversation.bid.user.phone, visible: can_see_contact_info?(@conversation.bid.user, task: @conversation.task))
-        - else
-          = mask_contact_info(@conversation.task.user.phone, visible: can_see_contact_info?(@conversation.task.user, task: @conversation.task))
-    = link_to "Back", task_path(@conversation.task), class: button_class(:ghost)
+- other_user = @conversation.other_participant(current_user)
+div class="mx-auto flex w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm md:w-2/3 h-[75vh] md:h-[80vh]" data-controller="chat"
+  .flex.items-center.justify-between.gap-3.border-b.border-slate-200.bg-slate-50.p-4
+    .flex.items-center.gap-3.min-w-0
+      = avatar_for(other_user, size: 10)
+      div class="min-w-0"
+        h2.truncate.text-base.font-semibold.text-slate-900 = other_user.name
+        p.truncate.text-xs.text-slate-500
+          = @conversation.task.title
+        p.truncate.text-xs.font-medium.text-indigo-600
+          | Chatting with
+          = " "
+          = mask_contact_info(other_user.phone, visible: can_see_contact_info?(other_user, task: @conversation.task))
+    .flex.items-center.gap-3.shrink-0
+      span class="hidden sm:inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider #{status_badge_class(@conversation.task.status)}"
+        = t("tasks.statuses.#{@conversation.task.status}")
+      = link_to task_path(@conversation.task), class: button_class(:ghost) do
+        svg class="inline h-4 w-4 -mt-0.5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"
+        | Back
 
-
-  div#messages class="flex-grow space-y-4 overflow-y-auto bg-white p-4 md:p-6" data-controller="chat"
+  div#messages class="flex-grow space-y-3 overflow-y-auto bg-slate-50/50 p-4 md:p-6" data-chat-target="messages"
     = turbo_stream_from current_user
-    = render partial: "messages/message", collection: @messages, as: :message, locals: { viewer: current_user }
+    - if @messages.any?
+      = render partial: "messages/message", collection: @messages, as: :message, locals: { viewer: current_user }
+    - else
+      .flex.h-full.flex-col.items-center.justify-center.text-center.text-slate-400
+        svg class="mb-3 h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+        p.text-sm No messages yet.
+        p.text-xs Say hello to #{other_user.first_name || 'them'} to get started!
 
-.border-t.border-slate-200.bg-slate-50.p-4
-  = render "messages/form", conversation: @conversation, message: @new_message
+  div class="border-t border-slate-200 bg-white p-4"
+    - unless can_see_contact_info?(other_user, task: @conversation.task)
+      p.mb-2.flex.items-center.gap-1.text-[11px].text-slate-400
+        svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+        | Phone numbers, emails and other contact details are hidden until this task is assigned.
+    = render "messages/form", conversation: @conversation, message: @new_message

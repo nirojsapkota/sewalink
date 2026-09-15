@@ -1,6 +1,8 @@
 = form_with(model: [conversation, message], id: "new_message", class: "flex gap-2") do |f|
-  = f.text_field :content, 
-          class: "#{input_class} flex-grow rounded-full", 
+  = f.text_field :content,
+          class: "#{input_class} flex-grow rounded-full",
           placeholder: "Type a message...",
-          data: { action: "keydown.enter->form#submit" }
-  = f.submit "Send", class: "#{button_class(:primary)} shrink-0 rounded-full px-6"
+          autofocus: true,
+          autocomplete: "off",
+          data: { chat_target: "input" }
+  = f.submit "Send", class: "#{button_class(:primary)} shrink-0 rounded-full px-6", data: { disable_with: "Sending..." }

@@ -13,7 +13,7 @@
       .flex.items-center.gap-2.mb-6.border-b.border-slate-200.pb-4
         svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        h2.text-2xl.font-semibold.text-slate-900 Assigned Jobs (#{@active_jobs.count})
+        h2.text-2xl.font-semibold.text-slate-900 Your Jobs (#{@active_jobs.count})
 
       .space-y-4
         - if @active_jobs.any?
@@ -21,7 +21,7 @@
             = link_to task_path(task), class: "block #{card_class(interactive: true)} #{'border-indigo-200' if index.zero?}" do
               .flex.justify-between.items-start.mb-2
                 h3.font-semibold.text-slate-900 = task.title
-                span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full #{status_badge_class(:assigned)}" Assigned
+                span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full #{status_badge_class(task.status)}" = t("tasks.statuses.#{task.status}", default: task.status.titleize)
               
               p.text-slate-500.text-sm.line-clamp-2.mb-4 = task.description
               

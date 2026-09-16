@@ -55,7 +55,7 @@ Bedrock::KnowledgeBaseClient.retrieve_and_generate("How does escrow and commissi
 ```bash
 export AWS_REGION=ap-southeast-2
 export BEDROCK_KNOWLEDGE_BASE_ID=$(terraform -chdir=infra/bedrock output -raw knowledge_base_id)
-export BEDROCK_GENERATION_MODEL_ARN="arn:aws:bedrock:ap-southeast-2:<account_id>:inference-profile/<profile-id>"
+export BEDROCK_GENERATION_MODEL_ARN=$(terraform -chdir=infra/bedrock output -raw example_generation_model_arn)
 
 bin/rails runner 'pp Bedrock::KnowledgeBaseClient.retrieve("How do I raise a dispute?")'
 bin/rails runner 'pp Bedrock::KnowledgeBaseClient.retrieve_and_generate("How do I raise a dispute?")'

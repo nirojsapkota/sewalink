@@ -20,6 +20,9 @@ module Bedrock
     # `model_arn` must be a Bedrock foundation-model or inference-profile ARN
     # with model access enabled in this account/region (see README). Defaults
     # to BEDROCK_GENERATION_MODEL_ARN so it isn't hardcoded per-account here.
+    # The Bedrock Guardrail (infra/bedrock/guardrail.tf) is applied whenever
+    # BEDROCK_GUARDRAIL_ID / BEDROCK_GUARDRAIL_VERSION are set, filtering
+    # harmful content, redacting PII, and rejecting ungrounded answers.
     def self.retrieve_and_generate(query, model_arn: nil, max_results: 5)
       new.retrieve_and_generate(query, model_arn: model_arn, max_results: max_results)
     end
@@ -68,8 +71,9 @@ module Bedrock
             model_arn: model_arn,
             retrieval_configuration: {
               vector_search_configuration: { number_of_results: max_results }
-            }
-          }
+            },
+            generation_configuration: guardrail_configuration
+          }.compact
         }
       )
 
@@ -88,6 +92,22 @@ module Bedrock
 
     def client
       @client ||= Aws::BedrockAgentRuntime::Client.new(region: @region)
+    end
+
+    # Returns a `generation_configuration` hash enabling the Bedrock
+    # Guardrail when both env vars are set, or nil (no guardrail) otherwise
+    # — so this works even before the guardrail has been provisioned/rolled out.
+    def guardrail_configuration
+      guardrail_id = ENV["BEDROCK_GUARDRAIL_ID"]
+      guardrail_version = ENV["BEDROCK_GUARDRAIL_VERSION"]
+      return nil if guardrail_id.blank? || guardrail_version.blank?
+
+      {
+        guardrail_configuration: {
+          guardrail_id: guardrail_id,
+          guardrail_version: guardrail_version
+        }
+      }
     end
 
     def ensure_configured!

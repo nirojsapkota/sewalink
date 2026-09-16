@@ -40,6 +40,20 @@ output "example_generation_model_arn" {
   value       = "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/au.anthropic.claude-sonnet-4-5-20250929-v1:0"
 }
 
+output "guardrail_id" {
+  description = "Bedrock Guardrail ID — set BEDROCK_GUARDRAIL_ID to this to enable guardrail checks on retrieve_and_generate calls"
+  value       = aws_bedrock_guardrail.sewalink.guardrail_id
+}
+
+output "guardrail_version" {
+  description = "Published Bedrock Guardrail version — set BEDROCK_GUARDRAIL_VERSION to this"
+  value       = aws_bedrock_guardrail_version.sewalink.version
+}
+
+output "guardrail_arn" {
+  value = aws_bedrock_guardrail.sewalink.guardrail_arn
+}
+
 output "start_ingestion_job_command" {
   description = "AWS CLI command to run after `terraform apply` (or whenever docs/knowledge_base/*.md changes) to sync new content into the vector index"
   value       = "aws bedrock-agent start-ingestion-job --knowledge-base-id ${aws_bedrockagent_knowledge_base.sewalink.id} --data-source-id ${aws_bedrockagent_data_source.sewalink_docs.data_source_id} --region ${var.aws_region}"

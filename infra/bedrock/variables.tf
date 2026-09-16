@@ -39,3 +39,27 @@ variable "chunking_overlap_percentage" {
   type        = number
   default     = 20
 }
+
+variable "guardrail_blocked_input_messaging" {
+  description = "Message returned to the user when the guardrail blocks their question"
+  type        = string
+  default     = "Sorry, I can't help with that request. Please ask a question about using SewaLink."
+}
+
+variable "guardrail_blocked_outputs_messaging" {
+  description = "Message returned to the user when the guardrail blocks the generated answer"
+  type        = string
+  default     = "Sorry, I couldn't generate a safe answer to that. Please try rephrasing your question, or contact SewaLink support."
+}
+
+variable "guardrail_grounding_threshold" {
+  description = "Minimum grounding score (0-1) required for a generated answer to pass — higher values reject answers not well-supported by the retrieved factsheets"
+  type        = number
+  default     = 0.75
+}
+
+variable "guardrail_relevance_threshold" {
+  description = "Minimum relevance score (0-1) required for a generated answer to pass — higher values reject answers that drift from the user's actual question"
+  type        = number
+  default     = 0.75
+}

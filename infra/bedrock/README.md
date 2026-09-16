@@ -19,6 +19,8 @@ recreated independently.
 | `aws_iam_role.kb` + policy | Least-privilege role Bedrock assumes to embed documents and query vectors |
 | `aws_bedrockagent_knowledge_base.sewalink` | The knowledge base itself (Titan Text Embeddings V2, vector type) |
 | `aws_bedrockagent_data_source.sewalink_docs` | Connects the S3 bucket to the knowledge base, with fixed-size chunking |
+| `aws_bedrock_guardrail.sewalink` | Content-safety guardrail: blocks harmful content/prompt injection, redacts PII, denies off-topic advice (financial/medical/legal), filters profanity, and rejects ungrounded/irrelevant generated answers |
+| `aws_bedrock_guardrail_version.sewalink` | Publishes a stable (non-`DRAFT`) guardrail version for runtime use |
 
 **Why S3 Vectors instead of OpenSearch Serverless?** It's purpose-built for
 this use case — much cheaper for a small, infrequently-queried document set,
@@ -78,12 +80,43 @@ the `bedrock-agent-runtime` `Retrieve` / `RetrieveAndGenerate` APIs using
 the `aws-sdk-bedrockagentruntime` gem — set `BEDROCK_KNOWLEDGE_BASE_ID` to
 this stack's `knowledge_base_id` output.
 
+## Guardrail
+
+`aws_bedrock_guardrail.sewalink` is applied only to `RetrieveAndGenerate`
+calls (generation), not to plain `Retrieve` (raw chunk search) — it has no
+effect unless the caller passes a `guardrail_configuration`. It enforces:
+
+- **Content filters**: blocks hate/insults/sexual/violence/misconduct content
+  and prompt-injection attempts, on both input and output.
+- **Sensitive information**: anonymizes email/phone/name in generated
+  answers; blocks answers containing a credit/debit card number outright.
+- **Denied topics**: refuses to give financial, medical, or legal advice —
+  SewaLink is a task marketplace, not an advisory service.
+- **Word filters**: blocks the managed profanity word list.
+- **Contextual grounding**: rejects generated answers that aren't well
+  supported by the retrieved factsheets (`GROUNDING`) or that drift from the
+  user's question (`RELEVANCE`), each with a configurable threshold
+  (`guardrail_grounding_threshold` / `guardrail_relevance_threshold`, default
+  `0.75`).
+
+To use it from the Rails client, export the outputs below:
+
+```bash
+export BEDROCK_GUARDRAIL_ID=$(terraform -chdir=infra/bedrock output -raw guardrail_id)
+export BEDROCK_GUARDRAIL_VERSION=$(terraform -chdir=infra/bedrock output -raw guardrail_version)
+```
+
+`Bedrock::KnowledgeBaseClient.retrieve_and_generate` picks these up
+automatically (see `app/services/bedrock/README.md`) — if unset, calls are
+made without a guardrail.
+
 ## Outputs
 
 Run `terraform output` after apply to see: `knowledge_base_id`,
 `knowledge_base_arn`, `data_source_id`, `docs_bucket_name`,
-`vector_bucket_name`, `vector_index_name`, `kb_role_arn`, and
-`start_ingestion_job_command`.
+`vector_bucket_name`, `vector_index_name`, `kb_role_arn`,
+`start_ingestion_job_command`, `guardrail_id`, `guardrail_arn`, and
+`guardrail_version`.
 
 ## Cost notes
 

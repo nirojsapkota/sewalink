@@ -106,9 +106,11 @@ export BEDROCK_GUARDRAIL_ID=$(terraform -chdir=infra/bedrock output -raw guardra
 export BEDROCK_GUARDRAIL_VERSION=$(terraform -chdir=infra/bedrock output -raw guardrail_version)
 ```
 
-Or simply `source infra/bedrock/export_env.sh`, which exports this along
-with every other env var the client needs (see
-`app/services/bedrock/README.md`).
+Or simply `source infra/bedrock/export_env.sh`, which exports this (and
+every other env var the client needs) into your shell **and** writes them
+into the repo's `.env` file — the same file `docker-compose.yml`'s `web`
+service loads (`env_file: .env`), so this doubles as the deployment config
+(see `app/services/bedrock/README.md`).
 
 `Bedrock::KnowledgeBaseClient.retrieve_and_generate` picks these up
 automatically (see `app/services/bedrock/README.md`) — if unset, calls are

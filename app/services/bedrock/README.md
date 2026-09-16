@@ -66,7 +66,9 @@ change). See `infra/bedrock/README.md` for details on what it enforces.
 ## Testing locally
 
 Export all required env vars in one step by **sourcing** the helper script
-(must be sourced, not executed, so the vars land in your shell):
+(must be sourced, not executed, so the vars land in your shell) — this also
+writes them into the repo's `.env` file, so `bin/dev`/`docker-compose`
+pick them up too without any extra steps:
 
 ```bash
 source infra/bedrock/export_env.sh
@@ -93,3 +95,17 @@ bin/rails runner 'pp Bedrock::KnowledgeBaseClient.retrieve_and_generate("Should 
 Or from `rails console` interactively. Both methods log and return an empty
 result (`[]` or `{ answer: nil, citations: [] }`) instead of raising on AWS
 service errors, so they're safe to call from request/job code.
+
+## Deploying to production
+
+`docker-compose.yml`'s `web` service already loads `env_file: .env`, so the
+same `.env` produced by `infra/bedrock/export_env.sh` is what ships to
+Docker. Run it locally (wherever `infra/bedrock`'s Terraform state and your
+AWS credentials are), then copy the resulting `.env` to the deploy target
+(e.g. `scp .env ec2-user@<host>:/opt/app/.env`) alongside the app's other
+secrets (`RAILS_MASTER_KEY`, `SEWA_LINK_DATABASE_PASSWORD`, etc). It only
+needs to be re-copied when the Bedrock stack is recreated/changed (e.g. IDs
+change) — routine `docker-compose up -d --build` redeploys reuse the
+existing `.env` on the host untouched. The production EC2 instance needs
+`bedrock:Retrieve`/`bedrock:RetrieveAndGenerate`/`bedrock:InvokeModel`
+permissions on its IAM instance role (same as any caller of this service).

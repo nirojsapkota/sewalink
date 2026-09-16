@@ -99,10 +99,45 @@ infrastructure, not app deployments.
   instance's IP plus a reverse proxy (e.g. Caddy) for automatic Let's Encrypt certs — Let's
   Encrypt won't issue certs for bare IPs.
 
+## Bedrock Knowledge Base (RAG)
+
+SewaLink's voice assistant and support flows can answer general "how does
+this work?" questions (escrow, commission, safety/geofencing, disputes,
+reviews, account security, admin settings) by retrieving grounded answers
+from an **AWS Bedrock Knowledge Base**, instead of relying on the LLM's own
+(unverified) knowledge.
+
+- **Source content**: `docs/knowledge_base/*.md` — 10 hand-maintained
+  Markdown factsheets, one per topic area. Edit these directly; there's no
+  generator/build step.
+- **Infrastructure**: provisioned entirely by Terraform in `infra/bedrock/`
+  (a separate, self-contained stack from `infra/`'s EC2 app deployment) —
+  an S3 bucket for the docs, an S3 Vectors store for embeddings (Titan Text
+  Embeddings V2), the `aws_bedrockagent_knowledge_base` + data source, and
+  an `aws_bedrock_guardrail` (blocks harmful/prompt-injection content,
+  redacts PII, denies financial/medical/legal advice topics, and rejects
+  ungrounded answers). See `infra/bedrock/README.md` for full details,
+  setup, and cost notes.
+- **Querying from Rails**: `Bedrock::KnowledgeBaseClient` (in
+  `app/services/bedrock/`) wraps the `bedrock-agent-runtime`
+  `Retrieve`/`RetrieveAndGenerate` APIs. See `app/services/bedrock/README.md`
+  for configuration, local testing, and deployment.
+- **Local setup**: run `source infra/bedrock/export_env.sh` once (requires
+  the `infra/bedrock` Terraform stack to already be applied) — it writes
+  the required `AWS_REGION`/`BEDROCK_*` vars into the repo's `.env`, which
+  `dotenv-rails` then loads automatically for any `rails
+  server`/`console`/`runner`/`bin/dev` command, no manual `export` needed.
+  The same `.env` also ships to Docker via `docker-compose.yml`'s `env_file:
+  .env` for deployment.
+- **Voice assistant integration**: the `search_knowledge_base` Gemini tool
+  (see below) queries this knowledge base — gated so it's only invoked for
+  genuine help/FAQ-style questions (see "Gemini Live Chat: Tool Calling").
+
 ## Gemini Live Chat: Tool Calling
 
 The real-time voice assistant (`app/javascript/controllers/real_time_chat_controller.js`) lets
-Gemini invoke server-side "tools" (e.g. `create_task_draft`, `publish_task`, `query_tasks`) mid
+Gemini invoke server-side "tools" (e.g. `create_task_draft`, `publish_task`, `query_tasks`,
+`search_knowledge_base`) mid
 conversation. There is no MCP server involved — it's a plain HTTP relay plus a Rails `case/when`
 dispatch:
 
@@ -121,8 +156,11 @@ dispatch:
    over the WebSocket, which `_handleToolCall` receives and relays via `POST
    /gemini/tools/execute` with `{ name, args, call_id }`.
 4. **Rails dispatches by name.** `Gemini::ToolsController#execute` matches `params[:name]`
-   against a fixed `case/when` (`create_task_draft`, `publish_task`, `query_tasks`) — a simple
+   against a fixed `case/when` (`create_task_draft`, `publish_task`, `query_tasks`,
+   `search_knowledge_base`) — a simple
    string-equality whitelist, not dynamic method dispatch (`send`). Unknown names return a
-   `404`-style error.
+   `404`-style error. `search_knowledge_base` has an extra guard: it's rejected outright
+   (no Bedrock call made) unless the query contains a trigger keyword like "help", "faq",
+   "guide", or "policy" — see `app/services/gemini/tool_definitions.rb`.
 5. **The result flows back to Gemini** as a `functionResponse`, so the model can continue the
    conversation using the tool's output.

@@ -65,13 +65,26 @@ change). See `infra/bedrock/README.md` for details on what it enforces.
 
 ## Testing locally
 
+Export all required env vars in one step by **sourcing** the helper script
+(must be sourced, not executed, so the vars land in your shell):
+
+```bash
+source infra/bedrock/export_env.sh
+# or, to skip the guardrail vars:
+SKIP_GUARDRAIL=1 source infra/bedrock/export_env.sh
+```
+
+Or export manually:
 ```bash
 export AWS_REGION=ap-southeast-2
 export BEDROCK_KNOWLEDGE_BASE_ID=$(terraform -chdir=infra/bedrock output -raw knowledge_base_id)
 export BEDROCK_GENERATION_MODEL_ARN=$(terraform -chdir=infra/bedrock output -raw example_generation_model_arn)
 export BEDROCK_GUARDRAIL_ID=$(terraform -chdir=infra/bedrock output -raw guardrail_id)
 export BEDROCK_GUARDRAIL_VERSION=$(terraform -chdir=infra/bedrock output -raw guardrail_version)
+```
 
+Then:
+```bash
 bin/rails runner 'pp Bedrock::KnowledgeBaseClient.retrieve("How do I raise a dispute?")'
 bin/rails runner 'pp Bedrock::KnowledgeBaseClient.retrieve_and_generate("How do I raise a dispute?")'
 # Should be blocked/refused by the guardrail's denied-topics policy:

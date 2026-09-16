@@ -3,6 +3,11 @@ output "knowledge_base_id" {
   value       = aws_bedrockagent_knowledge_base.sewalink.id
 }
 
+output "aws_region" {
+  description = "Region this stack was deployed to — matches the app's AWS_REGION"
+  value       = var.aws_region
+}
+
 output "knowledge_base_arn" {
   value = aws_bedrockagent_knowledge_base.sewalink.arn
 }

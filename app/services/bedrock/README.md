@@ -6,8 +6,13 @@ Queries the SewaLink AWS Bedrock Knowledge Base (provisioned in
 
 ## Configuration
 
-Set these environment variables (locally via `export`/`.env`, in production
-via the EC2 instance's environment):
+Set these environment variables. Locally, the easiest way is to run
+`source infra/bedrock/export_env.sh` once — it writes them into the repo's
+`.env` file, which [`dotenv-rails`](https://github.com/bkeepers/dotenv)
+(development/test only) then loads automatically for **any** `rails`
+command (`server`, `console`, `runner`) — no manual `export`/`bin/dev`
+requirement. In production, Docker gets them via `docker-compose.yml`'s
+`env_file: .env` (see "Deploying to production" below).
 
 | Variable | Required | Purpose |
 |---|---|---|
@@ -65,10 +70,9 @@ change). See `infra/bedrock/README.md` for details on what it enforces.
 
 ## Testing locally
 
-Export all required env vars in one step by **sourcing** the helper script
-(must be sourced, not executed, so the vars land in your shell) — this also
-writes them into the repo's `.env` file, so `bin/dev`/`docker-compose`
-pick them up too without any extra steps:
+Write the required env vars into `.env` once by **sourcing** the helper
+script (must be sourced, not executed, to also export them into your
+current shell immediately):
 
 ```bash
 source infra/bedrock/export_env.sh
@@ -76,7 +80,13 @@ source infra/bedrock/export_env.sh
 SKIP_GUARDRAIL=1 source infra/bedrock/export_env.sh
 ```
 
-Or export manually:
+Because it writes to `.env` and `dotenv-rails` is loaded in
+development/test, every subsequent `rails server` / `rails console` /
+`bin/rails runner` / `bin/dev` picks these up **automatically** — you
+don't need to re-source it or export anything in new terminal sessions
+(only re-run it if the underlying Bedrock stack changes, e.g. new IDs).
+
+Or export manually (without persisting to `.env`):
 ```bash
 export AWS_REGION=ap-southeast-2
 export BEDROCK_KNOWLEDGE_BASE_ID=$(terraform -chdir=infra/bedrock output -raw knowledge_base_id)

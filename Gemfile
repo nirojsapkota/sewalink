@@ -2,6 +2,14 @@ source "https://rubygems.org"
 
 ruby "~> 3.2.0"
 
+# Loads .env into ENV for local (non-Docker) `rails server`/`console`/`runner`
+# — must be required before other gems boot, so it's declared standalone at
+# the top. Not used in production (Docker/docker-compose already injects env
+# via `env_file: .env`, and it's best practice to keep dotenv dev/test-only).
+group :development, :test do
+  gem "dotenv-rails"
+end
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.2"
 

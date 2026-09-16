@@ -1,11 +1,14 @@
 # Writes the env vars Bedrock::KnowledgeBaseClient needs into the repo's
-# .env file, sourced from this stack's Terraform outputs. docker-compose.yml
-# already loads `.env` for the `web` service (`env_file: .env`), so writing
-# here means the same file that's used to run/test locally is also what
-# ships to Docker/deployment — no separate deployment-only config needed.
-# Just run this once (whenever the values change) and copy .env to wherever
-# `docker-compose up` runs (e.g. the EC2 host), same as the app's other
-# secrets (RAILS_MASTER_KEY, SEWA_LINK_DATABASE_PASSWORD, etc).
+# .env file, sourced from this stack's Terraform outputs.
+#
+# - Locally (no Docker): `dotenv-rails` (development/test group in Gemfile)
+#   auto-loads .env for every `rails server`/`console`/`runner`/`bin/dev`
+#   invocation — run this script once, then just use Rails normally.
+# - In Docker/deployment: docker-compose.yml's `web` service already loads
+#   `env_file: .env`, so the same file doubles as the deployment config —
+#   copy .env to wherever `docker-compose up` runs (e.g. the EC2 host).
+#
+# Just run this once (whenever the values change/the stack is recreated).
 #
 # Must be *sourced*, not executed, so the vars also land in your current
 # shell immediately for local testing:

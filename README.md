@@ -30,7 +30,7 @@ Things you may want to cover:
 The Gemini Live Chat feature (see below) needs a Gemini API key at runtime. It's read via:
 
 ```ruby
-ENV['GEMINI_API_KEY'] || Rails.application.credentials.gemini_api_key || Rails.application.credentials.dig(:gemini, :api_key)
+Rails.application.credentials.gemini_api_key
 ```
 
 (`app/controllers/gemini/tokens_controller.rb`)

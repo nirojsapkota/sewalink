@@ -145,6 +145,10 @@ GEM
       railties (>= 7.0, < 8.2)
       rotp (~> 6.0)
     diff-lcs (1.6.2)
+    dotenv (3.2.0)
+    dotenv-rails (3.2.0)
+      dotenv (= 3.2.0)
+      railties (>= 6.1)
     double_entry (2.0.2)
       activerecord (>= 6.1.0)
       activesupport (>= 6.1.0)
@@ -489,6 +493,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   devise-two-factor (~> 6.0)
+  dotenv-rails
   double_entry
   factory_bot_rails
   faker

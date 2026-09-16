@@ -11,16 +11,16 @@ class Gemini::ToolsController < ApplicationController
     when 'create_task_draft'
       Rails.logger.info "[GeminiTools] Executing create_task_draft with args: #{args.inspect}"
       task = current_user.tasks.draft.last || current_user.tasks.new(status: :draft)
-      
+
       task.title = args['title'] if args['title'].present?
       task.description = args['description'] if args['description'].present?
-      
+
       if args['budget'].present?
         # Clean the budget string if it contains currency symbols or commas
         clean_budget = args['budget'].to_s.gsub(/[^\d.]/, '')
         task.budget = clean_budget if clean_budget.present?
       end
-      
+
       task.location = args['location'] if args['location'].present?
       task.category ||= Category.first
 
@@ -59,11 +59,11 @@ class Gemini::ToolsController < ApplicationController
       end
     when 'query_tasks'
       search_query = args['search_query']
-      
+
       if current_user.poster?
         tasks = current_user.tasks
         tasks = tasks.where("title ILIKE ? OR description ILIKE ?", "%#{search_query}%", "%#{search_query}%") if search_query.present?
-        
+
         summary = {
           role: "Poster",
           counts: {
@@ -74,8 +74,8 @@ class Gemini::ToolsController < ApplicationController
             completed: tasks.completed.count,
             disputed: tasks.dispute.count
           },
-          recent_tasks: tasks.order(updated_at: :desc).limit(5).map { |t| 
-            { id: t.id, title: t.title, status: t.status, budget: t.budget.to_f } 
+          recent_tasks: tasks.order(updated_at: :desc).limit(5).map { |t|
+            { id: t.id, title: t.title, status: t.status, budget: t.budget.to_f }
           }
         }
         render json: { result: "success", data: summary }
@@ -83,7 +83,7 @@ class Gemini::ToolsController < ApplicationController
         # Tasker Role
         bids = current_user.bids
         active_jobs = current_user.assigned_tasks.in_progress
-        
+
         summary = {
           role: "Tasker",
           counts: {
@@ -102,7 +102,7 @@ class Gemini::ToolsController < ApplicationController
         render json: { result: "success", data: summary }
       end
     when 'search_knowledge_base'
-      query = args['query'].to_s
+    query = args['query'].to_s
 
       unless Gemini::ToolDefinitions::KNOWLEDGE_BASE_TRIGGER_KEYWORDS.any? { |kw| query.downcase.include?(kw) }
         Rails.logger.info "[GeminiTools] search_knowledge_base rejected (no trigger keyword): #{query.inspect}"

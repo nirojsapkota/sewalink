@@ -101,6 +101,7 @@ gem "chartkick"
 gem "groupdate"
 
 gem "ruby-openai", "~> 8.3"
+gem "aws-sdk-bedrockagentruntime", "~> 1.0"
 
 gem "shoulda-matchers", "~> 7.0", group: :test
 gem "slim-rails"

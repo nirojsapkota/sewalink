@@ -69,14 +69,14 @@ aws bedrock-agent start-ingestion-job \
   --region ap-southeast-2
 ```
 
-## Querying from the app (next step)
+## Querying from the app
 
-Once ingested, query the knowledge base from Rails via the
-`bedrock-agent-runtime` `Retrieve` / `RetrieveAndGenerate` APIs (e.g. AWS SDK
-for Ruby, `aws-sdk-bedrockagentruntime`), following the same service-object
-pattern as `app/services/payments/` and `app/services/gemini/` — for example
-`app/services/bedrock/knowledge_base_client.rb`. Use the
-`knowledge_base_id` output when configuring that client.
+Query the knowledge base from Rails via
+`app/services/bedrock/knowledge_base_client.rb` (see
+`app/services/bedrock/README.md` for configuration and usage), which wraps
+the `bedrock-agent-runtime` `Retrieve` / `RetrieveAndGenerate` APIs using
+the `aws-sdk-bedrockagentruntime` gem — set `BEDROCK_KNOWLEDGE_BASE_ID` to
+this stack's `knowledge_base_id` output.
 
 ## Outputs
 

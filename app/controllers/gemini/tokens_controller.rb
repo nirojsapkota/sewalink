@@ -2,7 +2,7 @@ class Gemini::TokensController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    api_key = ENV['GEMINI_API_KEY'] || Rails.application.credentials.gemini_api_key || Rails.application.credentials.dig(:gemini, :api_key)
+    api_key = Rails.application.credentials.gemini_api_key
 
     if api_key.blank?
       return render json: { error: "GEMINI_API_KEY is not configured" }, status: :internal_server_error
@@ -32,9 +32,9 @@ class Gemini::TokensController < ApplicationController
     request.body = payload.to_json
 
     Rails.logger.info "[GeminiTokens] Requesting ephemeral token for live voice session"
-    
+
     response = http.request(request)
-    
+
     # Prepare tools for the frontend
     camel_tools = Gemini::ToolDefinitions::ALL_TOOLS.map do |tool|
       {

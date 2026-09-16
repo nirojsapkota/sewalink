@@ -51,6 +51,32 @@ module Gemini
       }
     }.freeze
 
-    ALL_TOOLS = [CREATE_TASK_DRAFT, PUBLISH_TASK, QUERY_TASKS].freeze
+    SEARCH_KNOWLEDGE_BASE = {
+      name: "search_knowledge_base",
+      description: "Answer general how-to, policy, or FAQ style questions about how the SewaLink " \
+        "platform itself works (e.g. escrow/payments, commission, safety/geofencing, disputes, " \
+        "reviews, account security, admin settings) by searching SewaLink's official knowledge " \
+        "base. Only call this when the user's message contains an explicit trigger keyword such " \
+        "as 'help', 'faq', 'guide', or 'policy' (e.g. 'Can you help me understand how escrow " \
+        "works?'). Do NOT call this for questions about the user's own tasks/bids (use " \
+        "query_tasks instead) or while creating/publishing a task.",
+      parameters: {
+        type: "OBJECT",
+        properties: {
+          query: {
+            type: "STRING",
+            description: "The user's question, verbatim or lightly cleaned up, to search the knowledge base with."
+          }
+        },
+        required: ["query"]
+      }
+    }.freeze
+
+    # Backend guard (see Gemini::ToolsController#execute): search_knowledge_base is only
+    # actually invoked when the query contains one of these trigger keywords, so a Bedrock
+    # call isn't made for every message just because the LLM decided to call the tool.
+    KNOWLEDGE_BASE_TRIGGER_KEYWORDS = %w[help faq guide guidance policy].freeze
+
+    ALL_TOOLS = [CREATE_TASK_DRAFT, PUBLISH_TASK, QUERY_TASKS, SEARCH_KNOWLEDGE_BASE].freeze
   end
 end

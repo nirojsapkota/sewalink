@@ -101,6 +101,27 @@ class Gemini::ToolsController < ApplicationController
         }
         render json: { result: "success", data: summary }
       end
+    when 'search_knowledge_base'
+      query = args['query'].to_s
+
+      unless Gemini::ToolDefinitions::KNOWLEDGE_BASE_TRIGGER_KEYWORDS.any? { |kw| query.downcase.include?(kw) }
+        Rails.logger.info "[GeminiTools] search_knowledge_base rejected (no trigger keyword): #{query.inspect}"
+        render json: {
+          result: "error",
+          message: "I can only look that up when you ask a help/FAQ/guide/policy style question " \
+            "(e.g. include a word like 'help', 'faq', 'guide', or 'policy')."
+        }
+        return
+      end
+
+      Rails.logger.info "[GeminiTools] Executing search_knowledge_base with query: #{query.inspect}"
+      result = Bedrock::KnowledgeBaseClient.retrieve_and_generate(query)
+
+      if result[:answer].present?
+        render json: { result: "success", answer: result[:answer], sources: result[:citations] }
+      else
+        render json: { result: "error", message: "I couldn't find an answer to that in the SewaLink guide." }
+      end
     else
       render json: { result: "error", message: "Unknown tool: #{name}" }, status: :not_found
     end

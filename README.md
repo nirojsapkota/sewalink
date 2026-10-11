@@ -89,6 +89,18 @@ This SSHes into the running instance, `git pull`s the latest `main`, and runs
 plan`/`apply` will correctly show "no changes" for these updates — Terraform only manages
 infrastructure, not app deployments.
 
+### eSewa production safety check
+
+`config/initializers/esewa_production_safety_check.rb` raises on boot in production if
+`ESEWA_PAYMENT_URL`/`ESEWA_STATUS_URL` are unset or still point at eSewa's UAT/sandbox host
+(`uat.esewa.com.np`), to avoid silently processing real payments against a test gateway.
+
+The live eSewa gateway isn't wired up yet, so as a **temporary** measure the check can be
+bypassed by setting `ESEWA_ALLOW_UAT_IN_PRODUCTION=1` in the server's `.env` (the file
+referenced by `docker-compose.yml`'s `env_file: .env`, not committed to the repo). Remove
+this flag from the server's `.env` once real `ESEWA_PAYMENT_URL`/`ESEWA_STATUS_URL` are
+configured for the live gateway.
+
 ## TODO
 
 * **Enable SSL/TLS.** The production instance currently serves plain `http://` (no domain,

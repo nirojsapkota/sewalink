@@ -91,15 +91,19 @@ infrastructure, not app deployments.
 
 ### eSewa production safety check
 
-`config/initializers/esewa_production_safety_check.rb` raises on boot in production if
+`config/initializers/esewa_production_safety_check.rb` raises in production if
 `ESEWA_PAYMENT_URL`/`ESEWA_STATUS_URL` are unset or still point at eSewa's UAT/sandbox host
-(`uat.esewa.com.np`), to avoid silently processing real payments against a test gateway.
+(`uat.esewa.com.np`), to avoid silently processing real payments against a test gateway. This
+fires in **two places**, since both load the full Rails environment with
+`RAILS_ENV=production`: (1) `./bin/rails assets:precompile` during the Docker build, and (2)
+normal app boot (`rails server`) inside the running container — so setting the bypass only at
+build time is not enough to keep the container up.
 
 The live eSewa gateway isn't wired up yet, so as a **temporary** measure the check can be
 bypassed by setting `ESEWA_ALLOW_UAT_IN_PRODUCTION=1` in the server's `.env` (the file
-referenced by `docker-compose.yml`'s `env_file: .env`, not committed to the repo). Remove
-this flag from the server's `.env` once real `ESEWA_PAYMENT_URL`/`ESEWA_STATUS_URL` are
-configured for the live gateway.
+referenced by `docker-compose.yml`'s `env_file: .env`, not committed to the repo — currently
+set on the deployed EC2 instance at `/opt/app/.env`). Remove this flag from the server's
+`.env` once real `ESEWA_PAYMENT_URL`/`ESEWA_STATUS_URL` are configured for the live gateway.
 
 ## TODO
 
